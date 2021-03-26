@@ -44,7 +44,6 @@ class CoreServiceProvider extends ServiceProvider
     protected function registerFacades()
     {
         $loader = AliasLoader::getInstance();
-
         $loader->alias('core', CoreFacade::class);
 
         $this->app->singleton('core', function () {

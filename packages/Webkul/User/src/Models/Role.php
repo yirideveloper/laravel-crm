@@ -24,10 +24,10 @@ class Role extends Model implements RoleContract
     ];
 
     /**
-     * Get the users.
+     * Get the admins.
      */
-    public function users()
+    public function admins()
     {
-        return $this->hasMany(UserProxy::modelClass());
+        return $this->hasMany(AdminProxy::modelClass());
     }
 }

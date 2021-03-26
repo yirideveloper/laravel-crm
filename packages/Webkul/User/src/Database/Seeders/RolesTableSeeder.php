@@ -4,12 +4,13 @@ namespace Webkul\User\Database\Seeders;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Webkul\User\Models\Role;
 
 class RolesTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('users')->delete();
+        DB::table('admins')->delete();
 
         DB::table('roles')->delete();
 

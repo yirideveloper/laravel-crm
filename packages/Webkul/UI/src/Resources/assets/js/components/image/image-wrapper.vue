@@ -59,20 +59,19 @@
         data: function() {
             return {
                 imageCount: 0,
-                
                 items: []
             }
         },
 
         created () {
-            var self = this;
+            var this_this = this;
 
-            if (this.multiple) {
+            if(this.multiple) {
                 if (this.images.length) {
                     this.images.forEach(function(image) {
-                        self.items.push(image)
+                        this_this.items.push(image)
 
-                        self.imageCount++;
+                        this_this.imageCount++;
                     });
                 } else if (this.images.length == undefined && typeof this.images == 'object') {
                     var images = Object.keys(this.images).map(key => { 
@@ -80,15 +79,15 @@
                     }); 
 
                     images.forEach(function(image) {
-                        self.items.push(image)
+                        this_this.items.push(image)
 
-                        self.imageCount++;
+                        this_this.imageCount++;
                     });
                 } else {
                     this.createFileType();
                 }
             } else {
-                if (this.images && this.images != '') {
+                if(this.images && this.images != '') {
                     this.items.push({'id': 'image_' + this.imageCount, 'url': this.images})
 
                     this.imageCount++;
@@ -100,11 +99,11 @@
 
         methods: {
             createFileType () {
-                var self = this;
+                var this_this = this;
 
-                if (! this.multiple) {
+                if(!this.multiple) {
                     this.items.forEach(function(image) {
-                        self.removeImage(image)
+                        this_this.removeImage(image)
                     });
                 }
 

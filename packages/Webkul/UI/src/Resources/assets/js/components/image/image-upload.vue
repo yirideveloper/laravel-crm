@@ -11,20 +11,17 @@
         <div class="remove-preview">
             <button class="btn btn-md btn-primary" @click.prevent="removePreviewImage">Remove Image</button>
         </div>
+
     </div>
 </template>
-
 <script>
-    export default {
+    export default{
 
         data: function() {
             return {
                 sample: "",
-
                 image_file: "",
-
                 file: null,
-                
                 newImage:"",
             };
         },
@@ -35,7 +32,7 @@
 
             var element = this.$el.getElementsByTagName("input")[0];
 
-            var self = this;
+            var this_this = this;
 
             element.onchange = function() {
                 var fReader = new FileReader();
@@ -47,9 +44,9 @@
 
                     this.img.src = event.target.result;
 
-                    self.newImage = this.img.src;
+                    this_this.newImage = this.img.src;
 
-                    self.changePreview();
+                    this_this.changePreview();
                 };
             }
         },
@@ -71,15 +68,13 @@
         }
     }
 </script>
-
 <style>
-    .preview-wrapper {
+    .preview-wrapper{
         height:200px;
         width:200px;
         padding:5px;
     }
-
-    .image-preview {
+    .image-preview{
         height:190px;
         width:190px;
     }

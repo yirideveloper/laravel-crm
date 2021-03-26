@@ -7,33 +7,34 @@
 </template>
 
 <script>
-	import Flatpickr from "flatpickr";
+import Flatpickr from "flatpickr";
 
-	export default {
-		props: {
-			name: String,
-			
-			value: String
-		},
+export default {
+	props: {
+		name: String,
+		
+		value: String
+	},
 
-		data() {
-			return {
-				datepicker: null
-			};
-		},
+	data() {
+		return {
+			datepicker: null
+		};
+	},
 
-		mounted() {
-			var self = this;
+	mounted() {
+		var this_this = this;
 
-			this.datepicker = new Flatpickr(this.$el.getElementsByTagName("input")[0], {
-				enableTime: true,
-				noCalendar: true,
-				dateFormat: "H:i",
-				time_24hr: true,
-				onChange: function(selectedDates, dateStr, instance) {
-					self.$emit('onChange', dateStr)
-				},
-			});
-		}
-	};
+		var element = this.$el.getElementsByTagName("input")[0];
+		this.datepicker = new Flatpickr(element, {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: "H:i",
+			time_24hr: true,
+			onChange: function(selectedDates, dateStr, instance) {
+				this_this.$emit('onChange', dateStr)
+			},
+		});
+  	}
+};
 </script>

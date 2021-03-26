@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    import Flatpickr from "flatpickr";
+import Flatpickr from "flatpickr";
 
-    export default {
+export default {
         props: {
             name: String,
 
@@ -27,9 +27,10 @@
         },
 
         mounted() {
-            var self = this;
+            var this_this = this;
 
-            this.datepicker = new Flatpickr(this.$el.getElementsByTagName("input")[0], {
+            var element = this.$el.getElementsByTagName("input")[0];
+            this.datepicker = new Flatpickr(element, {
                 allowInput: true,
                 altFormat: "Y-m-d H:i:S",
                 dateFormat: "Y-m-d H:i:S",
@@ -37,7 +38,7 @@
                 time_24hr: true,
                 weekNumbers: true,
                 onChange: function (selectedDates, dateStr, instance) {
-                    self.$emit('onChange', dateStr)
+                    this_this.$emit('onChange', dateStr)
                 },
             });
         },

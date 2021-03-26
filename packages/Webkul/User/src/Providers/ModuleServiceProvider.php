@@ -2,12 +2,12 @@
 
 namespace Webkul\User\Providers;
 
-use Konekt\Concord\BaseModuleServiceProvider;
+use Webkul\Core\Providers\CoreModuleServiceProvider;
 
-class ModuleServiceProvider extends BaseModuleServiceProvider
+class ModuleServiceProvider extends CoreModuleServiceProvider
 {
     protected $models = [
-        \Webkul\User\Models\User::class,
+        \Webkul\User\Models\Admin::class,
         \Webkul\User\Models\Role::class,
     ];
 }

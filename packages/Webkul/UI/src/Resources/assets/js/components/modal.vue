@@ -45,8 +45,7 @@
 
             addClassToBody () {
                 var body = document.querySelector("body");
-
-                if (this.isOpen) {
+                if(this.isOpen) {
                     body.classList.add("modal-open");
                 } else {
                     body.classList.remove("modal-open");

@@ -23,31 +23,19 @@ Route::group(['middleware' => ['web']], function () {
 
 
         // Admin Routes
-        Route::group(['middleware' => ['user']], function () {
+        // Route::group(['middleware' => ['admin']], function () {
             Route::get('logout', 'Webkul\Admin\Http\Controllers\User\SessionController@destroy')->name('admin.session.destroy');
 
             // Dashboard Route
             Route::get('dashboard', 'Webkul\Admin\Http\Controllers\Admin\DashboardController@index')->name('admin.dashboard.index');
 
-            // Leads Routes
-            Route::prefix('leads')->group(function () {
-                Route::get('', 'Webkul\Admin\Http\Controllers\Lead\LeadController@index')->name('admin.leads.index');
-            });
-
-            // Contacts Routes
-            Route::prefix('contacts')->group(function () {
-                Route::get('customers', 'Webkul\Admin\Http\Controllers\Contact\CustomerController@index')->name('admin.contacts.customers.index');
-
-                Route::get('companies', 'Webkul\Admin\Http\Controllers\Contact\CompanyController@index')->name('admin.contacts.companies.index');
-            });
-
-            // Contacts Routes
-            Route::prefix('settings')->group(function () {
-                Route::get('users', 'Webkul\Admin\Http\Controllers\Setting\UserController@index')->name('admin.settings.users.index');
-
-                Route::get('roles', 'Webkul\Admin\Http\Controllers\Setting\RoleController@index')->name('admin.settings.roles.index');
-            });
-        });
+            // datagrid designs
+            Route::get('datagrid', 'Webkul\Core\Http\Controllers\CoreController@index')
+                ->defaults('_config', [
+                    'view' => 'admin::leads.index',
+                ])
+                ->name('admin.datagrid.index');
+        // });
 
     });
 });

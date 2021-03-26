@@ -50,12 +50,12 @@
             },
 
             addHasErrorClass: function() {
-                var self = this;
+                var this_this = this;
 
                 setTimeout(function() {
-                    $(self.$el).find('.control-group').each(function(index, element) {
+                    $(this_this.$el).find('.control-group').each(function(index, element) {
                         if ($(element).hasClass('has-error')) {
-                            self.hasError = true;
+                            this_this.hasError = true;
                         }
                     });
                 }, 0);
