@@ -35,6 +35,6 @@ class CoreController extends BaseController
      */
     public function index()
     {
-        return view($this->_config['view']);
+        return view($this->_config['view'], $this->_config);
     }
 }
