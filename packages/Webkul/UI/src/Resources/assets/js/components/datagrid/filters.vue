@@ -40,13 +40,11 @@
                 <div class="filter-btn">
                     <div class="grid-dropdown-header" @click="toggleSidebarFilter">
                         <span class="name">
-                            {{ __('ui.datagrid.filter') }}
+                            {{ __('ui.datagrid.filter.title') }}
                         </span>
                         <i class="fa fa-plus"></i>
                     </div>
                 </div>
-
-                <sidebar-filter></sidebar-filter>
 
                 <!-- <div class="dropdown-filters">
                     <div class="dropdown-toggle">
@@ -268,22 +266,26 @@
             </template>
         </div>
 
-        <table-tab
-            :tabs="tabs.type"
-            tab-key="type"
-        ></table-tab>
+        <tabs
+            event-value-key="value"
+            event-key="update_filter"
+            class="pill d-inline-block"
+            :tabs-collection="tabs.type"
+            :event-data="{key: 'type', 'cond' : 'eq'}"
+        ></tabs>
 
         <div class="tabs-right-container">
             <section>
                 <pagination-component :pagination-data="paginationData" tab-view="true" :per-page="perPage"></pagination-component>
             </section>
 
-            <table-tab
-                tab-key="duration"
-                :tabs="tabs.duration"
-                tab-class="border-tabs"
-            >
-            </table-tab>
+            <tabs
+                event-value-key="value"
+                event-key="update_filter"
+                class="group d-inline-block"
+                :tabs-collection="tabs.duration"
+                :event-data="{key: 'duration', 'cond' : 'eq'}"
+            ></tabs>
         </div>
     </div>
 </template>
@@ -957,7 +959,7 @@
             setActiveTabs: function (column) {
                 for (const index in this.tabs) {
                     for (const tabValueIndex in this.tabs[index]) {
-                        this.tabs[index][tabValueIndex].is_active = false;
+                        this.tabs[index][tabValueIndex].isActive = false;
                     }
                 }
 
@@ -969,14 +971,14 @@
                             for (const tabValueIndex in this.tabs[index]) {
                                 if (this.tabs[index][tabValueIndex].key == filter.val) {
                                     applied = true;
-                                    this.tabs[index][tabValueIndex].is_active = true;
+                                    this.tabs[index][tabValueIndex].isActive = true;
                                 }
                             }
                         }
                     });
 
                     if (! applied) { 
-                        this.tabs[index][0].is_active = true;
+                        this.tabs[index][0].isActive = true;
                     }
                 }
             }

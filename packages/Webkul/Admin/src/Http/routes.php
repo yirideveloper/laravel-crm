@@ -29,8 +29,10 @@ Route::group(['middleware' => ['web']], function () {
             // Dashboard Route
             Route::get('dashboard', 'Webkul\Admin\Http\Controllers\Admin\DashboardController@index')->name('admin.dashboard.index');
 
-            Route::get('/api/datagrid', 'Webkul\Core\Http\Controllers\DatagridAPIController@index')->name('admin.datagrid.api');
+            Route::get('/api/datagrid', 'Webkul\Core\Http\Controllers\DatagridAPIController@index')
+                ->name('admin.datagrid.api');
 
+        // });
             // Leads Routes
             Route::prefix('leads')->group(function () {
                 Route::get('', 'Webkul\Admin\Http\Controllers\Lead\LeadController@index')->name('admin.leads.index');
@@ -38,41 +40,23 @@ Route::group(['middleware' => ['web']], function () {
 
             // Contacts Routes
             Route::prefix('contacts')->group(function () {
-                // Customers Routes
-                Route::prefix('customers')->group(function () {
-                    Route::get('', 'Webkul\Admin\Http\Controllers\Contact\CustomerController@index')->name('admin.contacts.customers.index');
-                });
+                Route::get('customers', 'Webkul\Admin\Http\Controllers\Contact\CustomerController@index')->name('admin.contacts.customers.index');
 
-                // Companies Routes
-                Route::prefix('companies')->group(function () {
-                    Route::get('', 'Webkul\Admin\Http\Controllers\Contact\CompanyController@index')->name('admin.contacts.companies.index');
-                });
+                Route::get('companies', 'Webkul\Admin\Http\Controllers\Contact\CompanyController@index')->name('admin.contacts.companies.index');
             });
 
             // Contacts Routes
-            Route::prefix('settings')->group(function () {
-                // Users Routes
-                Route::prefix('users')->group(function () {
-                    Route::get('', 'Webkul\Admin\Http\Controllers\Setting\UserController@index')->name('admin.settings.users.index');
-                });
+            Route::group([
+                'prefix'    => 'settings',
+                'namespace' => 'Webkul\Admin\Http\Controllers\Setting'
+            ], function () {
+                Route::get('users', 'UserController@index')->name('admin.settings.users.index');
 
-                // Roles Routes
-                Route::prefix('roles')->group(function () {
-                    Route::get('', 'Webkul\Admin\Http\Controllers\Setting\RoleController@index')->name('admin.settings.roles.index');
-                });
+                Route::get('users/create', 'UserController@create')->name('admin.settings.users.create');
 
-                // Attributes Routes
-                Route::prefix('attributes')->group(function () {
-                    Route::get('', 'Webkul\Admin\Http\Controllers\Setting\AttributeController@index')->name('admin.settings.attributes.index');
+                Route::post('users/create', 'UserController@store')->name('admin.settings.users.store');
 
-                    Route::get('create', 'Webkul\Admin\Http\Controllers\Setting\AttributeController@create')->name('admin.settings.attributes.create');
-
-                    Route::post('create', 'Webkul\Admin\Http\Controllers\Setting\AttributeController@store')->name('admin.settings.attributes.store');
-
-                    Route::get('edit/{id}', 'Webkul\Admin\Http\Controllers\Setting\AttributeController@edit')->name('admin.settings.attributes.edit');
-
-                    Route::put('edit/{id}', 'Webkul\Admin\Http\Controllers\Setting\AttributeController@update')->name('admin.settings.attributes.update');
-                });
+                Route::get('roles', 'RoleController@index')->name('admin.settings.roles.index');
             });
         });
 

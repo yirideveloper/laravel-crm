@@ -70,17 +70,27 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Webkul\Admin\Http\Requests\UserForm  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(UserForm $request)
+    public function store()
     {
-        $data = $request->all();
+        $this->validate(request(), [
+            'email'         => 'required|email|unique:users,email',
+            'first_name'    => 'required',
+            'password'      => 'required',
+            'role_id'       => 'required',
+        ]);
+        
+        $data = request()->all();
 
         if (isset($data['password']) && $data['password']) {
             $data['password'] = bcrypt($data['password']);
+        }
 
-            $data['api_token'] = Str::random(80);
+        if (isset($data['status']) && $data['status'] == 'on') {
+            $data['status'] = 1;
+        } else {
+            $data['status'] = 0;
         }
 
         Event::dispatch('settings.user.create.before');
@@ -89,7 +99,7 @@ class UserController extends Controller
 
         Event::dispatch('settings.user.create.after', $admin);
 
-        session()->flash('success', trans('admin::app.settings.users.create-success'));
+        session()->flash('success', trans('admin::app.response.create-success', ['name' => 'User']));
 
         return redirect()->route('admin.settings.users.index');
     }
@@ -134,7 +144,7 @@ class UserController extends Controller
 
         Event::dispatch('settings.user.update.after', $admin);
 
-        session()->flash('success', trans('admin::app.settings.users.update-success'));
+        session()->flash('success', trans('admin::app.response.update-success', ['name' => 'User']));
 
         return redirect()->route('admin.users.index');
     }
@@ -150,20 +160,20 @@ class UserController extends Controller
         $admin = $this->userRepository->findOrFail($id);
 
         if ($this->userRepository->count() == 1) {
-            session()->flash('error', trans('admin::app.settings.users.last-delete-error'));
+            session()->flash('error', trans('admin::app.response.last-delete-error', ['name' => 'Admin']));
         } else {
             Event::dispatch('settings.user.delete.before', $id);
 
             try {
                 $this->userRepository->delete($id);
 
-                session()->flash('success', trans('admin::app.settings.users.delete-success'));
+                session()->flash('success', trans('admin::app.response.delete-success', ['name' => 'Admin']));
 
                 Event::dispatch('settings.user.delete.after', $id);
 
                 return response()->json(['message' => true], 200);
             } catch (Exception $e) {
-                session()->flash('error', trans('admin::app.settings.users.delete-failed'));
+                session()->flash('error', trans('admin::app.response.delete-failed', ['name' => 'Admin']));
             }
         }
 
