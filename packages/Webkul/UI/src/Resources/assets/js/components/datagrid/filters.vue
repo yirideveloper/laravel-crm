@@ -40,11 +40,13 @@
                 <div class="filter-btn">
                     <div class="grid-dropdown-header" @click="toggleSidebarFilter">
                         <span class="name">
-                            {{ __('ui.datagrid.filter.title') }}
+                            {{ __('ui.datagrid.filter') }}
                         </span>
                         <i class="fa fa-plus"></i>
                     </div>
                 </div>
+
+                <sidebar-filter></sidebar-filter>
 
                 <!-- <div class="dropdown-filters">
                     <div class="dropdown-toggle">
