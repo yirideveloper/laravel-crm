@@ -266,26 +266,22 @@
             </template>
         </div>
 
-        <tabs
-            event-value-key="value"
-            event-key="update_filter"
-            class="pill d-inline-block"
-            :tabs-collection="tabs.type"
-            :event-data="{key: 'type', 'cond' : 'eq'}"
-        ></tabs>
+        <table-tab
+            :tabs="tabs.type"
+            tab-key="type"
+        ></table-tab>
 
         <div class="tabs-right-container">
             <section>
                 <pagination-component :pagination-data="paginationData" tab-view="true" :per-page="perPage"></pagination-component>
             </section>
 
-            <tabs
-                event-value-key="value"
-                event-key="update_filter"
-                class="group d-inline-block"
-                :tabs-collection="tabs.duration"
-                :event-data="{key: 'duration', 'cond' : 'eq'}"
-            ></tabs>
+            <table-tab
+                tab-key="duration"
+                :tabs="tabs.duration"
+                tab-class="border-tabs"
+            >
+            </table-tab>
         </div>
     </div>
 </template>
@@ -959,7 +955,7 @@
             setActiveTabs: function (column) {
                 for (const index in this.tabs) {
                     for (const tabValueIndex in this.tabs[index]) {
-                        this.tabs[index][tabValueIndex].isActive = false;
+                        this.tabs[index][tabValueIndex].is_active = false;
                     }
                 }
 
@@ -971,14 +967,14 @@
                             for (const tabValueIndex in this.tabs[index]) {
                                 if (this.tabs[index][tabValueIndex].key == filter.val) {
                                     applied = true;
-                                    this.tabs[index][tabValueIndex].isActive = true;
+                                    this.tabs[index][tabValueIndex].is_active = true;
                                 }
                             }
                         }
                     });
 
                     if (! applied) { 
-                        this.tabs[index][0].isActive = true;
+                        this.tabs[index][0].is_active = true;
                     }
                 }
             }

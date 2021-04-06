@@ -1,5 +1,5 @@
 <template>
-    <div class="table-body" v-if="resultLoaded">
+    <div class="table" v-if="resultLoaded">
         <filter-component
             :tabs="tabs"
             :results="encodedResult"
@@ -31,46 +31,46 @@
                 resultLoaded: false,
                 tabs: {
                     type: [{
-                        'name'      : 'All',
-                        'isActive'  : true,
+                        'label'     : 'All',
+                        'is_active' : true,
                         'key'       : 'all',
                     }, {
-                        'name'      : 'Call',
-                        'isActive'  : false,
+                        'label'     : 'Call',
+                        'is_active' : false,
                         'key'       : 'call',
                     }, {
-                        'name'      : 'Mail',
-                        'isActive'  : false,
+                        'label'     : 'Mail',
+                        'is_active' : false,
                         'key'       : 'mail',
                     }, {
-                        'name'      : 'Meeting',
-                        'isActive'  : false,
+                        'label'     : 'Meeting',
+                        'is_active' : false,
                         'key'       : 'meeting',
                     }],
 
                     duration: [{
-                        'name'      : 'Yesterday',
-                        'isActive'  : true,
+                        'label'     : 'Yesterday',
+                        'is_active' : true,
                         'key'       : 'yesterday',
                     }, {
-                        'name'      : 'Today',
-                        'isActive'  : false,
+                        'label'     : 'Today',
+                        'is_active' : false,
                         'key'       : 'today',
                     }, {
-                        'name'      : 'Tomorrow',
-                        'isActive'  : false,
+                        'label'     : 'Tomorrow',
+                        'is_active' : false,
                         'key'       : 'tomorrow',
                     }, {
-                        'name'      : 'This week',
-                        'isActive'  : false,
+                        'label'     : 'This week',
+                        'is_active' : false,
                         'key'       : 'this_week',
                     }, {
-                        'name'      : 'This month',
-                        'isActive'  : false,
+                        'label'     : 'This month',
+                        'is_active' : false,
                         'key'       : 'this_month',
                     }, {
-                        'name'      : 'Custom',
-                        'isActive'  : false,
+                        'label'     : 'Custom',
+                        'is_active' : false,
                         'key'       : 'custom',
                     }],
                 }
@@ -86,6 +86,24 @@
             }
 
             this.getData({self: this, newParams: search});
+
+            EventBus.$on('change_tab_data', data => {
+                this.tabs[data.type].map(value => {
+                    value.is_active = false;
+                });
+
+                this.tabs[data.type].map(value => {
+                    if (value.key == data.selectedTab) {
+                        value.is_active = true;
+                    }
+                });
+
+                EventBus.$emit('update_filter', {
+                    'key'   : data.type,
+                    'cond'  : 'eq',
+                    'value' : data.selectedTab
+                });
+            });
 
             EventBus.$on('refresh_table_data', data => {
                 data['self'] = this;

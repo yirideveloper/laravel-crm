@@ -70,27 +70,17 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \Webkul\Admin\Http\Requests\UserForm  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store()
+    public function store(UserForm $request)
     {
-        $this->validate(request(), [
-            'email'         => 'required|email|unique:users,email',
-            'name'          => 'required',
-            'password'      => 'required',
-            'role_id'       => 'required',
-        ]);
-        
-        $data = request()->all();
+        $data = $request->all();
 
         if (isset($data['password']) && $data['password']) {
             $data['password'] = bcrypt($data['password']);
-        }
 
-        if (isset($data['status']) && $data['status'] == 'on') {
-            $data['status'] = 1;
-        } else {
-            $data['status'] = 0;
+            $data['api_token'] = Str::random(80);
         }
 
         Event::dispatch('settings.user.create.before');
