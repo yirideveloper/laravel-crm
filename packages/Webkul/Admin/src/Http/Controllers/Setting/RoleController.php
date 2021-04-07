@@ -33,9 +33,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('admin::settings.roles.index', [
-            'tableClass' => '\Webkul\Admin\DataGrids\RoleDataGrid'
-        ]);
+        return view('admin::settings.roles.index');
     }
 
     /**
@@ -118,18 +116,10 @@ class RoleController extends Controller
     {
         $role = $this->roleRepository->findOrFail($id);
 
-        if ($role->admins && $role->admins->count() >= 1) {
-            $status = false;
-            $responseCode = 400;
-            $message = trans('admin::app.settings.roles.being-used');
-
-            session()->flash('error', $message);
-        } else if ($this->roleRepository->count() == 1) {
-            $status = false;
-            $responseCode = 400;
-            $message = trans('admin::app.settings.roles.last-delete-error');
-
-            session()->flash('error', $message);
+        if ($role->admins->count() >= 1) {
+            session()->flash('error', trans('admin::app.settings.roles.being-used'));
+        } elseif($this->roleRepository->count() == 1) {
+            session()->flash('error', trans('admin::app.settings.roles.last-delete-error'));
         } else {
             try {
                 Event::dispatch('settings.role.delete.before', $id);
@@ -138,23 +128,14 @@ class RoleController extends Controller
 
                 Event::dispatch('settings.role.delete.after', $id);
 
-                $status = false;
-                $responseCode = 200;
-                $message = trans('admin::app.settings.roles.delete-success');
+                session()->flash('success', trans('admin::app.settings.roles.delete-success'));
 
-                session()->flash('success', $message);
-            } catch(\Exception $exception) {
-                $status = false;
-                $responseCode = 400;
-                $message = $exception->getMessage();
-
-                session()->flash('error', $message);
+                return response()->json(['message' => true], 200);
+            } catch(\Exception $e) {
+                session()->flash('error', trans('admin::app.settings.roles.delete-failed'));
             }
         }
 
-        return response()->json([
-            'status'    => $status,
-            'message'   => $message,
-        ], $responseCode);
+        return response()->json(['message' => false], 400);
     }
 }

@@ -42,11 +42,6 @@
     background-image: url("../images/arrow-up-icon.svg");
 }
 
-.add-icon {
-    @extend %menu-properties;
-    background-image: url("../images/add-icon.svg");
-}
-
 .close-icon {
     @extend %menu-properties;
     background-image: url("../images/close-icon.svg");
@@ -90,9 +85,4 @@
 .trash-icon {
     @extend %menu-properties;
     background-image: url("../images/trash-icon.svg");
-}
-
-.pencil-icon {
-    @extend %menu-properties;
-    background-image: url("../images/pencil-icon.svg");
 }

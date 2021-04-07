@@ -1,11 +1,21 @@
-@extends('ui::datagrid.table')
+@extends('admin::layouts.master')
 
-@section('table-header')
+@section('page_title')
     {{ __('admin::app.settings.roles.title') }}
 @stop
 
-@section('table-action')
-    <a href="{{ route('admin.settings.roles.create') }}" class="btn btn-sm btn-primary">
-        {{ __('admin::app.settings.roles.create_role') }}
-    </a>
+@section('content-wrapper')
+    <div class="content full-page dashboard">
+        <div class="page-header">
+            <div class="page-title">
+                <h1>{{ __('admin::app.settings.roles.title') }}</h1>
+            </div>
+
+            <div class="page-action">
+            </div>
+        </div>
+
+        <div class="page-content">
+        </div>
+    </div>
 @stop

@@ -25,9 +25,7 @@
                                 {{ __('admin::app.settings.users.save-btn-title') }}
                             </button>
 
-                            <a href="{{ route('admin.settings.users.index') }}">
-                                {{ __('admin::app.settings.users.back') }}
-                            </a>
+                            <a href="">{{ __('admin::app.settings.users.back') }}</a>
                         </div>
 
                         <div class="panel-body">
@@ -141,6 +139,10 @@
                                     @{{ errors.first('confirm_password') }}
                                 </span>
                             </div>
+
+                            <button type="submit" class="badge badge-xl badge-primary">
+                                {{ __('admin::app.layouts.submit') }}
+                            </button>
                         </div>
                     </div>
                 </div>

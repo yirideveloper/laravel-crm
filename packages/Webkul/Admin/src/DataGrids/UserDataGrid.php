@@ -7,14 +7,33 @@ use Illuminate\Support\Facades\DB;
 
 class UserDataGrid extends DataGrid
 {
+    /**
+     * @var string
+     */
+    public $index = 'id';
+
+
+    /**
+     * @var string
+     */
+    protected $sortOrder = 'desc';
+
+    /**
+     * Create a new datagrid instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function prepareQueryBuilder()
     {
         $queryBuilder = DB::table('users')
             ->addSelect(
                 'users.id',
-                'users.name',
-                'users.email',
-                'users.status'
+                'users.name'
             );
 
         $this->setQueryBuilder($queryBuilder);
@@ -39,46 +58,24 @@ class UserDataGrid extends DataGrid
             'sortable'   => true,
             'filterable' => true,
         ]);
-
-        $this->addColumn([
-            'index'      => 'email',
-            'label'      => trans('admin::app.datagrid.email'),
-            'type'       => 'string',
-            'searchable' => true,
-            'sortable'   => true,
-            'filterable' => true,
-        ]);
-
-        $this->addColumn([
-            'index'     => 'status',
-            'label'     => trans('admin::app.datagrid.status'),
-            'type'      => 'boolean',
-            'closure'   => function ($row) {
-                if ($row->status == 1) {
-                    return '<span class="badge badge-sm badge-pill badge-primary">' . trans('admin::app.datagrid.active') . '</span>';
-                } else {
-                    return '<span class="badge badge-sm badge-pill badge-danger">' . trans('admin::app.datagrid.inactive') . '</span>';
-                }
-            },
-        ]);
     }
 
     public function prepareActions()
     {
-        $this->addAction([
-            'title'  => trans('ui::app.datagrid.edit'),
-            'method' => 'GET',
-            'route'  => 'admin.settings.users.edit',
-            'icon'   => 'icon pencil-icon',
-        ]);
+        // $this->addAction([
+        //     'title'  => trans('admin::app.datagrid.edit'),
+        //     'method' => 'GET',
+        //     'route'  => 'admin.customer.addresses.edit',
+        //     'icon'   => 'icon pencil-lg-icon',
+        // ]);
 
-        $this->addAction([
-            'title'        => trans('ui::app.datagrid.delete'),
-            'method'       => 'DELETE',
-            'route'        => 'admin.settings.users.delete',
-            'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'user']),
-            'icon'         => 'icon trash-icon',
-        ]);
+        // $this->addAction([
+        //     'title'        => trans('admin::app.datagrid.delete'),
+        //     'method'       => 'POST',
+        //     'route'        => 'admin.customer.addresses.delete',
+        //     'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'address']),
+        //     'icon'         => 'icon trash-icon',
+        // ]);
     }
 
     public function prepareMassActions()
