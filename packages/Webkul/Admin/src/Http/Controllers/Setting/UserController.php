@@ -125,6 +125,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  \Webkul\Admin\Http\Requests\UserForm  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -159,10 +160,10 @@ class UserController extends Controller
     }
 
     /**
-     * Destroy specified user.
+     * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Illuminate\View\View
      */
     public function destroy($id)
     {
@@ -198,48 +199,5 @@ class UserController extends Controller
             'status'    => $status,
             'message'   => $message
         ], $responseCode);
-    }
-
-    /**
-     * Mass Update the specified resources.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function massUpdate()
-    {
-        $data = request()->all();
-
-        foreach ($data['rows'] as $userId) {
-            $user = $this->userRepository->find($userId);
-
-            $user->update(['status' => $data['value']]);
-        }
-
-        return response()->json([
-            'status'    => true,
-            'message'   => trans('admin::app.settings.users.mass-update-success')
-        ]);
-
-    }
-
-    /**
-     * Mass Delete the specified resources.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function massDestroy()
-    {
-        $data = request()->all();
-
-        foreach ($data['rows'] as $userId) {
-            $this->userRepository->delete($userId);
-        }
-
-        return response()->json([
-            'status'    => true,
-            'message'   => trans('admin::app.settings.users.mass-destroy-success')
-        ]);
     }
 }

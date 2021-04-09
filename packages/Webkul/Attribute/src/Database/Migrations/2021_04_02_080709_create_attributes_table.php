@@ -18,10 +18,11 @@ class CreateAttributesTable extends Migration
             $table->string('code');
             $table->string('name');
             $table->string('type');
-            $table->string('entity_type')->default('lead');
+            $table->string('entity_type')->default('leads');
             $table->string('validation')->nullable();
             $table->boolean('is_required')->default(0);
             $table->boolean('is_unique')->default(0);
+            $table->boolean('quick_add')->default(0);
             $table->boolean('is_user_defined')->default(1);
             $table->unique(['code', 'entity_type']);
             $table->timestamps();
