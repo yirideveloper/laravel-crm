@@ -30,8 +30,6 @@
             this.closeModal();
         },
 
-        inject: ['$validator'],
-
         computed: {
             isModalOpen () {
                 this.addClassToBody();

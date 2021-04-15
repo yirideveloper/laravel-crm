@@ -65,18 +65,6 @@
                                     <option value="multiselect" {{ $selectedOption == 'multiselect' ? 'selected' : '' }}>
                                         {{ __('admin::app.settings.attributes.multiselect') }}
                                     </option>
-                                    <option value="checkbox" {{ $selectedOption == 'checkbox' ? 'selected' : '' }}>
-                                        {{ __('admin::app.settings.attributes.checkbox') }}
-                                    </option>
-                                    <option value="email" {{ $selectedOption == 'email' ? 'selected' : '' }}>
-                                        {{ __('admin::app.settings.attributes.email') }}
-                                    </option>
-                                    <option value="address" {{ $selectedOption == 'address' ? 'selected' : '' }}>
-                                        {{ __('admin::app.settings.attributes.address') }}
-                                    </option>
-                                    <option value="phone" {{ $selectedOption == 'phone' ? 'selected' : '' }}>
-                                        {{ __('admin::app.settings.attributes.phone') }}
-                                    </option>
                                     <option value="datetime" {{ $selectedOption == 'datetime' ? 'selected' : '' }}>
                                         {{ __('admin::app.settings.attributes.datetime') }}
                                     </option>
@@ -88,6 +76,9 @@
                                     </option>
                                     <option value="file" {{ $selectedOption == 'file' ? 'selected' : '' }}>
                                         {{ __('admin::app.settings.attributes.file') }}
+                                    </option>
+                                    <option value="checkbox" {{ $selectedOption == 'checkbox' ? 'selected' : '' }}>
+                                        {{ __('admin::app.settings.attributes.checkbox') }}
                                     </option>
                                 </select>
                                 <input type="hidden" name="type" value="{{ $attribute->type }}"/>

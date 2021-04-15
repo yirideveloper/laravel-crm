@@ -1,52 +1,25 @@
 <?php
     return [
         'layouts' => [
-            'dashboard'     => 'Dashboard',
-            'leads'         => 'Leads',
-            'contacts'      => 'Contacts',
-            'persons'       => 'Persons',
-            'organizations' => 'Organizations',
-            'products'      => 'Products',
-            'settings'      => 'Settings',
-            'roles'         => 'Roles',
-            'users'         => 'Users',
-            'attributes'    => 'Attributes',
-            'my-account'    => 'My Account',
-            'sign-out'      => 'Sign Out',
-            'back'          => 'Back',
-            'name'          => 'Name',
+            'dashboard'         => 'Dashboard',
+            'leads'             => 'Leads',
+            'contacts'          => 'Contacts',
+            'customers'         => 'Customers',
+            'companies'         => 'Companies',
+            'settings'          => 'Settings',
+            'roles'             => 'Roles',
+            'users'             => 'Users',
+            'attributes'        => 'Attributes',
+            'my-account'        => 'My Account',
+            'sign-out'          => 'Sign Out',
+            'back'              => 'Back',
+            'name'              => 'Name',
         ],
 
         'contacts' => [
-            'persons' => [
-                'title' => 'Persons'
-            ],
-
-            'organizations' => [
-                'title'          => 'Organizations',
-                'add-title'      => 'Add Organization',
-                'edit-title'     => 'Edit Organization',
-                'save-btn-title' => 'Save as Organization',
-                'back'           => 'Back',
-                'cancel'         => 'Cancel',
-                'create-success' => 'Organization created successfully.',
-                'update-success' => 'Organization updated successfully.',
-                'delete-success' => 'Organization deleted successfully.',
-                'delete-failed'  => 'Organization can not be deleted.',
+            'customers' => [
+                'title' => 'Customers'
             ]
-        ],
-
-        'products' => [
-            'title'          => 'Products',
-            'add-title'      => 'Add Product',
-            'edit-title'     => 'Edit Product',
-            'save-btn-title' => 'Save as Product',
-            'back'           => 'Back',
-            'cancel'         => 'Cancel',
-            'create-success' => 'Product created successfully.',
-            'update-success' => 'Product updated successfully.',
-            'delete-success' => 'Product deleted successfully.',
-            'delete-failed'  => 'Product can not be deleted.',
         ],
 
         'sessions' => [
@@ -127,7 +100,6 @@
                 'title'                 => 'Attributes',
                 'add-title'             => 'Add Attribute',
                 'edit-title'            => 'Edit Attribute',
-                'save-btn-title'        => 'Save as Attribute',
                 'back'                  => 'Back',
                 'code'                  => 'Code',
                 'name'                  => 'Name',
@@ -138,9 +110,6 @@
                 'boolean'               => 'Boolean',
                 'select'                => 'Select',
                 'multiselect'           => 'Multiselect',
-                'email'                 => 'Email',
-                'address'               => 'Address',
-                'phone'                 => 'Phone',
                 'datetime'              => 'Datetime',
                 'date'                  => 'Date',
                 'image'                 => 'Image',
@@ -156,6 +125,7 @@
                 'email'                 => 'Email',
                 'url'                   => 'Url',
                 'options'               => 'Options',
+                'save-btn-title'        => 'Save as Attribute',
                 'sort-order'            => 'Sort Order',
                 'add-option-btn-title'  => 'Add Option',
                 'create-success'        => 'Attribute created successfully.',
@@ -181,15 +151,13 @@
             'create-success' => 'Success: :name created successfully.',
         ],
 
-        'common' => [
-            'address'            => 'Address',
-            'country'            => 'Country',
-            'select-country'     => 'Please select country',
-            'state'              => 'State',
-            'select-state'       => 'Please select state',
-            'city'               => 'City',
-            'postcode'           => 'Postcode',
-            'address-validation' => 'The "Address" field is required'
+        'acl' => [
+            'settings'  => 'Settings',
+            'users'     => 'Users',
+            'roles'     => 'Roles',
+            'create'    => 'Create',
+            'edit'      => 'Edit',
+            'delete'    => 'Delete',
         ]
     ];
 ?>
