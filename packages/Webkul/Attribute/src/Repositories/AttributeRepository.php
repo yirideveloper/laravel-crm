@@ -107,4 +107,37 @@ class AttributeRepository extends Repository
 
         return $attribute;
     }
+
+    /**
+     * @param  string  $code
+     * @return \Webkul\Attribute\Contracts\Attribute
+     */
+    public function getAttributeByCode($code)
+    {
+        static $attributes = [];
+
+        if (array_key_exists($code, $attributes)) {
+            return $attributes[$code];
+        }
+
+        return $attributes[$code] = $this->findOneByField('code', $code);
+    }
+
+    /**
+     * @param  integer  $code
+     * @param  string  $query
+     * @return array
+     */
+    public function getAttributeLookUpOptions($id, $query)
+    {
+        $attribute = $this->findOrFail($id);
+
+        $lookup = config('attribute_lookups.' . $attribute->lookup_type);
+
+        return app($lookup['repository'])->findWhere([
+            [$lookup['label_column'], 'like', '%' . urldecode($query) . '%']
+        ], [
+            $lookup['value_column'] . ' as value' , $lookup['label_column'] . ' as label'
+        ]);
+    }
 }

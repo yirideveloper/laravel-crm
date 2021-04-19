@@ -2,15 +2,14 @@
 
 namespace Webkul\Admin\Providers;
 
-use Illuminate\Routing\Router;
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Routing\Router;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-
-use Webkul\Core\Tree;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Webkul\Admin\Exceptions\Handler;
 use Webkul\Admin\Menu;
 use Webkul\Admin\Bouncer;
-use Webkul\Admin\Exceptions\Handler;
 use Webkul\Admin\Facades\Menu as MenuFacade;
 use Webkul\Admin\Facades\Bouncer as BouncerFacade;
 use Webkul\Admin\Http\Middleware\Bouncer as BouncerMiddleware;
@@ -39,6 +38,13 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->bind(ExceptionHandler::class, Handler::class);
 
         $router->aliasMiddleware('user', BouncerMiddleware::class);
+
+        Relation::morphMap([
+            'leads'         => 'Webkul\Lead\Models\Lead',
+            'products'      => 'Webkul\Product\Models\Product',
+            'organizations' => 'Webkul\Contact\Models\Organization',
+            'persons'       => 'Webkul\Contact\Models\Person',
+        ]);
     }
 
     /**
@@ -51,8 +57,6 @@ class AdminServiceProvider extends ServiceProvider
         $this->registerFacades();
 
         $this->registerConfig();
-
-        $this->registerACL();
     }
 
     /**
@@ -86,45 +90,13 @@ class AdminServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             dirname(__DIR__) . '/Config/menu.php', 'menu.admin'
         );
-
+        
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/acl.php', 'acl'
+            dirname(__DIR__) . '/Config/attribute_entity_types.php', 'attribute_entity_types'
         );
-    }
-    
-    /**
-     * Registers acl to entire application
-     *
-     * @return void
-     */
-    public function registerACL()
-    {
-        $this->app->singleton('acl', function () {
-            return $this->createACL();
-        });
-    }
-
-    /**
-     * Create acl tree
-     *
-     * @return mixed
-     */
-    public function createACL()
-    {
-        static $tree;
-
-        if ($tree) {
-            return $tree;
-        }
-
-        $tree = Tree::create();
-
-        foreach (config('acl') as $item) {
-            $tree->add($item, 'acl');
-        }
-
-        $tree->items = core()->sortItems($tree->items);
-
-        return $tree;
+        
+        $this->mergeConfigFrom(
+            dirname(__DIR__) . '/Config/attribute_lookups.php', 'attribute_lookups'
+        );
     }
 }

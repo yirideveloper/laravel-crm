@@ -30,20 +30,20 @@
                             @csrf()
                             <input name="_method" type="hidden" value="PUT">
 
-                            <div class="control-group" :class="[errors.has('code') ? 'has-error' : '']">
+                            <div class="form-group" :class="[errors.has('code') ? 'has-error' : '']">
                                 <label for="code" class="required">{{ __('admin::app.settings.attributes.code') }}</label>
                                 <input type="text" v-validate="'required'" class="control" id="code" name="code" value="{{ old('code') ?: $attribute->code }}" disabled="disabled" data-vv-as="&quot;{{ __('admin::app.settings.attributes.code') }}&quot;" v-code/>
                                 <input type="hidden" name="code" value="{{ $attribute->code }}"/>
                                 <span class="control-error" v-if="errors.has('code')">@{{ errors.first('code') }}</span>
                             </div>
 
-                            <div class="control-group" :class="[errors.has('name') ? 'has-error' : '']">
+                            <div class="form-group" :class="[errors.has('name') ? 'has-error' : '']">
                                 <label for="name" class="required">{{ __('admin::app.settings.attributes.name') }}</label>
                                 <input type="text" v-validate="'required'" class="control" id="name" name="name" value="{{ old('name') ?: $attribute->name }}" data-vv-as="&quot;{{ __('admin::app.settings.attributes.name') }}&quot;"/>
                                 <span class="control-error" v-if="errors.has('name')">@{{ errors.first('name') }}</span>
                             </div>
 
-                            <div class="control-group">
+                            <div class="form-group">
                                 <?php $selectedOption = old('type') ?: $attribute->type ?>
                                 <label for="type">{{ __('admin::app.settings.attributes.type') }}</label>
                                 <select class="control" id="type" disabled="disabled">
@@ -65,6 +65,18 @@
                                     <option value="multiselect" {{ $selectedOption == 'multiselect' ? 'selected' : '' }}>
                                         {{ __('admin::app.settings.attributes.multiselect') }}
                                     </option>
+                                    <option value="checkbox" {{ $selectedOption == 'checkbox' ? 'selected' : '' }}>
+                                        {{ __('admin::app.settings.attributes.checkbox') }}
+                                    </option>
+                                    <option value="email" {{ $selectedOption == 'email' ? 'selected' : '' }}>
+                                        {{ __('admin::app.settings.attributes.email') }}
+                                    </option>
+                                    <option value="address" {{ $selectedOption == 'address' ? 'selected' : '' }}>
+                                        {{ __('admin::app.settings.attributes.address') }}
+                                    </option>
+                                    <option value="phone" {{ $selectedOption == 'phone' ? 'selected' : '' }}>
+                                        {{ __('admin::app.settings.attributes.phone') }}
+                                    </option>
                                     <option value="datetime" {{ $selectedOption == 'datetime' ? 'selected' : '' }}>
                                         {{ __('admin::app.settings.attributes.datetime') }}
                                     </option>
@@ -77,9 +89,6 @@
                                     <option value="file" {{ $selectedOption == 'file' ? 'selected' : '' }}>
                                         {{ __('admin::app.settings.attributes.file') }}
                                     </option>
-                                    <option value="checkbox" {{ $selectedOption == 'checkbox' ? 'selected' : '' }}>
-                                        {{ __('admin::app.settings.attributes.checkbox') }}
-                                    </option>
                                 </select>
                                 <input type="hidden" name="type" value="{{ $attribute->type }}"/>
                             </div>
@@ -90,7 +99,7 @@
 
                             </div>
 
-                            <div class="control-group">
+                            <div class="form-group">
                                 <label for="is_required">{{ __('admin::app.settings.attributes.is_required') }}</label>
                                 <select class="control" id="is_required" name="is_required">
                                     <option value="0" {{ $attribute->is_required ? '' : 'selected' }}>{{ __('admin::app.settings.attributes.no') }}</option>
@@ -98,7 +107,7 @@
                                 </select>
                             </div>
 
-                            <div class="control-group">
+                            <div class="form-group">
                                 <label for="is_unique">{{ __('admin::app.settings.attributes.is_unique') }}</label>
                                 <select class="control" id="is_unique" name="is_unique" disabled>
                                     <option value="0" {{ $attribute->is_unique ? '' : 'selected' }}>
@@ -111,7 +120,7 @@
                                 <input type="hidden" name="is_unique" value="{{ $attribute->is_unique }}"/>
                             </div>
 
-                            <div class="control-group">
+                            <div class="form-group">
                                 <?php $selectedValidation = old('validation') ?: $attribute->validation ?>
                                 <label for="validation">{{ __('admin::app.settings.attributes.input_validation') }}</label>
                                 <select class="control" id="validation" name="validation">
@@ -141,7 +150,7 @@
 
 @push('scripts')
     <script type="text/x-template" id="options-template">
-        <div class="control-group dragable-container">
+        <div class="form-group dragable-container">
             <label>{{ __('admin::app.settings.attributes.options') }}</label>
 
             <draggable tag="ul" :list="optionRows" class="list-group dragable-list">
@@ -150,7 +159,7 @@
                     v-for="(row, index) in optionRows"
                     :key="row.id"
                 >
-                    <div class="control-group" :class="[errors.has('options[' + row.id + '][name]') ? 'has-error' : '']">
+                    <div class="form-group" :class="[errors.has('options[' + row.id + '][name]') ? 'has-error' : '']">
                         <input type="text" v-validate="'required'" v-model="row['name']" :name="'options[' + row.id + '][name]'" class="control" data-vv-as="&quot;{{ __('admin::app.settings.attributes.name') }}&quot;"/>
                         <span class="control-error" v-if="errors.has('options[' + row.id + '][name]')">@{{ errors.first('options[' + row.id + '][name]') }}</span>
 

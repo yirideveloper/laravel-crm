@@ -29,19 +29,19 @@
                         <div class="panel-body">
                             @csrf()
 
-                            <div class="control-group" :class="[errors.has('code') ? 'has-error' : '']">
+                            <div class="form-group" :class="[errors.has('code') ? 'has-error' : '']">
                                 <label for="code" class="required">{{ __('admin::app.settings.attributes.code') }}</label>
                                 <input type="text" v-validate="'required'" class="control" id="code" name="code" value="{{ old('code') }}"  data-vv-as="&quot;{{ __('admin::app.settings.attributes.code') }}&quot;" v-code/>
                                 <span class="control-error" v-if="errors.has('code')">@{{ errors.first('code') }}</span>
                             </div>
 
-                            <div class="control-group" :class="[errors.has('name') ? 'has-error' : '']">
+                            <div class="form-group" :class="[errors.has('name') ? 'has-error' : '']">
                                 <label for="name" class="required">{{ __('admin::app.settings.attributes.name') }}</label>
                                 <input type="text" v-validate="'required'" class="control" id="name" name="name" value="{{ old('name') }}" data-vv-as="&quot;{{ __('admin::app.settings.attributes.name') }}&quot;"/>
                                 <span class="control-error" v-if="errors.has('name')">@{{ errors.first('name') }}</span>
                             </div>
 
-                            <div class="control-group">
+                            <div class="form-group">
                                 <label for="type" class="required">{{ __('admin::app.settings.attributes.type') }}</label>
                                 <select class="control" id="type" name="type">
                                     <option value="text">{{ __('admin::app.settings.attributes.text') }}</option>
@@ -50,11 +50,14 @@
                                     <option value="boolean">{{ __('admin::app.settings.attributes.boolean') }}</option>
                                     <option value="select">{{ __('admin::app.settings.attributes.select') }}</option>
                                     <option value="multiselect">{{ __('admin::app.settings.attributes.multiselect') }}</option>
+                                    <option value="checkbox">{{ __('admin::app.settings.attributes.checkbox') }}</option>
+                                    <option value="email">{{ __('admin::app.settings.attributes.email') }}</option>
+                                    <option value="address">{{ __('admin::app.settings.attributes.address') }}</option>
+                                    <option value="phone">{{ __('admin::app.settings.attributes.phone') }}</option>
                                     <option value="datetime">{{ __('admin::app.settings.attributes.datetime') }}</option>
                                     <option value="date">{{ __('admin::app.settings.attributes.date') }}</option>
                                     <option value="image">{{ __('admin::app.settings.attributes.image') }}</option>
                                     <option value="file">{{ __('admin::app.settings.attributes.file') }}</option>
-                                    <option value="checkbox">{{ __('admin::app.settings.attributes.checkbox') }}</option>
                                 </select>
                             </div>
 
@@ -64,7 +67,7 @@
 
                             </div>
 
-                            <div class="control-group">
+                            <div class="form-group">
                                 <label for="is_required">{{ __('admin::app.settings.attributes.is_required') }}</label>
                                 <select class="control" id="is_required" name="is_required">
                                     <option value="0">{{ __('admin::app.settings.attributes.no') }}</option>
@@ -72,7 +75,7 @@
                                 </select>
                             </div>
 
-                            <div class="control-group">
+                            <div class="form-group">
                                 <label for="is_unique">{{ __('admin::app.settings.attributes.is_unique') }}</label>
                                 <select class="control" id="is_unique" name="is_unique">
                                     <option value="0">{{ __('admin::app.settings.attributes.no') }}</option>
@@ -80,7 +83,7 @@
                                 </select>
                             </div>
 
-                            <div class="control-group">
+                            <div class="form-group">
                                 <label for="validation">{{ __('admin::app.settings.attributes.input_validation') }}</label>
                                 <select class="control" id="validation" name="validation">
                                     <option value=""></option>
@@ -101,7 +104,7 @@
 
 @push('scripts')
     <script type="text/x-template" id="options-template">
-        <div class="control-group dragable-container">
+        <div class="form-group dragable-container">
             <label>{{ __('admin::app.settings.attributes.options') }}</label>
 
             <draggable tag="ul" :list="optionRows" class="list-group dragable-list">
@@ -110,7 +113,7 @@
                     v-for="(row, index) in optionRows"
                     :key="row.id"
                 >
-                    <div class="control-group" :class="[errors.has('options[' + row.id + '][name]') ? 'has-error' : '']">
+                    <div class="form-group" :class="[errors.has('options[' + row.id + '][name]') ? 'has-error' : '']">
                         <input type="text" v-validate="'required'" v-model="row['name']" :name="'options[' + row.id + '][name]'" class="control" data-vv-as="&quot;{{ __('admin::app.settings.attributes.name') }}&quot;"/>
                         <span class="control-error" v-if="errors.has('options[' + row.id + '][name]')">@{{ errors.first('options[' + row.id + '][name]') }}</span>
 

@@ -3,7 +3,6 @@
 namespace Webkul\Admin\Http\Controllers\Setting;
 
 use Illuminate\Support\Facades\Event;
-
 use Webkul\User\Repositories\RoleRepository;
 use Webkul\Admin\Http\Controllers\Controller;
 
@@ -46,9 +45,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $acl = app('acl');
-
-        return view('admin::settings.roles.create', compact('acl'));
+        return view('admin::settings.roles.create');
     }
 
     /**
@@ -65,13 +62,7 @@ class RoleController extends Controller
 
         Event::dispatch('settings.role.create.before');
 
-        $roleData = request()->all();
-
-        if ($roleData['permission_type'] == 'custom') {
-            array_push($roleData['permissions'], "admin.datagrid.api");
-        }
-
-        $role = $this->roleRepository->create($roleData);
+        $role = $this->roleRepository->create(request()->all());
 
         Event::dispatch('settings.role.create.after', $role);
 
@@ -90,9 +81,7 @@ class RoleController extends Controller
     {
         $role = $this->roleRepository->findOrFail($id);
 
-        $acl = app('acl');
-
-        return view('admin::settings.roles.edit', compact('role', 'acl'));
+        return view('admin::settings.roles.edit', compact('role'));
     }
 
     /**
@@ -110,13 +99,7 @@ class RoleController extends Controller
 
         Event::dispatch('settings.role.update.before', $id);
 
-        $roleData = request()->all();
-
-        if ($roleData['permission_type'] == 'custom') {
-            array_push($roleData['permissions'], "admin.datagrid.api");
-        }
-
-        $role = $this->roleRepository->update($roleData, $id);
+        $role = $this->roleRepository->update(request()->all(), $id);
 
         Event::dispatch('settings.role.update.after', $role);
 

@@ -164,10 +164,8 @@ abstract class DataGrid
         10 => "lock",
     ];
 
-    /**
-     * @var array
-     */
-    protected $tabFilters = [];
+    /** @var string[] contains the keys for which extra filters to show */
+    protected $extraFilters = [];
 
     abstract public function prepareQueryBuilder();
 
@@ -413,17 +411,6 @@ abstract class DataGrid
                 );
             } else if ($key === "duration" || $key === "type") {
                 // @TODO apply duration filter
-                foreach ($this->tabFilters as $filterIndex => $filter) {
-                    if ($filter['key'] == $key) {
-                        foreach ($filter['values'] as $filterValueIndex => $filterValue) {
-                            if (array_keys($info)[0] == "bw" && $filterValue['key'] == 'custom') {
-                                $this->tabFilters[$filterIndex]['values'][$filterValueIndex]['isActive'] = true;
-                            } else {
-                                $this->tabFilters[$filterIndex]['values'][$filterValueIndex]['isActive'] = ($filterValue['key'] == array_values($info)[0]);
-                            }
-                        }
-                    }
-                }
             } elseif ($key === "search") {
                 $count_keys = count(array_keys($info));
 
@@ -578,6 +565,17 @@ abstract class DataGrid
 
         $this->prepareQueryBuilder();
 
+        $necessaryExtraFilters = [];
+        if (in_array('channels', $this->extraFilters)) {
+            $necessaryExtraFilters['channels'] = core()->getAllChannels();
+        }
+        if (in_array('locales', $this->extraFilters)) {
+            $necessaryExtraFilters['locales'] = core()->getAllLocales();
+        }
+        if (in_array('customer_groups', $this->extraFilters)) {
+            $necessaryExtraFilters['customer_groups'] = core()->getAllCustomerGroups();
+        }
+
         $paginationData = [
             'has_pages' => false,
         ];
@@ -644,9 +642,47 @@ abstract class DataGrid
             'enableMassActions' => $this->enableMassAction,
             'enableActions'     => $this->enableAction,
             'paginated'         => $this->paginate,
-            'paginationData'    => $paginationData,
-            'tabFilters'        => $this->tabFilters,
+            'extraFilters'      => $necessaryExtraFilters,
+            'pagination_data'   => $paginationData,
         ];
+    }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function render()
+    {
+        $this->addColumns();
+
+        $this->prepareActions();
+
+        $this->prepareMassActions();
+
+        $this->prepareQueryBuilder();
+
+        $necessaryExtraFilters = [];
+        if (in_array('channels', $this->extraFilters)) {
+            $necessaryExtraFilters['channels'] = core()->getAllChannels();
+        }
+        if (in_array('locales', $this->extraFilters)) {
+            $necessaryExtraFilters['locales'] = core()->getAllLocales();
+        }
+        if (in_array('customer_groups', $this->extraFilters)) {
+            $necessaryExtraFilters['customer_groups'] = core()->getAllCustomerGroups();
+        }
+
+        return view('ui::datagrid.table')->with('results', [
+            'records'           => $this->getCollection(),
+            'columns'           => $this->completeColumnDetails,
+            'actions'           => $this->actions,
+            'massactions'       => $this->massActions,
+            'index'             => $this->index,
+            'enableMassActions' => $this->enableMassAction,
+            'enableActions'     => $this->enableAction,
+            'paginated'         => $this->paginate,
+            'norecords'         => __('ui::app.datagrid.no-records'),
+            'extraFilters'      => $necessaryExtraFilters
+        ]);
     }
 
     /**
