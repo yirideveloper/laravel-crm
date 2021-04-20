@@ -17,7 +17,6 @@ class Attribute extends Model implements AttributeContract
         'name',
         'type',
         'entity_type',
-        'lookup_type',
         'is_required',
         'is_unique',
         'quick_add',

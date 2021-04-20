@@ -31,6 +31,7 @@ trait CustomAttribute {
      * Get an attribute from the model.
      *
      * @param string $key
+     *
      * @return mixed
      */
     public function getAttribute($key)
@@ -63,7 +64,7 @@ trait CustomAttribute {
             $customAttributes = $this->getCustomAttributes();
 
             foreach ($customAttributes as $attribute) {
-                if (in_array($attribute->code, $hiddenAttributes) && isset($this->attributes[$attribute->code])) {
+                if (in_array($attribute->code, $hiddenAttributes)) {
                     continue;
                 }
 
@@ -104,54 +105,5 @@ trait CustomAttribute {
         $attributeValue = $this->attribute_values()->where('attribute_id', $attribute->id)->first();
 
         return $attributeValue[self::$attributeTypeFields[$attribute->type]] ?? null;
-    }
-
-    /**
-     * Create a new instance of the given model.
-     *
-     * @param  array  $attributes
-     * @return Collection
-     */
-    public function getLookUpAttributes($attributes)
-    {
-        $attributes = app(AttributeRepository::class)->scopeQuery(function ($query) use($attributes) {
-            return $query->distinct()
-                ->where('type', 'lookup')
-                ->where('entity_type', request('entity_type'))
-                ->whereIn('code', array_keys($attributes, '', false));
-        })->get();
-
-        return $attributes;
-    }
-
-    /**
-     * Create a new instance of the given model.
-     *
-     * @param  array  $attributes
-     * @param  bool  $exists
-     * @return static
-     */
-    public function newInstance($attributes = [], $exists = false)
-    {
-        // $attributes = $this->getLookUpAttributes($attributes);
-
-        // Play with data here
-
-        return parent::newInstance($attributes, $exists);
-    }
-
-    /**
-     * Fill the model with an array of attributes.
-     *
-     * @param  array  $attributes
-     * @return $this
-     *
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
-     */
-    public function fill(array $attributes)
-    {
-        // Play with data here
-
-        return parent::fill($attributes);
     }
 }

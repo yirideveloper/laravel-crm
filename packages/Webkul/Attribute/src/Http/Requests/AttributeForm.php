@@ -62,8 +62,6 @@ class AttributeForm extends FormRequest
      */
     public function rules()
     {
-        // dd(request()->all());
-
         $conditions = ['entity_type' => request('entity_type')];
 
         if (request()->has('quick_add')) {
@@ -76,10 +74,6 @@ class AttributeForm extends FormRequest
             if ($attribute->type == 'boolean') {
                 continue;
             } else if ($attribute->type == 'address') {
-                if (! $attribute->is_required) {
-                    continue;
-                }
-
                 $this->rules = array_merge($this->rules, [
                     $attribute->code . '.address'  => 'required',
                     $attribute->code . '.country'  => 'required',
@@ -88,21 +82,7 @@ class AttributeForm extends FormRequest
                     $attribute->code . '.postcode' => 'required',
                 ]);
             } else if ($attribute->type == 'email') {
-                $this->rules = array_merge($this->rules, [
-                    $attribute->code               => $attribute->is_required ? 'required' : 'nullable',
-                    $attribute->code . '.*.value'  => [$attribute->is_required ? 'required' : 'nullable', 'email'],
-                    $attribute->code . '.*.label'  => $attribute->is_required ? 'required' : 'nullable',
-                ]);         
-            } else if ($attribute->type == 'phone') {
-                if (! $attribute->is_required) {
-                    continue;
-                }
-
-                $this->rules = array_merge($this->rules, [
-                    $attribute->code               => 'required',
-                    $attribute->code . '.*.value'  => 'required',
-                    $attribute->code . '.*.label'  => 'required',
-                ]);         
+                
             } else {
                 $validations = [$attribute->is_required ? 'required' : 'nullable'];
 

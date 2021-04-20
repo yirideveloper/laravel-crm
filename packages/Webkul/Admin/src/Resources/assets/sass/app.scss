@@ -312,7 +312,7 @@ body {
                 }
             }
 
-            .form-group {
+            .control-group {
                 width: 180px;
                 display: inline-block;
                 margin-bottom: 0;
@@ -359,7 +359,7 @@ body {
         cursor: pointer;
     }
 
-    .form-group::last-child {
+    .control-group::last-child {
         margin-right: 0px;
     }
 }
@@ -410,7 +410,7 @@ body {
                         margin-bottom: 30px;
                     }
 
-                    .form-group {
+                    .control-group {
                         .control {
                             width: 100%;
                         }
@@ -477,14 +477,14 @@ body {
             position: relative;
 
             &.sortable-ghost {
-                .form-group {
+                .control-group {
                     .control {
                         border-style: dashed;
                     }
                 }
             }
 
-            .form-group {
+            .control-group {
                 margin: 0;
                 padding-right: 40px;
 
@@ -515,36 +515,5 @@ body {
 
     button.btn {
         margin-top: 10px;
-    }
-}
-
-.lookup-results {
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 0 9px 0 rgba(0, 0, 0, 0.16);
-    z-index: 10;
-    text-align: left;
-    border-radius: 3px;
-    background-color: $white;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
-
-    li {
-        padding: 5px 0px;
-        cursor: pointer;
-
-        &.action {
-            border-top: 1px solid $border-color;
-        }
-
-        span {
-            padding: 5px 10px;
-            display: inline-block;
-            width: 100%;
-
-            &:hover {
-                background-color: #0E90D9;
-                color: #fff;
-            }
-        }
     }
 }
