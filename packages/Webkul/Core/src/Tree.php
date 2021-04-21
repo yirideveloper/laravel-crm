@@ -11,13 +11,6 @@ class Tree {
      */
 	public $items = [];
 
-    /**
-     * Contains acl roles
-     *
-     * @var array
-     */
-	public $roles = [];
-
 	/**
 	 * Shortcut method for create a Config with a callback.
 	 * This will allow you to do things like fire an event on creation.
@@ -49,10 +42,6 @@ class Tree {
 		$item['name'] = trans($item['name']);
 
 		$children = str_replace('.', '.children.', $item['key']);
-
-		if ($type == 'acl') {
-			$this->roles[$item['route']] = $item['key'];
-		}
 
 		core()->array_set($this->items, $children, $item);
 	}

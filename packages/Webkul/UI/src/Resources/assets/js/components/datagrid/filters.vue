@@ -3,7 +3,7 @@
         <!-- searchbox and filters section -->
         <div class="datagrid-filters" id="datagrid-filters">
             <div class="filter-left">
-                <div class="search-filter control-group">
+                <div class="search-filter form-group">
                     <input
                         type="text"
                         class="control"
@@ -17,7 +17,7 @@
 
             <div class="filter-right">
                 <div class="dropdown-filters per-page">
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="per-page-label" for="perPage">
                             {{ __('ui.datagrid.items-per-page') }}
                         </label>
@@ -74,62 +74,28 @@
             <tabs
                 event-value-key="value"
                 event-key="update_filter"
-                :tabs-collection="tableData.tabFilters[0].values"
-                v-if="tableData.tabFilters && tableData.tabFilters[0]"
-                :class="`${tableData.tabFilters[0].type} d-inline-block`"
-                :event-data="{key: tableData.tabFilters[0].key, 'cond' : tableData.tabFilters[0].condition}"
+                class="pill d-inline-block"
+                :tabs-collection="tabs.type"
+                :event-data="{key: 'type', 'cond' : 'eq'}"
             ></tabs>
 
             <div class="tabs-right-container">
                 <section>
-                    <pagination-component tab-view="true" :per-page="perPage"></pagination-component>
+                    <pagination-component :pagination-data="paginationData" tab-view="true" :per-page="perPage"></pagination-component>
                 </section>
 
                 <tabs
                     event-value-key="value"
                     event-key="update_filter"
-                    :tabs-collection="tableData.tabFilters[1].values"
-                    v-if="tableData.tabFilters && tableData.tabFilters[1]"
-                    :class="`${tableData.tabFilters[1].type} d-inline-block`"
-                    :event-data="{key: tableData.tabFilters[1].key, 'cond' : tableData.tabFilters[1].condition}"
+                    class="group d-inline-block"
+                    :tabs-collection="tabs.duration"
+                    :event-data="{key: 'duration', 'cond' : 'eq'}"
                 ></tabs>
-
-                <div class="custom-design-container" v-if="customTabFilter">
-                    <label>
-                        {{ __('ui.datagrid.filter.date_range') }}
-                    </label>
-
-                    <div class="control-group date">
-                        <date>
-                            <input
-                                type="text"
-                                class="control half"
-                                placeholder="Start Date"
-                                v-model="custom_filter[0]"
-                            />
-                        </date>
-
-                        <span class="middle-text">{{ __('ui.datagrid.filter.to') }}</span>
-                        
-                        <date>
-                            <input
-                                type="text"
-                                class="control half"
-                                placeholder="End Date"
-                                v-model="custom_filter[1]"
-                            />
-                        </date>
-                    </div>
-
-                    <button type="button" class="btn btn-sm btn-primary" @click="applyCustomFilter">
-                        {{ __('ui.datagrid.filter.done') }}
-                    </button>
-                </div>
             </div>
         </template>
 
         <!-- mass actions section -->
-        <div class="mass-actions control-group" v-if="selectedTableRows.length > 0">
+        <div class="mass-actions form-group" v-if="selectedTableRows.length > 0">
             <select name="mass_action" class="control" v-model="massActionValue" v-validate="'required'">
                 <option :value="massAction" :key="index" v-for="(massAction, index) in tableData.massactions">
                     {{ massAction.label }}
@@ -153,16 +119,24 @@
     import { mapState, mapActions } from 'vuex';
 
     export default {
+        props: [
+            'results',
+            'tabs',
+            'paginationData',
+        ],
+
         data: function () {
             return {
                 massActionValue: {},
                 massActionOptionValue: null,
                 url: new URL(window.location.href),
+                currentSort: null,
                 sortDesc: 'desc',
                 sortAsc: 'asc',
                 searchValue: '',
                 filters: [],
                 type: null,
+                columns: this.results['columns'],
                 stringCondition: null,
                 booleanCondition: null,
                 numberCondition: null,
@@ -170,39 +144,10 @@
                 stringValue: null,
                 booleanValue: null,
                 perPage: 10,
+                extraFilters: this.results['extraFilters'],
                 debounce: {},
                 ignoreDisplayFilter: ['duration', 'type'],
                 sidebarFilter: false,
-                custom_filter: [null, null],
-                customTabFilter: false,
-            }
-        },
-
-        computed: {
-            ...mapState({                
-                tableData : state => state.tableData,
-                customTabFilter : state => state.customTabFilter,
-                selectedTableRows : state => state.selectedTableRows,
-            }),
-
-            columns: function () {
-                return this.tableData.columns;
-            },
-
-            extraFilters: function () {
-                return this.tableData.extraFilters;
-            },
-        },
-
-        watch: {
-            filters: function (newValue, oldValue) {
-                this.$store.state.filters = newValue;
-            },
-
-            '$store.state.filters': function (newValue, oldValue) {
-                this.filters = newValue;
-
-                this.makeURL();
             }
         },
 
@@ -225,11 +170,7 @@
             }
 
             EventBus.$on('update_filter', data => {
-                if (data.value == 'custom') {
-                    this.$store.state.customTabFilter = ! this.$store.state.customTabFilter;
-                } else {
-                    this.updateFilter(data);
-                }
+                this.updateFilter(data);
             });
         },
 
@@ -244,6 +185,20 @@
                 this.datetimeCondition = null;
                 this.booleanCondition = null;
                 this.numberCondition = null;
+            },
+
+            sortCollection: function (alias) {
+                let label = '';
+
+                for (let colIndex in this.columns) {
+                    if (this.columns[colIndex].index === alias) {
+                        matched = 0;
+                        label = this.columns[colIndex].label;
+                        break;
+                    }
+                }
+
+                this.formURL("sort", alias, this.sortAsc, label);
             },
 
             searchCollection: function (searchValue) {
@@ -263,6 +218,14 @@
                 }
 
                 this.setActiveTabs();
+            },
+
+            findCurrentSort: function () {
+                for (let i in this.filters) {
+                    if (this.filters[i].column === 'sort') {
+                        this.currentSort = this.filters[i].val;
+                    }
+                }
             },
 
             //make array of filters, sort and search
@@ -309,6 +272,57 @@
                                 obj.label = label;
 
                                 this.filters.push(obj);
+                                obj = {};
+
+                                this.makeURL();
+                            }
+                        }
+
+                        if (column === "sort") {
+                            let sort_exists = false;
+
+                            for (let j = 0; j < this.filters.length; j++) {
+                                if (this.filters[j].column === "sort") {
+                                    if (this.filters[j].column === column && this.filters[j].cond === condition) {
+                                        this.findCurrentSort();
+
+                                        if (this.currentSort === "asc") {
+                                            this.filters[j].column = column;
+                                            this.filters[j].cond = condition;
+                                            this.filters[j].val = this.sortDesc;
+
+                                            this.makeURL();
+                                        } else {
+                                            this.filters[j].column = column;
+                                            this.filters[j].cond = condition;
+                                            this.filters[j].val = this.sortAsc;
+
+                                            this.makeURL();
+                                        }
+                                    } else {
+                                        this.filters[j].column = column;
+                                        this.filters[j].cond = condition;
+                                        this.filters[j].val = response;
+                                        this.filters[j].label = label;
+
+                                        this.makeURL();
+                                    }
+
+                                    sort_exists = true;
+                                }
+                            }
+
+                            if (sort_exists === false) {
+                                if (this.currentSort === null)
+                                    this.currentSort = this.sortAsc;
+
+                                obj.column = column;
+                                obj.cond = condition;
+                                obj.val = this.currentSort;
+                                obj.label = label;
+
+                                this.filters.push(obj);
+
                                 obj = {};
 
                                 this.makeURL();
@@ -367,7 +381,7 @@
             makeURL: function () {
                 var newParams = '';
 
-                for (let i = 0; i < this.filters.length; i++) {
+                for(let i = 0; i < this.filters.length; i++) {
                     if (this.filters[i].column == 'status' || this.filters[i].column == 'value_per_locale' || this.filters[i].column == 'value_per_channel' || this.filters[i].column == 'is_unique') {
                         if (this.filters[i].val.includes("True")) {
                             this.filters[i].val = 1;
@@ -388,13 +402,19 @@
                     }
                 }
 
+                var uri = window.location.href.toString();
+
+                var clean_uri = uri.substring(0, uri.indexOf("?")).trim();
+
                 EventBus.$emit('refresh_table_data', {
                     newParams,
+                    clean_uri
                 });
             },
 
             //make the filter array from url after being redirected
             arrayFromUrl: function () {
+
                 let obj = {};
                 const processedUrl = this.url.search.slice(1, this.url.length);
                 let splitted = [];
@@ -486,59 +506,51 @@
             },
 
             updateFilter: function ({key, value, cond}) {
-                this.filters = this.filters.filter(filter => filter.column != key);
+                this.filters = this.filters.filter(filter => {
+                    if (filter.column == key) {
+                        return false;
+                    }
 
-                if (value != "" && value != ",") {
-                    let data = {
-                        "column": key,
-                        "val"   : value
-                    }
-    
-                    if (cond) {
-                        data['cond'] = cond;
-                    }
-    
-                    this.filters.push(data);
+                    return true;
+                });
+
+                let data = {
+                    "column": key,
+                    "val": value
                 }
+
+                if (cond) {
+                    data['cond'] = cond;
+                }
+
+                this.filters.push(data);
 
                 this.makeURL();
             },
 
-            setActiveTabs: function () {
-                var defaultSelectrdIndex = [];
-
-                for (const index in this.tableData.tabFilters) {
-                    for (const tabValueIndex in this.tableData.tabFilters[index].values) {
-                        if (this.tableData.tabFilters[index].values[tabValueIndex].isActive) {
-                            defaultSelectrdIndex[index] = tabValueIndex;
-                        }
-
-                        this.tableData.tabFilters[index].values[tabValueIndex].isActive = false;
+            setActiveTabs: function (column) {
+                for (const index in this.tabs) {
+                    for (const tabValueIndex in this.tabs[index]) {
+                        this.tabs[index][tabValueIndex].isActive = false;
                     }
                 }
 
-                for (const index in this.tableData.tabFilters) {
+                for (const index in this.tabs) {
                     var applied = false;
 
                     this.filters.forEach(filter => {
-                        if (filter.column == this.tableData.tabFilters[index].key) {
-                            for (const tabValueIndex in this.tableData.tabFilters[index].values) {
-                                if (
-                                    (this.tableData.tabFilters[index].values[tabValueIndex].key == filter.val)
-                                    || (
-                                        filter.cond == "bw"
-                                        && this.tableData.tabFilters[index].values[tabValueIndex].key == "custom"
-                                    )
-                                ) {
+                        if (filter.column == index) {
+                            for (const tabValueIndex in this.tabs[index]) {
+                                if (this.tabs[index][tabValueIndex].key == filter.val) {
                                     applied = true;
-                                    this.tableData.tabFilters[index].values[tabValueIndex].isActive = true;
+                                    this.tabs[index][tabValueIndex].isActive = true;
                                 }
                             }
                         }
                     });
 
-                    if (! applied) {
-                        this.tableData.tabFilters[index].values[defaultSelectrdIndex[index]].isActive = true;
+                    if (! applied) { 
+                        this.tabs[index][0].isActive = true;
                     }
                 }
             },
@@ -558,9 +570,6 @@
 
                                     this.selectAllRows(false);
 
-                                    this.massActionValue = {};
-                                    this.massActionOptionValue = null;
-
                                     this.$root.toggleButtonDisable(false);
                                 })
                                 .catch(error => {
@@ -572,32 +581,6 @@
                             EventBus.$emit('onFormError')
                         }
                     });
-            },
-
-            applyCustomFilter: function () {
-                if (this.custom_filter[0] && this.custom_filter[1]) {
-                    var data = {
-                        cond: 'bw',
-                        key: 'duration',
-                        value: `${this.custom_filter[0]},${this.custom_filter[1]}`
-                    }
-                    
-                    this.updateFilter(data);
-
-                    this.$store.state.customTabFilter = false;
-                }
-            },
-
-            removeFilter: function (filter) {
-                for (let i in this.filters) {
-                    if (this.filters[i].column === filter.column
-                        && this.filters[i].cond === filter.cond
-                        && this.filters[i].val === filter.val) {
-                        this.filters.splice(i, 1);
-
-                        this.makeURL();
-                    }
-                }
             },
         }
     };

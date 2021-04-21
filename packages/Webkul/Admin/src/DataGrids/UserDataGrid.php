@@ -2,70 +2,11 @@
 
 namespace Webkul\Admin\DataGrids;
 
-use Webkul\User\Models\User;
 use Webkul\UI\DataGrid\DataGrid;
 use Illuminate\Support\Facades\DB;
 
 class UserDataGrid extends DataGrid
 {
-    // protected $tabFilters = [
-    //     [
-    //         'type'      => 'pill',
-    //         'key'       => 'type',
-    //         'condition' => 'eq',
-    //         'values'    => [
-    //             [
-    //                 'name'      => 'All',
-    //                 'isActive'  => true,
-    //                 'key'       => 'all',
-    //             ], [
-    //                 'name'      => 'Call',
-    //                 'isActive'  => false,
-    //                 'key'       => 'call',
-    //             ], [
-    //                 'name'      => 'Mail',
-    //                 'isActive'  => false,
-    //                 'key'       => 'mail',
-    //             ], [
-    //                 'name'      => 'Meeting',
-    //                 'isActive'  => false,
-    //                 'key'       => 'meeting',
-    //             ]
-    //         ]
-    //     ], [
-    //         'type'      => 'group',
-    //         'key'       => 'duration',
-    //         'condition' => 'eq',
-    //         'values'    => [
-    //             [
-    //                 'name'      => 'Yesterday',
-    //                 'isActive'  => true,
-    //                 'key'       => 'yesterday',
-    //             ], [
-    //                 'name'      => 'Today',
-    //                 'isActive'  => false,
-    //                 'key'       => 'today',
-    //             ], [
-    //                 'name'      => 'Tomorrow',
-    //                 'isActive'  => false,
-    //                 'key'       => 'tomorrow',
-    //             ], [
-    //                 'name'      => 'This week',
-    //                 'isActive'  => false,
-    //                 'key'       => 'this_week',
-    //             ], [
-    //                 'name'      => 'This month',
-    //                 'isActive'  => false,
-    //                 'key'       => 'this_month',
-    //             ], [
-    //                 'name'      => 'Custom',
-    //                 'isActive'  => false,
-    //                 'key'       => 'custom',
-    //             ]
-    //         ]
-    //     ]
-    // ];
-
     public function prepareQueryBuilder()
     {
         $queryBuilder = DB::table('users')
@@ -73,8 +14,7 @@ class UserDataGrid extends DataGrid
                 'users.id',
                 'users.name',
                 'users.email',
-                'users.status',
-                'users.created_at',
+                'users.status'
             );
 
         $this->setQueryBuilder($queryBuilder);
@@ -83,33 +23,30 @@ class UserDataGrid extends DataGrid
     public function addColumns()
     {
         $this->addColumn([
-            'index'             => 'id',
-            'label'             => trans('admin::app.datagrid.id'),
-            'type'              => 'string',
-            'searchable'        => true,
-            'sortable'          => true,
-            'filterable'        => true,
-            'filterable_type'   => 'add'
+            'index'      => 'id',
+            'label'      => trans('admin::app.datagrid.id'),
+            'type'       => 'string',
+            'searchable' => true,
+            'sortable'   => true,
+            'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'             => 'name',
-            'label'             => trans('admin::app.datagrid.name'),
-            'type'              => 'string',
-            'searchable'        => true,
-            'sortable'          => true,
-            'filterable'        => true,
-            'filterable_type'   => 'add'
+            'index'      => 'name',
+            'label'      => trans('admin::app.datagrid.name'),
+            'type'       => 'string',
+            'searchable' => true,
+            'sortable'   => true,
+            'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'             => 'email',
-            'label'             => trans('admin::app.datagrid.email'),
-            'type'              => 'string',
-            'searchable'        => true,
-            'sortable'          => true,
-            'filterable'        => true,
-            'filterable_type'   => 'add'
+            'index'      => 'email',
+            'label'      => trans('admin::app.datagrid.email'),
+            'type'       => 'string',
+            'searchable' => true,
+            'sortable'   => true,
+            'filterable' => true,
         ]);
 
         $this->addColumn([
@@ -122,17 +59,6 @@ class UserDataGrid extends DataGrid
                 } else {
                     return '<span class="badge badge-sm badge-pill badge-danger">' . trans('admin::app.datagrid.inactive') . '</span>';
                 }
-            },
-        ]);
-
-        $this->addColumn([
-            'index'             => 'created_at',
-            'label'             => trans('admin::app.datagrid.created_at'),
-            'type'              => 'string',
-            'filterable'        => true,
-            'filterable_type'   => 'date_range',
-            'closure'   => function ($row) {
-                return core()->formatDate($row->created_at);
             },
         ]);
     }

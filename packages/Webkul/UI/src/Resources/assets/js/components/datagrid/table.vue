@@ -1,12 +1,26 @@
 <template>
-    <div class="table-body" v-if="Object.keys(tableData).length > 0">
-        <filter-component></filter-component>
+    <div class="table-body" v-if="resultLoaded && Object.keys(tableData).length > 0">
+        <filter-component
+            :tabs="tabs"
+            :results="tableData"
+            :pagination-data="tableData.pagination_data"
+        ></filter-component>
 
         <table>
-            <thead-component></thead-component>
+            <thead-component
+                :columns="tableData.columns"
+                :actions="tableData.actions"
+                :mass-actions="tableData.columns"
+            ></thead-component>
 
-            <tbody-component></tbody-component>
+            <tbody-component
+                :actions="tableData.actions"
+                :mass-actions="tableData.columns"
+                :data-collection="tableData.records.data"
+            ></tbody-component>
         </table>
+
+        <!-- <pagination-component :pagination-data="encodedResult.pagination_data"></pagination-component> -->
     </div>
 </template>
 
@@ -15,6 +29,11 @@
 
     export default {
         props: [
+            'filterIndex',
+            'gridCurrentData',
+            'massActions',
+            'columns',
+            'extraFilters',
             'tableClass',
         ],
 
@@ -27,6 +46,7 @@
         
         computed: {
             ...mapState({
+                tabs : state => state.tabs,
                 tableData : state => state.tableData,
             }),
         },
@@ -71,7 +91,7 @@
                             // update store data
                             self.updateTableData(response.data);
     
-                            if (newParams || newParams == "") {
+                            if (newParams) {
                                 self.updatedURI(newParams);
                             }
                         })
@@ -83,7 +103,7 @@
             },
 
             updatedURI: function (params) {
-                var newURL = window.location.origin + window.location.pathname + `${params != '' ? '?' + params : ''}`;
+                var newURL = window.location.origin + window.location.pathname + `?${params}`;
                 window.history.pushState({path: newURL}, '', newURL);
             }
         }
