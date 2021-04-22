@@ -2,7 +2,6 @@
  
 namespace Webkul\Attribute\Traits;
 
-use Webkul\Attribute\Models\AttributeValueProxy;
 use Webkul\Attribute\Repositories\AttributeRepository;
  
 trait CustomAttribute {
@@ -27,14 +26,6 @@ trait CustomAttribute {
         'file'        => 'text_value',
         'image'       => 'text_value',
     ];
-
-    /**
-     * Get the attribute values that owns the entity.
-     */
-    public function attribute_values()
-    {
-        return $this->morphMany(AttributeValueProxy::modelClass(), 'entity');
-    }
 
     /**
      * Get an attribute from the model.
