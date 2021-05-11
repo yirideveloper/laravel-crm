@@ -14,7 +14,5 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(AttributeSeeder::class);
-        $this->call(LeadStageSeeder::class);
-        $this->call(LeadPipelineSeeder::class);
     }
 }

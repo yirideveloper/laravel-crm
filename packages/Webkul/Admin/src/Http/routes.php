@@ -54,8 +54,6 @@ Route::group(['middleware' => ['web']], function () {
                     Route::get('edit/{id}', 'PersonController@edit')->name('admin.contacts.persons.edit');
     
                     Route::put('edit/{id}', 'PersonController@update')->name('admin.contacts.persons.update');
-
-                    Route::get('search', 'PersonController@search')->name('admin.contacts.persons.search');
                 });
 
                 // Companies Routes
@@ -82,8 +80,6 @@ Route::group(['middleware' => ['web']], function () {
                 Route::get('edit/{id}', 'ProductController@edit')->name('admin.products.edit');
 
                 Route::put('edit/{id}', 'ProductController@update')->name('admin.products.update');
-
-                Route::get('search', 'ProductController@search')->name('admin.products.search');
             });
 
             // Contacts Routes
@@ -107,7 +103,7 @@ Route::group(['middleware' => ['web']], function () {
 
                     Route::put('mass-update', 'UserController@massUpdate')->name('admin.settings.users.mass-update');
 
-                    Route::delete('mass-destroy', 'UserController@massDestroy')->name('admin.settings.users.mass-delete');
+                    Route::put('mass-destroy', 'UserController@massDestroy')->name('admin.settings.users.mass-delete');
                 });
 
                 // Roles Routes
@@ -138,6 +134,12 @@ Route::group(['middleware' => ['web']], function () {
                     Route::put('edit/{id}', 'AttributeController@update')->name('admin.settings.attributes.update');
                     
                     Route::get('lookup/{id?}', 'AttributeController@search')->name('admin.settings.attributes.lookup');
+
+                    Route::delete('{id}', 'AttributeController@destroy')->name('admin.settings.attributes.delete');
+
+                    Route::put('mass-update', 'AttributeController@massUpdate')->name('admin.settings.attributes.mass-update');
+
+                    Route::put('mass-destroy', 'AttributeController@massDestroy')->name('admin.settings.attributes.mass-delete');
                 });
             });
         });

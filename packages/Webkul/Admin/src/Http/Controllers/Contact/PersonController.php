@@ -37,7 +37,9 @@ class PersonController extends Controller
      */
     public function index()
     {
-        return view('admin::contacts.persons.index');
+        return view('admin::contacts.persons.index', [
+            'tableClass' => '\Webkul\Admin\DataGrids\Contact\PersonDataGrid'
+        ]);
     }
 
     /**
@@ -90,19 +92,5 @@ class PersonController extends Controller
         session()->flash('success', trans('admin::app.contacts.persons.update-success'));
 
         return redirect()->route('admin.contacts.persons.index');
-    }
-
-    /**
-     * Search person results
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search()
-    {
-        $results = $this->personRepository->with('organization')->findWhere([
-            ['name', 'like', '%' . urldecode(request()->input('query')) . '%']
-        ]);
-
-        return response()->json($results);
     }
 }

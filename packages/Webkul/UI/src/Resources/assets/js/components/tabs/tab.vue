@@ -15,8 +15,6 @@
                 default: false
             }
         },
-
-        inject: ['$validator'],
         
         data() {
             return {

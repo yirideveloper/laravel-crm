@@ -16,19 +16,6 @@ class Lead extends Model implements LeadContract
      * @var array
      */
     protected $fillable = [
-        'title',
-        'description',
-        'lead_value',
-        'status',
-        'lost_reason',
-        'lost_at',
-        'won_at',
-        'closed_at',
-        'user_id',
-        'lead_source_id',
-        'lead_type_id',
-        'lead_pipeline_id',
-        'lead_stage_id',
     ];
 
     /**
@@ -45,29 +32,5 @@ class Lead extends Model implements LeadContract
     public function source()
     {
         return $this->belongsTo(SourceProxy::modelClass());
-    }
-
-    /**
-     * Get the pipeline that owns the lead.
-     */
-    public function pipeline()
-    {
-        return $this->belongsTo(PipelineProxy::modelClass());
-    }
-
-    /**
-     * Get the stage that owns the lead.
-     */
-    public function stage()
-    {
-        return $this->belongsTo(StageProxy::modelClass());
-    }
-
-    /**
-     * Get the products.
-     */
-    public function products()
-    {
-        return $this->hasMany(ProductProxy::modelClass());
     }
 }
