@@ -105,4 +105,50 @@ class PersonController extends Controller
 
         return response()->json($results);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $this->personRepository->findOrFail($id);
+        
+        try {
+            Event::dispatch('contact.person.delete.before', $id);
+
+            $this->personRepository->delete($id);
+
+            Event::dispatch('contact.person.delete.after', $id);
+
+            return response()->json([
+                'status'    => true,
+                'message'   => trans('admin::app.datagrid.destroy-success', ['resource' => trans('admin::app.contacts.persons.person')]),
+            ], 200);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status'    => false,
+                'message'   => trans('admin::app.datagrid.destroy-failed', ['resource' => trans('admin::app.contacts.persons.person')]),
+            ], 400);
+        }
+    }
+
+    /**
+     * Mass Delete the specified resources.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function massDestroy()
+    {
+        $data = request()->all();
+
+        $this->personRepository->destroy($data['rows']);
+
+        return response()->json([
+            'status'    => true,
+            'message'   => trans('admin::app.datagrid.destroy-success', ['resource' => trans('admin::app.contacts.persons.title')])
+        ]);
+    }
 }

@@ -38,8 +38,6 @@ Route::group(['middleware' => ['web']], function () {
                 Route::get('', 'LeadController@index')->name('admin.leads.index');
     
                 Route::post('create', 'LeadController@store')->name('admin.leads.store');
-
-                Route::get('view/{id}', 'LeadController@view')->name('admin.leads.view');
             });
 
             // Contacts Routes
@@ -58,6 +56,10 @@ Route::group(['middleware' => ['web']], function () {
                     Route::put('edit/{id}', 'PersonController@update')->name('admin.contacts.persons.update');
 
                     Route::get('search', 'PersonController@search')->name('admin.contacts.persons.search');
+
+                    Route::delete('{id}', 'PersonController@destroy')->name('admin.contacts.persons.delete');
+
+                    Route::put('mass-destroy', 'PersonController@massDestroy')->name('admin.contacts.persons.mass-delete');
                 });
 
                 // Companies Routes
@@ -69,6 +71,10 @@ Route::group(['middleware' => ['web']], function () {
                     Route::get('edit/{id}', 'OrganizationController@edit')->name('admin.contacts.organizations.edit');
     
                     Route::put('edit/{id}', 'OrganizationController@update')->name('admin.contacts.organizations.update');
+
+                    Route::delete('{id}', 'OrganizationController@destroy')->name('admin.contacts.organizations.delete');
+
+                    Route::put('mass-destroy', 'OrganizationController@massDestroy')->name('admin.contacts.organizations.mass-delete');
                 });
             });
 
@@ -86,6 +92,8 @@ Route::group(['middleware' => ['web']], function () {
                 Route::put('edit/{id}', 'ProductController@update')->name('admin.products.update');
 
                 Route::get('search', 'ProductController@search')->name('admin.products.search');
+
+                Route::delete('{id}', 'ProductController@destroy')->name('admin.products.delete');
             });
 
             // Contacts Routes
@@ -109,7 +117,7 @@ Route::group(['middleware' => ['web']], function () {
 
                     Route::put('mass-update', 'UserController@massUpdate')->name('admin.settings.users.mass-update');
 
-                    Route::delete('mass-destroy', 'UserController@massDestroy')->name('admin.settings.users.mass-delete');
+                    Route::put('mass-destroy', 'UserController@massDestroy')->name('admin.settings.users.mass-delete');
                 });
 
                 // Roles Routes
@@ -140,6 +148,12 @@ Route::group(['middleware' => ['web']], function () {
                     Route::put('edit/{id}', 'AttributeController@update')->name('admin.settings.attributes.update');
                     
                     Route::get('lookup/{id?}', 'AttributeController@search')->name('admin.settings.attributes.lookup');
+
+                    Route::delete('{id}', 'AttributeController@destroy')->name('admin.settings.attributes.delete');
+
+                    Route::put('mass-update', 'AttributeController@massUpdate')->name('admin.settings.attributes.mass-update');
+
+                    Route::put('mass-destroy', 'AttributeController@massDestroy')->name('admin.settings.attributes.mass-delete');
                 });
             });
         });

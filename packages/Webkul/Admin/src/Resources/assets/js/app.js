@@ -22,18 +22,24 @@ $(function() {
     var app = new Vue({
         el: "#app",
 
-		// store,
-
-        data: {
-            modalIds: {},
-
-            isMenuOpen: true
+        data: function () {
+            return {
+                modalIds: {},
+    
+                isMenuOpen: localStorage.getItem('crm-sidebar') == 'true',
+            }
         },
 
         mounted() {
             this.addServerErrors();
             
             this.addFlashMessages();
+
+            window.addFlashMessages = flash => {
+                const flashes = this.$refs.flashes;
+
+                flashes.addFlash(flash);
+            }
         },
 
         methods: {
@@ -114,6 +120,8 @@ $(function() {
 
             toggleMenu() {
                 this.isMenuOpen = ! this.isMenuOpen;
+
+                localStorage.setItem('crm-sidebar', this.isMenuOpen);
             }
         }
     });

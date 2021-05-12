@@ -1,20 +1,21 @@
 <?php
 
-namespace Webkul\Admin\DataGrids;
+namespace Webkul\Admin\DataGrids\Product;
 
 use Webkul\UI\DataGrid\DataGrid;
 use Illuminate\Support\Facades\DB;
 
-class RoleDataGrid extends DataGrid
+class ProductDataGrid extends DataGrid
 {
     public function prepareQueryBuilder()
     {
-        $queryBuilder = DB::table('roles')
+        $queryBuilder = DB::table('products')
             ->addSelect(
-                'roles.id',
-                'roles.name',
-                'roles.description',
-                'roles.permission_type'
+                'products.id',
+                'products.sku',
+                'products.name',
+                'products.price',
+                'products.quantity'
             );
 
         $this->setQueryBuilder($queryBuilder);
@@ -23,8 +24,8 @@ class RoleDataGrid extends DataGrid
     public function addColumns()
     {
         $this->addColumn([
-            'index'             => 'id',
-            'label'             => trans('admin::app.datagrid.id'),
+            'index'             => 'sku',
+            'label'             => trans('admin::app.datagrid.sku'),
             'type'              => 'string',
             'searchable'        => true,
             'sortable'          => true,
@@ -41,29 +42,19 @@ class RoleDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'      => 'description',
-            'label'      => trans('admin::app.datagrid.description'),
-            'type'       => 'string',
-            'searchable' => true,
-            'sortable'   => false,
+            'index'         => 'price',
+            'label'         => trans('admin::app.datagrid.price'),
+            'type'          => 'string',
+            'searchable'    => true,
+            'sortable'      => true,
         ]);
 
         $this->addColumn([
-            'index'                 => 'permission_type',
-            'label'                 => trans('admin::app.datagrid.permission_type'),
-            'type'                  => 'boolean',
-            'searchable'            => true,
-            'sortable'              => false,
-            'filterable_type'       => 'dropdown',
-            'filterable_options'    => [
-                [
-                    'label' => trans('admin::app.settings.roles.all'),
-                    'value' => 'all',
-                ], [
-                    'label' => trans('admin::app.settings.roles.custom'),
-                    'value' => 'custom',
-                ],
-            ],
+            'index'      => 'quantity',
+            'label'      => trans('admin::app.datagrid.quantity'),
+            'type'       => 'string',
+            'searchable' => true,
+            'sortable'   => true,
         ]);
     }
 
@@ -72,14 +63,14 @@ class RoleDataGrid extends DataGrid
         $this->addAction([
             'title'  => trans('ui::app.datagrid.edit'),
             'method' => 'GET',
-            'route'  => 'admin.settings.roles.edit',
+            'route'  => 'admin.products.edit',
             'icon'   => 'icon pencil-icon',
         ]);
 
         $this->addAction([
             'title'        => trans('ui::app.datagrid.delete'),
             'method'       => 'DELETE',
-            'route'        => 'admin.settings.roles.delete',
+            'route'        => 'admin.products.delete',
             'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'user']),
             'icon'         => 'icon trash-icon',
         ]);

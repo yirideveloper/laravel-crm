@@ -20,6 +20,7 @@
         'contacts' => [
             'organizations' => [
                 'title'          => 'Organizations',
+                'organization'   => 'Organization',
                 'add-title'      => 'Add Organization',
                 'edit-title'     => 'Edit Organization',
                 'save-btn-title' => 'Save as Organization',
@@ -33,6 +34,7 @@
 
             'persons' => [
                 'title'          => 'Persons',
+                'person'         => 'Person',
                 'add-title'      => 'Add Person',
                 'edit-title'     => 'Edit Person',
                 'save-btn-title' => 'Save as Person',
@@ -72,6 +74,7 @@
 
         'products' => [
             'title'          => 'Products',
+            'product'        => 'Product',
             'add-title'      => 'Add Product',
             'edit-title'     => 'Edit Product',
             'save-btn-title' => 'Save as Product',
@@ -159,6 +162,7 @@
 
             'attributes' => [
                 'title'                 => 'Attributes',
+                'attribute'             => 'Attribute',
                 'add-title'             => 'Add Attribute',
                 'edit-title'            => 'Edit Attribute',
                 'save-btn-title'        => 'Save as Attribute',
@@ -194,6 +198,7 @@
                 'add-option-btn-title'  => 'Add Option',
                 'create-success'        => 'Attribute created successfully.',
                 'update-success'        => 'Attribute updated successfully.',
+                'update-error'          => 'Unable to update attribute.',
                 'delete-success'        => 'Attribute deleted successfully.',
                 'delete-failed'         => 'Attribute can not be deleted.',
                 'user-define-error'     => 'Can not delete system attribute.'
@@ -203,13 +208,29 @@
         'datagrid' => [
             'id'                => 'Id',
             'name'              => 'Name',
+            'code'              => 'Code',
+            'sku'               => 'SKU',
+            'type'              => 'Type',
+            'price'             => 'Price',
             'email'             => 'Email',
+            'subject'           => 'Subject',
+            'emails'            => 'Emails',
+            'emails'            => 'Emails',
             'status'            => 'Status',
             'active'            => 'Active',
             'inactive'          => 'Inactive',
-            'created_at'        => 'Created at',
+            'address'           => 'Address',
+            'quantity'          => 'Quantity',
+            'deal_amount'       => 'Deal Amount',
+            'created_at'        => 'Created Date',
             'description'       => 'Description',
+            'contact_person'    => 'Contact Person',
+            'contact_numbers'   => 'Contact numbers',
             'permission_type'   => 'Permission type',
+            'organization_name' => 'Organization name',
+            'update-success'    => ':resource updated successfully.',
+            'destroy-success'   => ':resource deleted successfully.',
+            'destroy-failed'    => ':resource can not be deleted.',
         ],
 
         'response' => [
@@ -237,7 +258,7 @@
             'work'               => 'Work',
             'home'               => 'Home',
             'no-result-found'    => 'Records not found with same name.',
-            'add-as'             => 'Add as new'
+            'add-as'             => 'Add as new :attribute'
         ]
     ];
 ?>

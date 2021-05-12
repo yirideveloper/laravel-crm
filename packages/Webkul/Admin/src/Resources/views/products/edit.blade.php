@@ -23,14 +23,14 @@
                                 {{ __('admin::app.products.save-btn-title') }}
                             </button>
 
-                            <a href="">{{ __('admin::app.products.back') }}</a>
+                            <a href="{{ route('admin.products.index') }}">{{ __('admin::app.products.back') }}</a>
                         </div>
         
                         <div class="panel-body">
                             @csrf()
                             <input name="_method" type="hidden" value="PUT">
                 
-                            @include('admin::common.custom-attributes.edit', [
+                            @include('admin::common.custom-attribute-controls', [
                                 'customAttributes' => app('Webkul\Attribute\Repositories\AttributeRepository')->findWhere([
                                     'entity_type' => 'products',
                                 ]),

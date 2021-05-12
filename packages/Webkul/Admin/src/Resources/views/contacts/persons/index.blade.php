@@ -1,26 +1,18 @@
-@extends('admin::layouts.master')
+@extends('ui::datagrid.table')
 
-@section('page_title')
+@section('table-header')
     {{ __('admin::app.contacts.persons.title') }}
 @stop
 
-@section('content-wrapper')
-    <div class="content full-page dashboard">
-        <div class="page-header">
-            <div class="page-title">
-                <h1>{{ __('admin::app.contacts.persons.title') }}</h1>
-            </div>
+@php
+    $tableClass = "\Webkul\Admin\DataGrids\Contact\PersonDataGrid";
+@endphp
 
-            <div class="page-action">
-                <button class="btn btn-md btn-primary" @click="openModal('addPersonModal')">{{ __('admin::app.contacts.persons.add-title') }}</button>
-            </div>
-        </div>
+@section('table-action')
+    <button class="btn btn-md btn-primary" @click="openModal('addPersonModal')">{{ __('admin::app.contacts.persons.add-title') }}</button>
+@stop
 
-        <div class="page-content">
-        </div>
-    </div>
-
-    {{-- <form action="{{ route('admin.contacts.persons.store') }}" method="post" @submit.prevent="onSubmit"> --}}
+@section('meta-content')
     <form action="{{ route('admin.contacts.persons.store') }}" method="post">
         <modal id="addPersonModal" :is-open="modalIds.addPersonModal">
             <h3 slot="header-title">{{ __('admin::app.contacts.persons.add-title') }}</h3>
@@ -36,7 +28,7 @@
                 
                 <input type="hidden" name="quick_add" value="1"/>
 
-                @include('admin::common.custom-attributes.edit', [
+                @include('admin::common.custom-attribute-controls', [
                     'customAttributes' => app('Webkul\Attribute\Repositories\AttributeRepository')->findWhere([
                         'entity_type' => 'persons',
                         'quick_add'   => 1
