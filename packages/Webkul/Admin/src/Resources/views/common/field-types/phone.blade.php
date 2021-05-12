@@ -1,1 +1,0 @@
-<phone-component :attribute='@json($attribute)' :validations="'{{$validations}}'" :data='@json(old($attribute->code) ?: $value)'></phone-component>

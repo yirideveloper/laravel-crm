@@ -46,16 +46,28 @@
         ],
 
         'leads' => [
-            'title'          => 'Leads',
-            'add-title'      => 'Add Lead',
-            'edit-title'     => 'Edit Lead',
-            'save-btn-title' => 'Save as Lead',
-            'back'           => 'Back',
-            'cancel'         => 'Cancel',
-            'create-success' => 'Lead created successfully.',
-            'update-success' => 'Lead updated successfully.',
-            'delete-success' => 'Lead deleted successfully.',
-            'delete-failed'  => 'Lead can not be deleted.',
+            'title'           => 'Leads',
+            'add-title'       => 'Add Lead',
+            'edit-title'      => 'Edit Lead',
+            'save-btn-title'  => 'Save as Lead',
+            'back'            => 'Back',
+            'cancel'          => 'Cancel',
+            'details'         => 'Details',
+            'contact-person'  => 'Contact Person',
+            'name'            => 'Name',
+            'email'           => 'Email',
+            'contact-numbers' => 'Contact Numbers',
+            'organization'    => 'Organization',
+            'address'         => 'Address',
+            'products'        => 'Products',
+            'item'            => 'Item',
+            'price'           => 'Price',
+            'quantity'        => 'Quantity',
+            'amount'          => 'Amount',
+            'create-success'  => 'Lead created successfully.',
+            'update-success'  => 'Lead updated successfully.',
+            'delete-success'  => 'Lead deleted successfully.',
+            'delete-failed'   => 'Lead can not be deleted.',
         ],
 
         'products' => [
@@ -147,7 +159,6 @@
 
             'attributes' => [
                 'title'                 => 'Attributes',
-                'attribute'             => 'Attribute',
                 'add-title'             => 'Add Attribute',
                 'edit-title'            => 'Edit Attribute',
                 'save-btn-title'        => 'Save as Attribute',
@@ -183,7 +194,6 @@
                 'add-option-btn-title'  => 'Add Option',
                 'create-success'        => 'Attribute created successfully.',
                 'update-success'        => 'Attribute updated successfully.',
-                'update-error'          => 'Unable to update attribute.',
                 'delete-success'        => 'Attribute deleted successfully.',
                 'delete-failed'         => 'Attribute can not be deleted.',
                 'user-define-error'     => 'Can not delete system attribute.'
@@ -193,20 +203,13 @@
         'datagrid' => [
             'id'                => 'Id',
             'name'              => 'Name',
-            'code'              => 'Code',
-            'sku'               => 'SKU',
-            'type'              => 'Type',
-            'price'             => 'Price',
             'email'             => 'Email',
             'status'            => 'Status',
             'active'            => 'Active',
             'inactive'          => 'Inactive',
-            'quantity'          => 'Quantity',
             'created_at'        => 'Created at',
             'description'       => 'Description',
             'permission_type'   => 'Permission type',
-            'update-success'    => ':resource updated successfully.',
-            'destroy-success'   => ':resource deleted successfully.',
         ],
 
         'response' => [
@@ -234,7 +237,7 @@
             'work'               => 'Work',
             'home'               => 'Home',
             'no-result-found'    => 'Records not found with same name.',
-            'add-as'             => 'Add as new :attribute'
+            'add-as'             => 'Add as new'
         ]
     ];
 ?>

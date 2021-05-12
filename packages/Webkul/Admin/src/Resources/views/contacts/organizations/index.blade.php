@@ -1,15 +1,24 @@
-@extends('ui::datagrid.table')
+@extends('admin::layouts.master')
 
-@section('table-header')
+@section('page_title')
     {{ __('admin::app.contacts.organizations.title') }}
 @stop
 
-@php
-    $tableClass = "\Webkul\Admin\DataGrids\Contact\OrganizationDataGrid";
-@endphp
+@section('content-wrapper')
+    <div class="content full-page dashboard">
+        <div class="page-header">
+            <div class="page-title">
+                <h1>{{ __('admin::app.contacts.organizations.title') }}</h1>
+            </div>
 
-@section('table-action')
-    <button class="btn btn-md btn-primary" @click="openModal('addOrganizationModal')">{{ __('admin::app.contacts.organizations.add-title') }}</button>
+            <div class="page-action">
+                <button class="btn btn-md btn-primary" @click="openModal('addOrganizationModal')">{{ __('admin::app.contacts.organizations.add-title') }}</button>
+            </div>
+        </div>
+
+        <div class="page-content">
+        </div>
+    </div>
 
     <form action="{{ route('admin.contacts.organizations.store') }}" method="post" @submit.prevent="onSubmit">
         <modal id="addOrganizationModal" :is-open="modalIds.addOrganizationModal">
@@ -26,7 +35,7 @@
                 
                 <input type="hidden" name="quick_add" value="1"/>
 
-                @include('admin::common.custom-attribute-controls', [
+                @include('admin::common.custom-attributes.edit', [
                     'customAttributes' => app('Webkul\Attribute\Repositories\AttributeRepository')->findWhere([
                         'entity_type' => 'organizations',
                         'quick_add'   => 1

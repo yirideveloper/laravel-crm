@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Admin\DataGrids\Setting;
+namespace Webkul\Admin\DataGrids;
 
 use Webkul\UI\DataGrid\DataGrid;
 use Illuminate\Support\Facades\DB;
@@ -9,13 +9,12 @@ class AttributeDataGrid extends DataGrid
 {
     public function prepareQueryBuilder()
     {
-        $queryBuilder = DB::table('attributes')
+        $queryBuilder = DB::table('users')
             ->addSelect(
-                'attributes.id',
-                'attributes.code',
-                'attributes.name',
-                'attributes.type',
-                'attributes.entity_type'
+                'users.id',
+                'users.name',
+                'users.email',
+                'users.status'
             );
 
         $this->setQueryBuilder($queryBuilder);
@@ -29,14 +28,7 @@ class AttributeDataGrid extends DataGrid
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
-        ]);
-
-        $this->addColumn([
-            'index'      => 'code',
-            'label'      => trans('admin::app.datagrid.code'),
-            'type'       => 'string',
-            'searchable' => true,
-            'sortable'   => true,
+            'filterable' => true,
         ]);
 
         $this->addColumn([
@@ -45,14 +37,29 @@ class AttributeDataGrid extends DataGrid
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
+            'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'type',
-            'label'      => trans('admin::app.datagrid.type'),
+            'index'      => 'email',
+            'label'      => trans('admin::app.datagrid.email'),
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
+            'filterable' => true,
+        ]);
+
+        $this->addColumn([
+            'index'     => 'status',
+            'label'     => trans('admin::app.datagrid.status'),
+            'type'      => 'boolean',
+            'closure'   => function ($row) {
+                if ($row->status == 1) {
+                    return '<span class="badge badge-sm badge-pill badge-primary">' . trans('admin::app.datagrid.active') . '</span>';
+                } else {
+                    return '<span class="badge badge-sm badge-pill badge-danger">' . trans('admin::app.datagrid.inactive') . '</span>';
+                }
+            },
         ]);
     }
 
@@ -61,26 +68,20 @@ class AttributeDataGrid extends DataGrid
         $this->addAction([
             'title'  => trans('ui::app.datagrid.edit'),
             'method' => 'GET',
-            'route'  => 'admin.settings.attributes.edit',
+            'route'  => 'admin.settings.users.edit',
             'icon'   => 'icon pencil-icon',
         ]);
 
         $this->addAction([
             'title'        => trans('ui::app.datagrid.delete'),
             'method'       => 'DELETE',
-            'route'        => 'admin.settings.attributes.delete',
-            'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'attributes']),
+            'route'        => 'admin.settings.users.delete',
+            'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'user']),
             'icon'         => 'icon trash-icon',
         ]);
     }
 
     public function prepareMassActions()
     {
-        $this->addMassAction([
-            'type'   => 'delete',
-            'label'  => trans('ui::app.datagrid.delete'),
-            'action' => route('admin.settings.attributes.mass-delete'),
-            'method' => 'PUT',
-        ]);
     }
 }

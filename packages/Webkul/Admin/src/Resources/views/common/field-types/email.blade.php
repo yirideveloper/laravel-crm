@@ -1,1 +1,0 @@
-<email-component :attribute='@json($attribute)' :validations="'{{$validations}}'" :data='@json(old($attribute->code) ?: $value)'></email-component>

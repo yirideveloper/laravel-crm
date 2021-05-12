@@ -1,11 +1,11 @@
 <?php
 
-namespace Webkul\Admin\DataGrids\Contact;
+namespace Webkul\Admin\DataGrids;
 
 use Webkul\UI\DataGrid\DataGrid;
 use Illuminate\Support\Facades\DB;
 
-class OrganizationDataGrid extends DataGrid
+class RoleDataGrid extends DataGrid
 {
     public function prepareQueryBuilder()
     {

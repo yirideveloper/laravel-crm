@@ -12,7 +12,8 @@
             </div>
         </div>
 
-        <form method="POST" action="{{ route('admin.contacts.organizations.update', $organization->id) }}" @submit.prevent="onSubmit" enctype="multipart/form-data">
+        {{-- <form method="POST" action="{{ route('admin.contacts.organizations.update', $organization->id) }}" @submit.prevent="onSubmit" enctype="multipart/form-data"> --}}
+        <form method="POST" action="{{ route('admin.contacts.organizations.update', $organization->id) }}" enctype="multipart/form-data">
 
             <div class="page-content">
                 <div class="form-container">
@@ -30,7 +31,7 @@
                             @csrf()
                             <input name="_method" type="hidden" value="PUT">
                 
-                            @include('admin::common.custom-attribute-controls', [
+                            @include('admin::common.custom-attributes.edit', [
                                 'customAttributes' => app('Webkul\Attribute\Repositories\AttributeRepository')->findWhere([
                                     'entity_type' => 'organizations',
                                 ]),
