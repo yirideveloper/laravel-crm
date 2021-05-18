@@ -177,8 +177,8 @@ class UserDataGrid extends DataGrid
             'action'  => route('admin.settings.users.mass-update'),
             'method'  => 'PUT',
             'options' => [
-                trans('admin::app.datagrid.active')   => 1,
-                trans('admin::app.datagrid.inactive') => 0,
+                'Active'   => 1,
+                'Inactive' => 0,
             ],
         ]);
     }

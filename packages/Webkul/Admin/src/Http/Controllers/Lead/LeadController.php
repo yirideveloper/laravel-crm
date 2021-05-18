@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Attribute\Http\Requests\AttributeForm;
 use Webkul\Lead\Repositories\LeadRepository;
+use Webkul\Lead\Repositories\FileRepository;
 
 class LeadController extends Controller
 {
@@ -17,15 +18,28 @@ class LeadController extends Controller
     protected $leadRepository;
 
     /**
+     * FileRepository object
+     *
+     * @var \Webkul\Lead\Repositories\FileRepository
+     */
+    protected $fileRepository;
+
+    /**
      * Create a new controller instance.
      *
      * @param \Webkul\Lead\Repositories\LeadRepository  $leadRepository
+     * @param \Webkul\Lead\Repositories\FileRepository  $fileRepository
      *
      * @return void
      */
-    public function __construct(LeadRepository $leadRepository)
+    public function __construct(
+        LeadRepository $leadRepository,
+        FileRepository $fileRepository
+    )
     {
         $this->leadRepository = $leadRepository;
+
+        $this->fileRepository = $fileRepository;
 
         request()->request->add(['entity_type' => 'leads']);
     }
@@ -50,10 +64,7 @@ class LeadController extends Controller
     {
         Event::dispatch('lead.create.before');
 
-        $data = request()->all();
-        $data['user_id'] = $data['status'] = 1;
-
-        $lead = $this->leadRepository->create($data);
+        $lead = $this->leadRepository->create(request()->all());
 
         Event::dispatch('lead.create.after', $lead);
         
@@ -76,69 +87,29 @@ class LeadController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Upload files to storage
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function destroy($id)
+    public function upload($id)
     {
-        $this->leadRepository->findOrFail($id);
-        
-        try {
-            Event::dispatch('lead.delete.before', $id);
+        $this->validate(request(), [
+            'file' => 'required',
+        ]);
 
-            $this->leadRepository->delete($id);
+        Event::dispatch('leads.file.create.before');
 
-            Event::dispatch('lead.delete.after', $id);
+        $file = $this->fileRepository->upload(request()->all(), $id);
 
-            return response()->json([
-                'status'    => true,
-                'message'   => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.leads.lead')]),
-            ], 200);
-        } catch(\Exception $exception) {
-            return response()->json([
-                'status'    => false,
-                'message'   => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.leads.lead')]),
-            ], 400);
-        }
-    }
-
-    /**
-     * Mass Update the specified resources.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function massUpdate()
-    {
-        $data = request()->all();
-
-        foreach ($data['rows'] as $leadId) {
-            $lead = $this->leadRepository->find($leadId);
-
-            $lead->update(['lead_stage_id' => $data['value']]);
+        if ($file) {
+            Event::dispatch('leads.file.create.after', $file);
+            
+            session()->flash('success', trans('admin::app.leads.file-upload-success'));
+        } else {
+            session()->flash('error', trans('admin::app.leads.file-upload-error'));
         }
 
-        return response()->json([
-            'status'    => true,
-            'message'   => trans('admin::app.response.update-success', ['name' => trans('admin::app.leads.title')])
-        ]);
-    }
-
-    /**
-     * Mass Delete the specified resources.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function massDestroy()
-    {
-        $data = request()->all();
-
-        $this->leadRepository->destroy($data['rows']);
-
-        return response()->json([
-            'status'    => true,
-            'message'   => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.leads.title')]),
-        ]);
+        return redirect()->back();
     }
 }

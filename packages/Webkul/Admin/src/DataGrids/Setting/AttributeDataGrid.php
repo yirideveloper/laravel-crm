@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class AttributeDataGrid extends DataGrid
 {
-    protected $enableFilters = false;
-
     public function prepareQueryBuilder()
     {
         $queryBuilder = DB::table('attributes')

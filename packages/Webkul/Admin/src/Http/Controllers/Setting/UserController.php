@@ -213,6 +213,7 @@ class UserController extends Controller
             'status'    => true,
             'message'   => trans('admin::app.settings.users.mass-update-success')
         ]);
+
     }
 
     /**

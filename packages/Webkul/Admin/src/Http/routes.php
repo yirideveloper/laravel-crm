@@ -28,18 +28,7 @@ Route::group(['middleware' => ['web']], function () {
             // Dashboard Route
             Route::get('dashboard', 'Webkul\Admin\Http\Controllers\Admin\DashboardController@index')->name('admin.dashboard.index');
 
-            // Datagrid API route
             Route::get('/api/datagrid', 'Webkul\Core\Http\Controllers\DatagridAPIController@index')->name('admin.datagrid.api');
-
-            // User Routes
-            Route::group([
-                'prefix'    => 'account',
-                'namespace' => 'Webkul\Admin\Http\Controllers\User'
-            ], function () {
-                Route::get('', 'AccountController@edit')->name('admin.user.account.edit');
-    
-                Route::put('update', 'AccountController@update')->name('admin.user.account.update');
-            });
 
             // Leads Routes
             Route::group([
@@ -51,12 +40,16 @@ Route::group(['middleware' => ['web']], function () {
                 Route::post('create', 'LeadController@store')->name('admin.leads.store');
 
                 Route::get('view/{id}', 'LeadController@view')->name('admin.leads.view');
+    
+                Route::put('edit/{id}', 'LeadController@update')->name('admin.leads.update');
 
-                Route::delete('{id}', 'LeadController@destroy')->name('admin.leads.delete');
+                Route::post('file-upload/{id}', 'LeadController@upload')->name('admin.leads.file_upload');
 
-                Route::put('mass-update', 'LeadController@massUpdate')->name('admin.leads.mass-update');
-
-                Route::put('mass-destroy', 'LeadController@massDestroy')->name('admin.leads.mass-delete');
+                Route::group([
+                    'prefix'    => 'activities',
+                ], function () {
+                    Route::post('create/{id}', 'ActivityController@store')->name('admin.leads.activities.store');
+                });
             });
 
             // Contacts Routes
@@ -173,6 +166,8 @@ Route::group(['middleware' => ['web']], function () {
                     Route::put('mass-update', 'AttributeController@massUpdate')->name('admin.settings.attributes.mass-update');
 
                     Route::put('mass-destroy', 'AttributeController@massDestroy')->name('admin.settings.attributes.mass-delete');
+
+                    Route::get('download', 'AttributeController@download')->name('admin.settings.attributes.download');
                 });
             });
         });

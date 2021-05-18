@@ -3,6 +3,7 @@
 namespace Webkul\Admin\Http\Controllers\Setting;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Core\Contracts\Validations\Code;
@@ -133,9 +134,9 @@ class AttributeController extends Controller
 
                 return response()->json([
                     'status'    => true,
-                    'message'   => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.attributes.attribute')]),
+                    'message'   => trans('admin::app.datagrid.destroy-success', ['resource' => trans('admin::app.settings.attributes.attribute')]),
                 ], 200);
-            } catch(\Exception $exception) {
+            } catch(\Exception $e) {
                 return response()->json([
                     'status'    => false,
                     'message'   => trans('admin::app.settings.attributes.delete-failed'),
@@ -175,7 +176,17 @@ class AttributeController extends Controller
 
         return response()->json([
             'status'    => true,
-            'message'   => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.attributes.title')]),
+            'message'   => trans('admin::app.datagrid.destroy-success', ['resource' => trans('admin::app.settings.attributes.title')]),
         ]);
+    }
+
+    /**
+     * Download image or file
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function download()
+    {
+        return Storage::download(request('path'));
     }
 }
