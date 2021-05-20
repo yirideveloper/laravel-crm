@@ -3,7 +3,6 @@
 namespace Webkul\Lead\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Webkul\Product\Models\ProductProxy;
 use Webkul\Lead\Contracts\Product as ProductContract;
 
 class Product extends Model implements ProductContract
@@ -24,38 +23,10 @@ class Product extends Model implements ProductContract
     ];
 
     /**
-     * Get the product owns the lead product.
-     */
-    public function product()
-    {
-        return $this->belongsTo(ProductProxy::modelClass());
-    }
-
-    /**
-     * Get the lead that owns the lead product.
+     * Get the lead that owns the product.
      */
     public function lead()
     {
         return $this->belongsTo(LeadProxy::modelClass());
-    }
-
-    /**
-     * Get the customer full name.
-     */
-    public function getNameAttribute()
-    {
-        return $this->product->name;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        $array = parent::toArray();
-
-        $array['name'] = $this->name;
-
-        return $array;
     }
 }

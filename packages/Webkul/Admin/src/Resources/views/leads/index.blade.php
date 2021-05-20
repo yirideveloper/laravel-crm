@@ -52,8 +52,6 @@
 
                     <tab name="{{ __('admin::app.leads.contact-person') }}">
                         @include('admin::leads.common.contact')
-
-                        <contact-component></contact-component>
                     </tab>
 
                     <tab name="{{ __('admin::app.leads.products') }}">

@@ -18,11 +18,8 @@
     export default {
         props: [
             'tabsCollection',
-
             'eventKey',
-
             'eventData',
-            
             'eventValueKey'
         ],
 
@@ -58,15 +55,17 @@
                     tab.isActive = (tab.name == selectedTab.name);
                 });
 
-                if (! this.eventKey) {
-                    return;
+                if (this.eventKey) {
+                    var eventData = {};
+
+                    if (this.eventData) {
+                        eventData = this.eventData;
+                    }
+
+                    eventData[this.eventValueKey] = selectedTab.key;
+
+                    EventBus.$emit(this.eventKey, eventData);
                 }
-
-                var eventData = this.eventData ? this.eventData : {};
-
-                eventData[this.eventValueKey] = selectedTab.key;
-
-                EventBus.$emit(this.eventKey, eventData);
             }
         }
     }

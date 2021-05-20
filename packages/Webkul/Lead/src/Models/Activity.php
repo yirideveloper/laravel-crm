@@ -18,9 +18,9 @@ class Activity extends Model implements ActivityContract
     protected $fillable = [
         'type',
         'comment',
-        'additional',
-        'schedule_from',
-        'schedule_to',
+        'file_path',
+        'scheduled_from',
+        'scheduled_to',
         'is_done',
         'lead_id',
         'user_id',

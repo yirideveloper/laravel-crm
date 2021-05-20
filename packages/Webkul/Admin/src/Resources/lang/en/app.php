@@ -1,5 +1,14 @@
 <?php
     return [
+        'dashboard' => [
+            'title'         => 'Dashboard',
+            'activity'      => 'Activity',
+            'top_deals'     => 'Top Deals',
+            'stages'        => 'Stages',
+            'emails'        => 'Emails',
+            'custom_card'   => 'Custom Card',
+        ],
+
         'layouts' => [
             'dashboard'     => 'Dashboard',
             'leads'         => 'Leads',
@@ -48,61 +57,29 @@
         ],
 
         'leads' => [
-            'title'               => 'Leads',
-            'add-title'           => 'Add Lead',
-            'edit-title'          => 'Edit Lead',
-            'save-btn-title'      => 'Save as Lead',
-            'save'                => 'Save',
-            'upload'              => 'Upload',
-            'back'                => 'Back',
-            'cancel'              => 'Cancel',
-            'details'             => 'Details',
-            'contact-person'      => 'Contact Person',
-            'name'                => 'Name',
-            'email'               => 'Email',
-            'contact-numbers'     => 'Contact Numbers',
-            'organization'        => 'Organization',
-            'address'             => 'Address',
-            'products'            => 'Products',
-            'item'                => 'Item',
-            'price'               => 'Price',
-            'quantity'            => 'Quantity',
-            'amount'              => 'Amount',
-            'create-success'      => 'Lead created successfully.',
-            'update-success'      => 'Lead updated successfully.',
-            'delete-success'      => 'Lead deleted successfully.',
-            'delete-failed'       => 'Lead can not be deleted.',
-            'file-upload-success' => 'File(s) uploaded successfully.',
-            'file-upload-error'   => 'File(s) can not be uploaded.',
-            'note'                => 'Note',
-            'activity'            => 'Activity',
-            'call'                => 'Call',
-            'meeting'             => 'Meeting',
-            'lunch'               => 'Lunch',
-            'files'               => 'Files',
-            'type'                => 'Type',
-            'description'         => 'Description',
-            'schedule'            => 'Schedule',
-            'from'                => 'From',
-            'to'                  => 'To',
-            'file'                => 'File',
-            'subject'             => 'Subject',
-            'all'                 => 'All',
-            'notes'               => 'Notes',
-            'calls'               => 'Calls',
-            'meetings'            => 'Meetings',
-            'lunches'             => 'Lunches',
-            'emails'              => 'Emails',
-            'files'               => 'Files',
-            'planned'             => 'Planned',
-            'done'                => 'Done',
-            'edit'                => 'Edit',
-            'mark-as-done'        => 'Mark as Done',
-            'remove'              => 'Remove',
-
-            'activities' => [
-                'create-success' => 'Activity created successfully.',
-            ]
+            'title'           => 'Leads',
+            'lead'            => 'Lead',
+            'add-title'       => 'Add Lead',
+            'edit-title'      => 'Edit Lead',
+            'save-btn-title'  => 'Save as Lead',
+            'back'            => 'Back',
+            'cancel'          => 'Cancel',
+            'details'         => 'Details',
+            'contact-person'  => 'Contact Person',
+            'name'            => 'Name',
+            'email'           => 'Email',
+            'contact-numbers' => 'Contact Numbers',
+            'organization'    => 'Organization',
+            'address'         => 'Address',
+            'products'        => 'Products',
+            'item'            => 'Item',
+            'price'           => 'Price',
+            'quantity'        => 'Quantity',
+            'amount'          => 'Amount',
+            'create-success'  => 'Lead created successfully.',
+            'update-success'  => 'Lead updated successfully.',
+            'delete-success'  => 'Lead deleted successfully.',
+            'delete-failed'   => 'Lead can not be deleted.',
         ],
 
         'products' => [
@@ -216,6 +193,8 @@
                 'date'                  => 'Date',
                 'image'                 => 'Image',
                 'file'                  => 'File',
+                'lookup'                => 'Lookup',
+                'entity_type'           => 'Entity type',
                 'checkbox'              => 'Checkbox',
                 'is_required'           => 'Is Required',
                 'is_unique'             => 'Is Unique',
@@ -249,6 +228,7 @@
             'subject'           => 'Subject',
             'emails'            => 'Emails',
             'emails'            => 'Emails',
+            'stage'             => 'Stage',
             'status'            => 'Status',
             'active'            => 'Active',
             'inactive'          => 'Inactive',
@@ -257,6 +237,7 @@
             'deal_amount'       => 'Deal Amount',
             'created_at'        => 'Created Date',
             'description'       => 'Description',
+            'update_stage'      => 'Update stage',
             'contact_person'    => 'Contact Person',
             'contact_numbers'   => 'Contact numbers',
             'permission_type'   => 'Permission type',
@@ -268,6 +249,9 @@
 
         'response' => [
             'create-success' => 'Success: :name created successfully.',
+            'update-success' => 'Success: :name updated successfully.',
+            'destroy-success'=> 'Success: :name deleted successfully.',
+            'destroy-failed' => 'Error: :name can not be deleted.',
         ],
 
         'acl' => [
@@ -280,6 +264,7 @@
         ],
 
         'common' => [
+            'back'               => 'Back',
             'address'            => 'Address',
             'country'            => 'Country',
             'select-country'     => 'Please select country',
@@ -291,12 +276,21 @@
             'work'               => 'Work',
             'home'               => 'Home',
             'no-result-found'    => 'Records not found with same name.',
-            'add-as'             => 'Add as new',
-            'not-available'      => 'Not Available',
-            'yes'                => 'Yes',
-            'no'                 => 'No',
-            'delete'             => 'Delete',
-            'save'               => 'Save',
+            'add-as'             => 'Add as new'
+        ],
+
+        'user' => [
+            'account' => [
+                'name'              => 'Name',
+                'email'             => 'Email',
+                'password'          => 'Password',
+                'my_account'        => 'My account',
+                'update_details'    => 'Update Details',
+                'current_password'  => 'Current password',
+                'confirm_password'  => 'Confirm password',
+                'password-match'    => 'Current password does not match.',
+                'account-save'      => 'Account changes saved successfully.',
+            ]
         ]
     ];
 ?>

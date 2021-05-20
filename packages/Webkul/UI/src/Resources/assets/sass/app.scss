@@ -210,8 +210,7 @@ h5 {
 .dropdown-list {
     width: 215px;
     margin-bottom: 20px;
-    border: 1px solid #f0f0f0;
-    box-shadow: 0 2px 5px 0 rgba(39 ,49, 58, .15);
+    @include box-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     background-color: $white;
     position: absolute;
     display: none;
@@ -239,6 +238,7 @@ h5 {
     }
 
     .dropdown-container {
+        padding: 12px;
         overflow-y: auto;
 
         ul {
@@ -247,9 +247,8 @@ h5 {
             padding: 0px;
 
             li {
-                padding: 8px 12px;
+                padding: 5px 0px;
                 font-size: $font-size-md;
-                cursor: pointer;
 
                 a {
                     &:link,
@@ -259,14 +258,9 @@ h5 {
                         color: $secondary-font-color;
                         display: block;
                     }
-                }
 
-                &:hover {
-                    background-color: $primary-color;
-                    color: $white;
-
-                    a {
-                        color: $white;
+                    &:hover {
+                        color: $primary-color;
                     }
                 }
             }
@@ -338,7 +332,7 @@ h5 {
 
                 &.actions,
                 &.master-checkbox {
-                    width: 100px;
+                    width: 50px;
                     white-space: nowrap;
 
                     .action {
@@ -366,14 +360,9 @@ h5 {
                         text-align: center;
                     }
 
-                    span {
-                        &.badge {
-                            &.badge-round {
-                                    padding: 0;
-                                    width: 8px;
-                                    height: 8px;
-                                    margin-right: 5px;
-                            }
+                    &.action-container {
+                        a {
+                            cursor: pointer;
                         }
                     }
                 }
@@ -437,7 +426,9 @@ h5 {
     }
 
     .filtered-tags {
+        width: 80%;
         margin-top: 20px;
+        display: inline-block;
 
         .filter-tag {
             margin-right: 20px;
@@ -560,9 +551,8 @@ h5 {
         float: right;
 
         section {
-            margin-top: 20px;
-            margin-right: 5px;
             display: inline-block;
+            margin: 13px 5px 13px 0;
         }
 
         .covered {
@@ -585,31 +575,42 @@ h5 {
     margin-top: 20px;
     
     .page-item {
-        background: $white;
-        border: 1px solid $border-color;
-        @include border-radius(3px);
+        color: #8e8e8e;
         padding: 7px 14px;
         margin-right: 5px;
-        font-size: $font-size-md;
+        background: $white;
         display: inline-block;
-        color: #8e8e8e;
         vertical-align: middle;
         text-decoration: none;
+        font-size: $font-size-md;
+        border: 1px solid $border-color;
 
         &.previous,
         &.next {
             padding: 6px 9px;
         }
 
+        &.previous {
+            border-radius: 3px 0 0 3px;
+        }
+
+        &.next {
+            border-radius: 0 3px 3px 0;
+        }
+
+        &.disabled {
+            cursor: not-allowed !important;
+        }
+
         &.active {
-            background: #0041ff;
             color: $white;
-            border-color: #0041ff;
+            background: $brand-color;
+            border-color: $brand-color;
         }
 
         .icon {
-            vertical-align: middle;
             margin-bottom: 3px;
+            vertical-align: middle;
         }
     }
     
@@ -793,9 +794,7 @@ h5 {
             display: flex;
         }
 
-        > .control,
-        > .date-container,
-        > .datetime-container {
+        .control {
             position: relative;
             -webkit-box-flex: 1;
             -ms-flex: 1 1 auto;
@@ -810,16 +809,6 @@ h5 {
             &:not(:last-child) {
                 border-top-right-radius: 0;
                 border-bottom-right-radius: 0;
-            }
-        }
-        > .date-container,
-        > .datetime-container {
-            &:not(:first-child) {
-                padding-left: 10px;
-            }
-        
-            &:not(:last-child) {
-                padding-right: 10px;
             }
         }
 
@@ -1080,7 +1069,6 @@ h5 {
 .tabs-content {
     border: 1px solid $border-color;
     padding: 30px;
-    background: $white;
 }
 
 .pill {
@@ -1383,6 +1371,13 @@ modal {
         color: $primary-color;
         border: 2px solid $primary-color;
     }
+
+    &.badge-round {
+        padding: 0;
+        width: 8px;
+        height: 8px;
+        margin-right: 5px;
+    }
 }
 
 .overlay-loader {
@@ -1506,6 +1501,8 @@ modal {
     }
 
     .field-container {
+        margin-bottom: 10px;
+
         label {
             font-weight: 500;
         }
@@ -1544,12 +1541,25 @@ modal {
 
             input {
                 width: 100%;
+                height: 35px;
+            }
+        }
+
+        > span {
+            &.control {
+                height: 35px;
+            }
+            
+            ~ i {
+                &.close-icon {
+                    margin-top: 5px;
+                }
             }
         }
     }
 
     .selected-options {
-        margin-top: 20px;
+        margin-top: 10px;
 
         .badge {
             margin-bottom: 10px;
@@ -1636,4 +1646,38 @@ modal {
 
 .fs-18 {
     font-size: $font-size-lg !important;
+}
+
+.row-grid-3 {
+    display: grid;
+    grid-row-gap: 15px;
+    grid-auto-rows: auto;
+    grid-column-gap: 15px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.bar {
+    height: 10px;
+    margin-top: 5px;
+    background-color: $table-active-cell-color;
+
+    > div {
+        height: 10px;
+
+        &.primary {
+            background-color: $primary-color;
+        }
+    
+        &.warning {
+            background-color: $warning-color;
+        }
+    
+        &.success {
+            background-color: $success-color;
+        }
+    
+        &.danger {
+            background-color: $danger-color;
+        }
+    }
 }
