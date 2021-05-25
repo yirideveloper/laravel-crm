@@ -28,8 +28,24 @@ Route::group(['middleware' => ['web']], function () {
             // Dashboard Route
             Route::get('dashboard', 'Webkul\Admin\Http\Controllers\Admin\DashboardController@index')->name('admin.dashboard.index');
 
-            // Datagrid API route
-            Route::get('/api/datagrid', 'Webkul\Core\Http\Controllers\DatagridAPIController@index')->name('admin.datagrid.api');
+            Route::get('template', 'Webkul\Admin\Http\Controllers\Admin\DashboardController@template')->name('admin.dashboard.template');
+
+            // API routes
+            Route::group([
+                'prefix'    => 'api',
+            ], function () {
+                Route::get('/datagrid', 'Webkul\Core\Http\Controllers\DatagridAPIController@index')->name('admin.datagrid.api');
+
+                Route::group([
+                    'prefix'    => 'dashboard',
+                ], function () {
+                    Route::get('/', 'Webkul\Admin\Http\Controllers\Admin\DashboardController@getCardData')->name('admin.api.dashboard.card.index');
+
+                    Route::get('/cards', 'Webkul\Admin\Http\Controllers\Admin\DashboardController@getCards')->name('admin.api.dashboard.cards.index');
+
+                    Route::post('/cards', 'Webkul\Admin\Http\Controllers\Admin\DashboardController@updateCards')->name('admin.api.dashboard.cards.update');
+                });
+            });
 
             // User Routes
             Route::group([
@@ -56,8 +72,6 @@ Route::group(['middleware' => ['web']], function () {
 
                 Route::post('file-upload/{id}', 'LeadController@upload')->name('admin.leads.file_upload');
 
-                Route::get('file-download/{id?}', 'LeadController@download')->name('admin.leads.file_download');
-
                 Route::delete('{id}', 'LeadController@destroy')->name('admin.leads.delete');
 
                 Route::put('mass-update', 'LeadController@massUpdate')->name('admin.leads.mass-update');
@@ -68,10 +82,6 @@ Route::group(['middleware' => ['web']], function () {
                     'prefix'    => 'activities',
                 ], function () {
                     Route::post('create/{id}', 'ActivityController@store')->name('admin.leads.activities.store');
-
-                    Route::put('edit/{id?}', 'ActivityController@update')->name('admin.leads.activities.update');
-
-                    Route::delete('{id?}', 'ActivityController@destroy')->name('admin.leads.activities.delete');
                 });
             });
 
@@ -144,7 +154,7 @@ Route::group(['middleware' => ['web']], function () {
     
                     Route::post('create', 'UserController@store')->name('admin.settings.users.store');
 
-                    Route::get('edit/{id?}', 'UserController@edit')->name('admin.settings.users.edit');
+                    Route::get('edit/{id}', 'UserController@edit')->name('admin.settings.users.edit');
 
                     Route::put('edit/{id}', 'UserController@update')->name('admin.settings.users.update');
 
@@ -192,6 +202,16 @@ Route::group(['middleware' => ['web']], function () {
 
                     Route::get('download', 'AttributeController@download')->name('admin.settings.attributes.download');
                 });
+            });
+
+            // Configuration Routes
+            Route::group([
+                'prefix'    => 'configuration',
+                'namespace' => 'Webkul\Admin\Http\Controllers\Configuration'
+            ], function () {
+                Route::get('{slug?}/{slug2?}', 'ConfigurationController@index')->name('admin.configuration.index');
+
+                Route::post('{slug?}/{slug2?}', 'ConfigurationController@store')->name('admin.configuration.index.store');
             });
         });
     });

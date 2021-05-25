@@ -15,7 +15,6 @@ class ModuleServiceProvider extends BaseModuleServiceProvider
         \Webkul\Lead\Models\Product::class,
         \Webkul\Lead\Models\Source::class,
         \Webkul\Lead\Models\Stage::class,
-        \Webkul\Lead\Models\Tag::class,
         \Webkul\Lead\Models\Type::class,
     ];
 }

@@ -97,12 +97,4 @@ class Lead extends Model implements LeadContract
     {
         return $this->hasMany(ProductProxy::modelClass());
     }
-
-    /**
-     * Get the tags.
-     */
-    public function tags()
-    {
-        return $this->hasMany(TagProxy::modelClass());
-    }
 }

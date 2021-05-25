@@ -44,21 +44,6 @@ a {
     color: $white;
 }
 
-::-webkit-input-placeholder {
-    color: $secondary-font-color;
-    opacity: 0.5;
-}
-
-:-ms-input-placeholder {
-    color: $secondary-font-color;
-    opacity: 0.5;
-}
-
-::placeholder {
-    color: $secondary-font-color;
-    opacity: 0.5;
-}
-
 textarea {
     resize: none;
 }
@@ -381,17 +366,6 @@ h5 {
                         text-align: center;
                     }
 
-                    span {
-                        &.badge {
-                            &.badge-round {
-                                padding: 0;
-                                width: 8px;
-                                height: 8px;
-                                margin-right: 5px;
-                            }
-                        }
-                    }
-
                     &.action-container {
                         a {
                             cursor: pointer;
@@ -699,13 +673,13 @@ h5 {
 
     .control {
         width: 100%;
-        padding: 10px;
+        padding: 6px 10px;
         margin-top: 10px;
         margin-bottom: 5px;
         background: $white;
         display: inline-block;
         vertical-align: middle;
-        font-size: $font-size-lg;
+        font-size: $font-size-md;
         @include border-radius(3px);
         color: $secondary-font-color;
         border: 1px solid $border-color;
@@ -789,7 +763,7 @@ h5 {
         float: left;
 
         .control {
-            height: 192px;
+            height: 160px;
             margin-bottom: 0;
         }
     }
@@ -1416,6 +1390,13 @@ modal {
         color: $primary-color;
         border: 2px solid $primary-color;
     }
+
+    &.badge-round {
+        padding: 0;
+        width: 8px;
+        height: 8px;
+        margin-right: 5px;
+    }
 }
 
 .overlay-loader {
@@ -1686,68 +1667,37 @@ modal {
     font-size: $font-size-lg !important;
 }
 
-.tags-control {
-    padding: 4px !important;
-    height: 40px;
-
-    ul.tags {
-        display: flex;
-
-        li {
-            float: left;
-
-            &.tag-choice {
-                white-space: nowrap;
-                user-select: none;
-                font-size: $font-size-sm;
-                margin-right: 10px;
-                padding: 4px 8px;
-                border-radius: 30px;
-                color: $font-color;
-                background-color: $light-background-color;
-            }
-
-            &.tag-input {
-                margin: 0;
-                padding: 0;
-                flex: 1 1 20px;
-                white-space: nowrap;
-
-                input {
-                    width: 100%;
-                    color: #546E7A;
-                    font-size: $font-size-lg;
-                    padding: 5px 10px;
-                    outline: 0;
-                    border: 0;
-                }
-            }
-        }
-    }
+.row-grid-3 {
+    display: grid;
+    grid-row-gap: 15px;
+    grid-auto-rows: auto;
+    grid-column-gap: 15px;
+    grid-template-columns: repeat(3, 1fr);
 }
 
-.attachment-wrapper {
-    .attachment-item {
-        margin-bottom: 10px;
+.bar {
+    height: 10px;
+    margin-top: 5px;
+    background-color: $table-active-cell-color;
 
-        span {
-            display: inline-block;
-            padding: 8px 5px;
-            border: 2px solid $secondary-color;
-            
-            input {
-                display: none;
-            }
+    > div {
+        height: 10px;
+        transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-            .icon {
-                cursor: pointer;
-            }
+        &.primary {
+            background-color: $primary-color;
         }
-    }
-
-    .add-attachment-link {
-        font-size: $font-size-lg;
-        margin-top: 10px;
-        display: inline-block;
+    
+        &.warning {
+            background-color: $warning-color;
+        }
+    
+        &.success {
+            background-color: $success-color;
+        }
+    
+        &.danger {
+            background-color: $danger-color;
+        }
     }
 }

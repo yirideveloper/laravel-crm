@@ -39,7 +39,7 @@
 
                 template: '#lookup-component-template',
 
-                props: ['validations', 'attribute', 'searchRoute', 'data'],
+                props: ['validations', 'attribute', 'data'],
 
                 inject: ['$validator'],
 
@@ -54,8 +54,6 @@
                         state: this.data ? 'old' : '',
 
                         results: [],
-
-                        search_route: this.searchRoute ? this.searchRoute : "{{ route('admin.settings.attributes.lookup') }}" + this.attribute['id'],
                     }
                 },
 
@@ -87,7 +85,7 @@
 
                         var self = this;
                         
-                        this.$http.get(this.search_route, {params: {query: this.search_term}})
+                        this.$http.get("{{ route('admin.settings.attributes.lookup') }}/" + this.attribute['id'], {params: {query: this.search_term}})
                             .then (function(response) {
                                 self.results = response.data;
 
