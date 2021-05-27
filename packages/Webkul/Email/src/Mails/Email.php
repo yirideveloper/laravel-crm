@@ -5,27 +5,28 @@ namespace Webkul\Email\Mails;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Webkul\Email\Contracts\Thread;
 
 class Email extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
-     * The email instance.
+     * The thread instance.
      *
-     * @var  \Webkul\Email\Contracts\Email  $email
+     * @var  \Webkul\Email\Contracts\Thread  $thread
      */
-    public $email;
+    public $thread;
 
     /**
-     * Create a new email instance.
+     * Create a new thread instance.
      *
-     * @param  \Webkul\Email\Contracts\Email  $email
+     * @param  \Webkul\Email\Contracts\Thread  $thread
      * @return void
      */
-    public function __construct($email)
+    public function __construct(Thread $thread)
     {
-        $this->email = $email;
+        $this->thread = $thread;
     }
 
     /**
@@ -35,25 +36,20 @@ class Email extends Mailable
      */
     public function build()
     {
-        $this->to($this->email->reply_to)
-            ->replyTo($this->email->parent_id ? $this->email->parent->unique_id : $this->email->unique_id)
-            ->cc($this->email->cc)
-            ->bcc($this->email->bcc)
-            ->subject($this->email->subject)
-            ->html($this->email->reply);
+        $this->to($this->thread->reply_to)
+            ->replyTo($this->thread->email->message_id)
+            ->cc($this->thread->cc)
+            ->bcc($this->thread->bcc)
+            ->subject($this->thread->email->subject)
+            ->html($this->thread->reply);
         
         $this->withSwiftMessage(function ($message) {
-            $message->getHeaders()->addTextHeader('Message-ID', $this->email->message_id);
+            $message->getHeaders()->addTextHeader('Message-ID', $this->thread->message_id);
 
-            $message->getHeaders()->addTextHeader('References', $this->email->parent_id
-                ? implode(' ', $this->email->parent->reference_ids)
-                : implode(' ', $this->email->reference_ids)
-            );
+            $message->getHeaders()->addTextHeader('References', implode(' ', array_merge($this->thread->email->reference_ids ?? [], [
+                $this->thread->message_id
+            ])));
         });
-
-        foreach ($this->email->attachments as $attachment) {
-            $this->attachFromStorage($attachment->path);
-        }
 
         return $this;
     }

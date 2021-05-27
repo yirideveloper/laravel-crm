@@ -280,7 +280,7 @@ body {
             z-index: 3;
 
             .page-title {
-                // float: left;
+                display: inline-block;
 
                 .back-link {
                     float: left;
@@ -456,27 +456,10 @@ body {
             .panel-header {
                 button.btn {
                     margin-right: 30px;
-
-                    .icon {
-                        margin-right: 5px;
-                    }
-                }
-
-                input[type=submit] {
-                    color: $secondary-font-color;
-                    background: transparent;
-                    font-size: 18px;
-                    font-weight: $font-weight-medium;
-                    font-family: $font-family;
-                    padding: 0;
-                    margin-right: 30px;
-                    border: 0;
-                    cursor: pointer;
                 }
 
                 a {
                     color: inherit;
-                    margin-right: 30px;
                 }
             }
         }

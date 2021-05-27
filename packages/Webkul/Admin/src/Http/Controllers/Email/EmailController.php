@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Admin\Http\Controllers\Mail;
+namespace Webkul\Admin\Http\Controllers\Email;
 
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Controllers\Controller;
@@ -34,21 +34,16 @@ class EmailController extends Controller
      */
     public function index()
     {
-        switch (request('route')) {
-            case 'compose':
-                return view('admin::mail.compose');
-            
-            default:
-                return view('admin::mail.index');
-        }
+        return view('admin::emails.index');
     }
 
     /**
      * Store a newly created resource in storage.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store($id)
     {
         $this->validate(request(), [
             'reply_to' => 'required|array|min:1',
@@ -61,14 +56,15 @@ class EmailController extends Controller
         $email = $this->emailRepository->create(array_merge(request()->all(), [
             'source'    => 'web',
             'user_type' => 'admin',
-            'folders'   => request('is_draft') ? ['draft'] : ['outbox'],
             'name'      => auth()->guard('user')->user()->name,
             'user_id'   => auth()->guard('user')->user()->id,
         ]));
 
         Event::dispatch('email.create.after', $email);
 
-        session()->flash('success', trans('admin::app.mail.create-success'));
+        dd(111);
+        
+        session()->flash('success', trans('admin::app.emails.create-success'));
 
         return redirect()->back();
     }
@@ -80,9 +76,7 @@ class EmailController extends Controller
      */
     public function inboundParse()
     {
-        $emailContent = file_get_contents(base_path('email.txt'));
-
-        $this->emailRepository->processInboundParseMail($emailContent);
+        
 
         return response()->json([], 200);
     }
@@ -106,12 +100,12 @@ class EmailController extends Controller
 
             return response()->json([
                 'status'    => true,
-                'message'   => trans('admin::app.mail.destroy-success'),
+                'message'   => trans('admin::app.emails.destroy-success'),
             ], 200);
         } catch(\Exception $exception) {
             return response()->json([
                 'status'  => false,
-                'message' => trans('admin::app.mail.destroy-failed'),
+                'message' => trans('admin::app.emails.destroy-failed'),
             ], 400);
         }
     }

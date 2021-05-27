@@ -12,12 +12,6 @@ class Email extends Model implements EmailContract
     protected $table = 'emails';
 
     protected $casts = [
-        'folders'       => 'array',
-        'sender'        => 'array',
-        'from'          => 'array',
-        'reply_to'      => 'array',
-        'cc'            => 'array',
-        'bcc'           => 'array',
         'reference_ids' => 'array',
     ];
 
@@ -29,38 +23,19 @@ class Email extends Model implements EmailContract
     protected $fillable = [
         'subject',
         'source',
-        'name',
-        'user_type',
-        'is_read',
-        'folders',
-        'from',
-        'sender',
-        'reply_to',
-        'cc',
-        'bcc',
-        'unique_id',
         'message_id',
         'reference_ids',
-        'reply',
+        'is_trashed',
         'user_id',
         'person_id',
-        'parent_id',
     ];
 
     /**
-     * Get the parent email.
+     * Get the threads.
      */
-    public function parent()
+    public function threads()
     {
-        return $this->belongsTo(EmailProxy::modelClass(), 'parent_id');
-    }
-
-    /**
-     * Get the emails.
-     */
-    public function emails()
-    {
-        return $this->hasMany(EmailProxy::modelClass(), 'parent_id');
+        return $this->hasMany(ThreadProxy::modelClass());
     }
 
     /**
@@ -77,13 +52,5 @@ class Email extends Model implements EmailContract
     public function person()
     {
         return $this->belongsTo(PersonProxy::modelClass());
-    }
-
-    /**
-     * Get the attachments.
-     */
-    public function attachments()
-    {
-        return $this->hasMany(AttachmentProxy::modelClass(), 'email_id');
     }
 }
