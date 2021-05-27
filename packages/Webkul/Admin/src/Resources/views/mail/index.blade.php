@@ -1,9 +1,13 @@
-@extends('ui::datagrid.table')
+@extends('admin::layouts.master')
 
-@section('table-header')
-{{ __('admin::app.mail.' . request('route')) }}
+@section('page_title')
+    {{ __('admin::app.mail.title') }}
 @stop
 
-@php
-    $tableClass = "\Webkul\Admin\DataGrids\Mail\EmailDataGrid";
-@endphp
+@section('content-wrapper')
+    <div class="content full-page dashboard">
+        <h1>{{ __('admin::app.mail.title') }}</h1>
+
+        
+    </div>
+@stop
