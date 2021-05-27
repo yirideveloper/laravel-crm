@@ -142,9 +142,9 @@
                 </option>
             </select>
 
-            <span type="button" class="badge badge-lg badge-primary" @click="onSubmit">
+            <button type="button" class="badge badge-md badge-primary" @click="onSubmit">
                 {{ __('ui.datagrid.submit') }}
-            </span>
+            </button>
         </div>
     </div>
 </template>

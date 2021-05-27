@@ -42,17 +42,7 @@ class Menu
 
         $userRole = auth()->guard('user')->user()->role;
 
-        $configurations = config('core_config');
-
-        foreach ($configurations as $index => $configuration) {
-            $configurations[$index]['key'] = "configuration." . $configuration['key'];
-            $configurations[$index]['route'] = 'admin.configuration.index';
-            $configurations[$index]['params'] = str_replace(".", "/", $configuration['key']);
-        }
-
-        $adminMenus = array_merge(config('menu.admin'), $configurations);
-        
-        foreach ($adminMenus as $index => $item) {
+        foreach (config('menu.admin') as $index => $item) {
             if (! bouncer()->hasPermission($item['key'])) {
                 continue;
             }

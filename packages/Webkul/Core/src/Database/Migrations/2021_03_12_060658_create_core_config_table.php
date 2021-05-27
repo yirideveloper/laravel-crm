@@ -18,7 +18,6 @@ class CreateCoreConfigTable extends Migration
             $table->string('code');
             $table->string('value');
             $table->string('locale')->nullable();
-            $table->timestamps();
         });
     }
 

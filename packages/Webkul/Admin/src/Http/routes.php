@@ -21,7 +21,7 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::post('reset-password', 'Webkul\Admin\Http\Controllers\User\ResetPasswordController@store')->name('admin.reset_password.store');
 
-        Route::post('emails/inbound-parse', 'EmailController@inboundParse')->name('admin.emails.inbound_parse');
+        Route::get('mail/inbound-parse', 'Webkul\Admin\Http\Controllers\Mail\EmailController@inboundParse')->name('admin.mail.inbound_parse');
 
         // Admin Routes
         Route::group(['middleware' => ['user']], function () {
@@ -97,12 +97,14 @@ Route::group(['middleware' => ['web']], function () {
             });
 
             Route::group([
-                'prefix'    => 'emails',
-                'namespace' => 'Webkul\Admin\Http\Controllers\Email',
+                'prefix'    => 'mail',
+                'namespace' => 'Webkul\Admin\Http\Controllers\Mail',
             ], function () {
-                Route::post('create/{id}', 'EmailController@store')->name('admin.emails.store');
+                Route::get('{route?}', 'EmailController@index')->name('admin.mail.index');
 
-                Route::delete('{id?}', 'EmailController@destroy')->name('admin.emails.delete');
+                Route::post('create', 'EmailController@store')->name('admin.mail.store');
+
+                Route::delete('{id?}', 'EmailController@destroy')->name('admin.mail.delete');
             });
 
             // Contacts Routes
@@ -222,16 +224,6 @@ Route::group(['middleware' => ['web']], function () {
 
                     Route::get('download', 'AttributeController@download')->name('admin.settings.attributes.download');
                 });
-            });
-
-            // Configuration Routes
-            Route::group([
-                'prefix'    => 'configuration',
-                'namespace' => 'Webkul\Admin\Http\Controllers\Configuration'
-            ], function () {
-                Route::get('{slug?}/{slug2?}', 'ConfigurationController@index')->name('admin.configuration.index');
-
-                Route::post('{slug?}/{slug2?}', 'ConfigurationController@store')->name('admin.configuration.index.store');
             });
         });
     });

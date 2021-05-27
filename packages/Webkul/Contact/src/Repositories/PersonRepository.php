@@ -69,17 +69,4 @@ class PersonRepository extends Repository
 
         return $person;
     }
-
-    /**
-     * Retreives customers count based on date
-     *
-     * @return number
-     */
-    public function getCustomerCount($startDate, $endDate)
-    {
-        return $this
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->get()
-                ->count();
-    }
 }

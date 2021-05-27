@@ -14,6 +14,12 @@
     background-image: url("../images/leads-icon.svg");
 }
 
+.emails-icon {
+    width: 20px;
+    height: 18px;
+    background-image: url("../images/emails-icon.svg");
+}
+
 .activities-icon {
     width: 17px;
     height: 21px;
@@ -33,14 +39,14 @@
     background-image: url("../images/settings-icon.svg");
 }
 
-.tools-icon {
-    background-image: url("../images/tools-icon.svg");
-}
-
 .avatar-icon {
     width: 16px;
     height: 21px;
     background-image: url("../images/avatar-icon.svg");
+}
+
+.email-send-icon {
+    background-image: url("../images/email-send-icon.svg");
 }
 
 .menu-item.active,
@@ -51,6 +57,10 @@
 
     .leads-icon {
         background-image: url("../images/leads-active-icon.svg");
+    }
+
+    .emails-icon {
+        background-image: url("../images/emails-active-icon.svg");
     }
 
     .activities-icon {
@@ -67,9 +77,5 @@
 
     .settings-icon {
         background-image: url("../images/settings-active-icon.svg");
-    }
-    
-    .tools-icon {
-        background-image: url("../images/tools-active-icon.svg");
     }
 }
