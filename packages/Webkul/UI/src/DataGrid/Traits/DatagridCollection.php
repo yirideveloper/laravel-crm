@@ -245,14 +245,7 @@ trait DatagridCollection
                 }
 
                 $actionCollection = $action;
-
-                // dd($action['route'], array_merge($action['params'] ?? [], [
-                //     'id' => $row->id
-                // ]));
-                
-                $actionCollection['route'] = route($action['route'], array_merge($action['params'] ?? [], [
-                    'id' => $row->id
-                ]));
+                $actionCollection['route'] = route($action['route'], ['id' => $row->id]);
 
                 array_push($arrayCollection['data'][$index]->action, $actionCollection);
             }
