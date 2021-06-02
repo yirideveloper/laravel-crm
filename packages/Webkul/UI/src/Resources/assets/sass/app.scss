@@ -335,7 +335,6 @@ h5 {
     }
 
     table {
-        table-layout: fixed;
         width: 100%;
         text-align: left;
         margin-top: 20px;
@@ -349,17 +348,13 @@ h5 {
                 padding: 10px;
                 color: $secondary-font-color;
                 font-weight: $font-weight-medium;
-                white-space: nowrap;
                 border-right: 1px solid $border-color;
                 border-bottom: 1px solid $border-color;
 
-
+                &.actions,
                 &.master-checkbox {
-                    width: 41px;
-                }
-
-                &.actions {
-                    width: 100px;
+                    width: 50px;
+                    white-space: nowrap;
 
                     .action {
                         display: inline-flex;
@@ -377,7 +372,6 @@ h5 {
             tr {
                 td {
                     padding: 10px;
-                    white-space: nowrap;
                     vertical-align: top;
                     color: $secondary-font-color;
                     border-right: 1px solid $border-color;
@@ -391,10 +385,6 @@ h5 {
                         a {
                             cursor: pointer;
                         }
-                    }
-
-                    .bold {
-                        font-weight: $font-weight-medium;
                     }
                 }
 

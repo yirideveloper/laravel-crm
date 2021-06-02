@@ -2,9 +2,8 @@
 
 namespace Webkul\Admin\DataGrids\Contact;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Arr;
 use Webkul\UI\DataGrid\DataGrid;
+use Illuminate\Support\Facades\DB;
 
 class PersonDataGrid extends DataGrid
 {
@@ -41,9 +40,18 @@ class PersonDataGrid extends DataGrid
             'searchable' => true,
             'sortable'   => false,
             'closure'    => function ($row) {
-                $emails = Arr::pluck(json_decode($row->emails, true), 'value');
+                $response = "";
+                $emails = json_decode($row->emails, true);
 
-                return implode(', ', $emails);
+                foreach ($emails as $index => $email) {
+                    $response .= $email['value'];
+
+                    if (sizeof($emails) != $index + 1) {
+                        $response .= ',';
+                    }
+                }
+                
+                return $response;
             },
         ]);
 
