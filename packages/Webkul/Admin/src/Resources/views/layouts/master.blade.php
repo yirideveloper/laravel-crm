@@ -25,8 +25,6 @@
 
         <div id="app">
 
-            @include("admin::banner.header")
-
             <flash-wrapper ref='flashes'></flash-wrapper>
 
             {!! view_render_event('admin.layout.nav-top.before') !!}
