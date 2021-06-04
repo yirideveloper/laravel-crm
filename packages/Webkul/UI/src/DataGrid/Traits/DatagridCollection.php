@@ -147,7 +147,7 @@ trait DatagridCollection
      *
      * @return collection
      */
-    public function prepareTabFilter($collection, $key, $info)
+    public function prepareTabFilter($collection)
     {
         foreach ($this->tabFilters as $filterIndex => $filter) {
             if ($filter['key'] == $key) {
@@ -160,61 +160,35 @@ trait DatagridCollection
                 }
 
                 $value = array_values($info)[0];
-                $column = ($key === "duration") ? "created_at" : $key;
-
-                $endDate = Carbon::now()->format('Y-m-d');
+                $key = ($key === "duration") ? "created_at" : $key;
 
                 switch ($value) {
                     case 'yesterday':
                         $collection->where(
-                            $column,
+                            $key,
                             Carbon::yesterday()
                         );
                         break;
 
                     case 'today':
                         $collection->where(
-                            $column,
+                            $key,
                             Carbon::today()
                         );
                         break;
 
                     case 'tomorrow':
                         $collection->where(
-                            $column,
+                            $key,
                             Carbon::tomorrow()
                         );
                         break;
 
                     case 'this_week':
-                        $startDate = Carbon::now()->subDays(7)->format('Y-m-d');
-        
-                        $collection->whereBetween(
-                            $column,
-                            [$startDate, $endDate]
-                        );
-                        break;
-        
-                    case 'this_month':
-                        $startDate = Carbon::now()->subDays(30)->format('Y-m-d');
-        
-                        $collection->whereBetween(
-                            $column,
-                            [$startDate, $endDate]
-                        );
                         break;
 
-                    default:
-                        if ($value != "all") {
-                            if ($key == "duration") {
-                                $collection->whereBetween(
-                                    $column,
-                                    explode(",", $value)
-                                );
-                            } else {
-                                $collection->where($column, $value);
-                            }
-                        }
+                    case 'this_month':
+                        break;
                 }
             }
         }

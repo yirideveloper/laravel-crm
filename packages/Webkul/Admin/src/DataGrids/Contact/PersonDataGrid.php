@@ -41,13 +41,9 @@ class PersonDataGrid extends DataGrid
             'searchable' => true,
             'sortable'   => false,
             'closure'    => function ($row) {
-                $emails = json_decode($row->emails, true);
+                $emails = Arr::pluck(json_decode($row->emails, true), 'value');
 
-                if ($emails) {
-                    $emails = \Arr::pluck($emails, 'value');
-    
-                    return implode(', ', $emails);
-                }
+                return implode(', ', $emails);
             },
         ]);
 
@@ -58,13 +54,18 @@ class PersonDataGrid extends DataGrid
             'searchable' => true,
             'sortable'   => false,
             'closure'    => function ($row) {
+                $response = "";
                 $contactNumbers = json_decode($row->contact_numbers, true);
 
-                if ($contactNumbers) {
-                    $contactNumbers = \Arr::pluck($contactNumbers, 'value');
-    
-                    return implode(', ', $contactNumbers);
+                foreach ($contactNumbers as $index => $contactNumber) {
+                    $response .= $contactNumber['value'];
+
+                    if (sizeof($contactNumbers) != $index + 1) {
+                        $response .= ',';
+                    }
                 }
+                
+                return $response;
             },
         ]);
 

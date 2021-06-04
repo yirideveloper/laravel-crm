@@ -1,8 +1,6 @@
 <?php
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/', 'Webkul\Admin\Http\Controllers\Controller@redirectToLogin');
-    
     Route::prefix(config('app.admin_path'))->group(function () {
 
         Route::get('/', 'Webkul\Admin\Http\Controllers\Controller@redirectToLogin');
@@ -78,10 +76,6 @@ Route::group(['middleware' => ['web']], function () {
 
                 Route::get('file-download/{id?}', 'LeadController@download')->name('admin.leads.file_download');
 
-                Route::get('kanban-format', 'LeadController@fetchLeads')->name('admin.leads.kanban.index');
-
-                Route::post('update-lead', 'LeadController@updateLeadStage')->name('admin.leads.kanban.update');
-
                 Route::delete('{id}', 'LeadController@destroy')->name('admin.leads.delete');
 
                 Route::put('mass-update', 'LeadController@massUpdate')->name('admin.leads.mass-update');
@@ -110,12 +104,13 @@ Route::group(['middleware' => ['web']], function () {
 
                 Route::put('edit/{id}', 'EmailController@update')->name('admin.mail.update');
 
+                Route::get('attachment-download/{id?}', 'EmailController@download')->name('admin.mail.attachment_download');
+
                 Route::get('{route?}', 'EmailController@index')->name('admin.mail.index');
 
                 Route::get('{route?}/{id?}', 'EmailController@view')->name('admin.mail.view');
 
                 Route::delete('{id?}', 'EmailController@destroy')->name('admin.mail.delete');
-
             });
 
             // Contacts Routes

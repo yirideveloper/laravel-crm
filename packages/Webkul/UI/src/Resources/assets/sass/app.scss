@@ -297,28 +297,7 @@ h5 {
         margin-bottom: 20px;
 
         .table-action {
-            display: block;
-
-            .icon-container {
-                padding: 5px;
-                cursor: pointer;
-                display: inline-block;
-                border: 1px solid $border-color;
-
-                &:first-child {
-                    border-radius: 3px 0px 0px 3px;
-                }
-
-                &:last-child {
-                    left: -5px;
-                    position: relative;
-                    border-radius: 0px 3px 3px 0px;
-                }
-
-                &.active {
-                    background-color: $secondary-color;
-                }
-            }
+            display: inline-block;
         }
     }
 
@@ -331,7 +310,7 @@ h5 {
             background-color: $white;
             border: 1px solid $border-color;
 
-            .form-group {
+            .control-group {
                 margin: 20px 0;
 
                 .middle-text {
@@ -398,10 +377,8 @@ h5 {
             tr {
                 td {
                     padding: 10px;
-                    overflow: hidden;
                     white-space: nowrap;
                     vertical-align: top;
-                    text-overflow: ellipsis;
                     color: $secondary-font-color;
                     border-right: 1px solid $border-color;
                     border-bottom: 1px solid $border-color;
@@ -751,6 +728,14 @@ h5 {
         }
     }
 
+    .control-faker {
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        @include border-radius(3px);
+        border: 1px solid $border-color;
+    }
+
     &.date,
     &.datetime,
     &.time {
@@ -814,7 +799,7 @@ h5 {
         float: left;
 
         .control {
-            height: 192px;
+            height: 203px;
             margin-bottom: 0;
         }
     }

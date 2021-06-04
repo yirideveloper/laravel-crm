@@ -9,8 +9,6 @@
         <div class="table-header">
             <h1>
                 @yield('table-header', "Table Default Header")
-
-                @yield('post-heading')
             </h1>
 
             <div class="table-action">
