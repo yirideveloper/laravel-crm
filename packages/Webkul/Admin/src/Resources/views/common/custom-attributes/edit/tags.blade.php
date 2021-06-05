@@ -70,7 +70,7 @@
 
                 watch: { 
                     data: function(newVal, oldVal) {
-                        this.tags = newVal || [];
+                        this.tags = newVal ? newVal : [];
                     }
                 },
 

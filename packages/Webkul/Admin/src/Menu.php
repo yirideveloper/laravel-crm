@@ -50,9 +50,8 @@ class Menu
             $configurations[$index]['params'] = str_replace(".", "/", $configuration['key']);
         }
 
-        // $adminMenus = array_merge(config('menu.admin'), $configurations);
-        $adminMenus = config('menu.admin');
-
+        $adminMenus = array_merge(config('menu.admin'), $configurations);
+        
         foreach ($adminMenus as $index => $item) {
             if (! bouncer()->hasPermission($item['key'])) {
                 continue;

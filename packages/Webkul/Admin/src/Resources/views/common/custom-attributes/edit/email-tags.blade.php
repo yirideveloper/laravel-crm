@@ -37,7 +37,7 @@
 
                 watch: { 
                     data: function(newVal, oldVal) {
-                        this.emails = newVal || [];
+                        this.emails = newVal ? newVal : [];
                     }
                 },
 
