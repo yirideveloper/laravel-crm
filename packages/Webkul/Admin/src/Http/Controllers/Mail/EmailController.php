@@ -67,7 +67,7 @@ class EmailController extends Controller
      */
     public function view()
     {
-        $email = $this->emailRepository->with(['emails', 'attachments'])->findOrFail(request('id'));
+        $email = $this->emailRepository->with('attachments')->findOrFail(request('id'));
 
         if (request('route') == 'draft') {
             return view('admin::mail.compose', compact('email'));
@@ -85,20 +85,11 @@ class EmailController extends Controller
     {
         $this->validate(request(), [
             'reply_to' => 'required|array|min:1',
+            'subject'  => 'required',
             'reply'    => 'required',
         ]);
 
         Event::dispatch('email.create.before');
-
-        $uniqueId = time() . '@' . config('mail.domain');
-
-        $referenceIds = [];
-
-        if ($parentId = request('parent_id')) {
-            $parent = $this->emailRepository->findOrFail($parentId);
-
-            $referenceIds = $parent->reference_ids ?? [];
-        }
 
         $email = $this->emailRepository->create(array_merge(request()->all(), [
             'source'        => 'web',
@@ -106,9 +97,9 @@ class EmailController extends Controller
             'user_type'     => 'admin',
             'folders'       => request('is_draft') ? ['draft'] : ['outbox'],
             'name'          => auth()->guard('user')->user()->name,
-            'unique_id'     => $uniqueId,
+            'unique_id'     => $uniqueId = time() . '@example.com',
             'message_id'    => $uniqueId,
-            'reference_ids' => array_merge($referenceIds, [$uniqueId]),
+            'reference_ids' => [$uniqueId],
             'user_id'       => auth()->guard('user')->user()->id,
         ]));
 
@@ -217,42 +208,24 @@ class EmailController extends Controller
      */
     public function destroy($id)
     {
-        $email = $this->emailRepository->findOrFail($id);
-
+        $this->emailRepository->findOrFail($id);
+        
         try {
             Event::dispatch('email.delete.before', $id);
-
-            $parentId = $email->parent_id;
 
             $this->emailRepository->delete($id);
 
             Event::dispatch('email.delete.after', $id);
 
-            if (request()->ajax()) {
-                return response()->json([
-                    'status'    => true,
-                    'message'   => trans('admin::app.mail.delete-success'),
-                ], 200);
-            } else {
-                session()->flash('success', trans('admin::app.mail.delete-failed'));
-
-                if ($parentId) {
-                    return redirect()->route('admin.mail.index', ['route' => 'inbox']);
-                } else {
-                    return redirect()->back();
-                }
-            }
+            return response()->json([
+                'status'    => true,
+                'message'   => trans('admin::app.mail.destroy-success'),
+            ], 200);
         } catch(\Exception $exception) {
-            if (request()->ajax()) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => trans('admin::app.mail.delete-failed'),
-                ], 400);
-            } else {
-                session()->flash('error', trans('admin::app.mail.delete-failed'));
-
-                return redirect()->back();
-            }
+            return response()->json([
+                'status'  => false,
+                'message' => trans('admin::app.mail.destroy-failed'),
+            ], 400);
         }
     }
 }

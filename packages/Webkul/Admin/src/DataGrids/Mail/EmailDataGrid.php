@@ -11,8 +11,7 @@ class EmailDataGrid extends DataGrid
     {
         $queryBuilder = DB::table('emails')
             ->addSelect('*')
-            ->where('folders', 'like', '%"' . request('route') . '"%')
-            ->whereNull('parent_id');
+            ->where('folders', 'like', '%"' . request('route') . '"%');
 
         $this->setQueryBuilder($queryBuilder);
     }
