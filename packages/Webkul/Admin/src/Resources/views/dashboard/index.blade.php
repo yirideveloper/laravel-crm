@@ -8,7 +8,7 @@
     <div class="content full-page dashboard">
         <h1>{{ __('admin::app.dashboard.title') }}</h1>
 
-        {{-- <selected-cards-filter></selected-cards-filter> --}}
+        <selected-cards-filter></selected-cards-filter>
 
         {{-- <div class="form-group date">
             <date>
@@ -20,8 +20,6 @@
             </date>
         </div> --}}
 
-        {{-- <date-range class="card-filter-container"></date-range> --}}
-
         <cards-collection></cards-collection>
     </div>
 @stop
@@ -29,12 +27,12 @@
 @push('scripts')
     <script type="text/x-template" id="selected-cards-template">
         <div class="cards-collection form-group">
-            <div class="toggle-btn dropdown-toggle">
+            <div class="toggle-btn" @click="showCardOptions = !showCardOptions">
                 <span>{{ __('admin::app.dashboard.cards') }}</span>
                 <span class="icon plus-black-icon"></span>
             </div>
 
-            <div class="cards-options dropdown-list">
+            <div class="cards-options" v-if="showCardOptions">
                 <div>
                     <header>
                         <span class="btn btn-sm btn-secondary-outline">
@@ -73,10 +71,10 @@
                         <label>
                             @{{ card.label }}
 
-                            {{-- <card-filter
+                            <card-filter
                                 :card-id="card.card_id || ''"
                                 :filter-type="card.filter_type"
-                            ></card-filter> --}}
+                            ></card-filter>
                         </label>
                     </template>
 
@@ -166,30 +164,7 @@
     </script>
 
     <script type="text/x-template" id="card-filter-template">
-        <div class="card-filter-container">
-            <div class="toggle-btn dropdown-toggle">
-                <span>{{ __('admin::app.dashboard.cards') }}</span>
-                <i class="icon arrow-down-icon"></i>
-            </div>
-
-            <div class="dropdown-list">
-                <div class="dropdown-container">
-                    <ul>
-                        <template v-if="filterType == 'monthly'">
-                            <li>This month</li>
-                            <li>Last month</li>
-                        </template>
-
-                        <template v-else-if="filterType == 'daily'">
-                            <li>Today</li>
-                            <li>Yesterday</li>
-                        </template>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        {{-- <select v-if="filterType == 'monthly'" @change="changeCardFilter">
+        <select v-if="filterType == 'monthly'" @change="changeCardFilter">
             <option value="this_month">This month</option>
             <option value="last_month">Last month</option>
         </select>
@@ -197,7 +172,7 @@
         <select v-else-if="filterType == 'daily'" @change="changeCardFilter">
             <option value="today">Today</option>
             <option value="yesterday">Yesterday</option>
-        </select> --}}
+        </select>
     </script>
 
     <script>

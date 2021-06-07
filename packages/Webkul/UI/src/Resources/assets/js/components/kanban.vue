@@ -10,14 +10,16 @@
         </div>
 
         <div v-for="block in blocks" :slot="block.id" :key="`block-${block.id}`">
-            <div class="lead-title">{{ block.title }}</div>
+            <div class="lead-title">
+                {{ block.title }}
+            </div>
 
             <div class="lead-person">
-                <i class="icon avatar-dark-icon"></i>{{ block.person_name }}
+                <i class="icon avatar-dark-icon"></i> {{ block.person_name }}
             </div>
             
             <div class="lead-cost">
-                <i class="icon dollar-circle-icon"></i>{{ currencySymbol }}{{ block.lead_value }}
+                <i class="icon dollar-circle-icon"></i> {{ currencySymbol }}{{ block.lead_value }}
             </div>
         </div>
     </kanban-board>
@@ -84,3 +86,7 @@
         }
     }
 </script>
+
+<style lang="scss">
+    @import '../../sass/kanban.scss';
+</style>

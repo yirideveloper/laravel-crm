@@ -27,7 +27,7 @@
 
 @if ($viewType == "kanban")
     @section('post-heading')
-        <div class="form-group post-heading">
+        <div class="search-filter float-right">
             <input
                 type="search"
                 class="control"

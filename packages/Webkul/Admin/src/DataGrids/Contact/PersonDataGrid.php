@@ -20,9 +20,6 @@ class PersonDataGrid extends DataGrid
             )
             ->leftJoin('organizations', 'persons.organization_id', '=', 'organizations.id');
 
-        $this->addFilter('name', 'persons.name');
-        $this->addFilter('organization_name', 'organizations.name');
-
         $this->setQueryBuilder($queryBuilder);
     }
 
