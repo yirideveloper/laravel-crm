@@ -26,8 +26,6 @@ class AdminServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         include __DIR__ . '/../Http/helpers.php';
-        
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
 

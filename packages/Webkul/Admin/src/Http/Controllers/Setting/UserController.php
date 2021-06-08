@@ -94,10 +94,6 @@ class UserController extends Controller
 
         $admin = $this->userRepository->create($data);
 
-        $admin->lead_view_permission = $data['lead_view_permission'];
-
-        $admin->save();
-
         Event::dispatch('settings.user.create.after', $admin);
 
         session()->flash('success', trans('admin::app.settings.users.create-success'));
@@ -148,10 +144,6 @@ class UserController extends Controller
         Event::dispatch('settings.user.update.before', $id);
 
         $admin = $this->userRepository->update($data, $id);
-
-        $admin->lead_view_permission = $data['lead_view_permission'];
-
-        $admin->save();
 
         Event::dispatch('settings.user.update.after', $admin);
 
@@ -236,7 +228,7 @@ class UserController extends Controller
 
         return response()->json([
             'status'    => true,
-            'message'   => trans('admin::app.settings.users.mass-delete-success')
+            'message'   => trans('admin::app.settings.users.mass-destroy-success')
         ]);
     }
 }
