@@ -3,7 +3,7 @@
 <div class="navbar-left" v-bind:class="{'open': isMenuOpen}">
     <ul class="menubar">
         @foreach ($menu->items as $menuItem)
-            <li class="menu-item {{ Menu::getActive($menuItem) }}" title="{{ $menuItem['name'] }}">
+            <li class="menu-item {{ Menu::getActive($menuItem) }}">
                 <a href="{{ $menuItem['url'] }}">
                     <span class="icon {{ $menuItem['icon-class'] }}"></span>
                     

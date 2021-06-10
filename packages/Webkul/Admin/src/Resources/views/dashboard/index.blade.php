@@ -77,6 +77,7 @@
 
                             {{-- <card-filter
                                 :card-id="card.card_id || ''"
+                                :filter-type="card.filter_type"
                             ></card-filter> --}}
 
                             <i class="icon drag-icon"></i>
@@ -95,9 +96,7 @@
     </script>
 
     <script type="text/x-template" id="card-template">
-        <spinner-meter v-if="! dataLoaded"></spinner-meter>
-
-        <div v-else class="card-data">
+        <div v-if="dataLoaded" class="card-data">
             <bar-chart
                 id="lead-chart"
                 :data="dataCollection.data"

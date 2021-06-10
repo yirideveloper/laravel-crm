@@ -30,8 +30,6 @@ $(function() {
 
         data: function () {
             return {
-                pageLoaded: false,
-
                 modalIds: {},
     
                 isMenuOpen: localStorage.getItem('crm-sidebar') == 'true',
@@ -39,10 +37,6 @@ $(function() {
         },
 
         mounted() {
-            setTimeout(() => {
-                this.pageLoaded = true;
-            });
-
             this.addServerErrors();
             
             this.addFlashMessages();

@@ -115,10 +115,21 @@ class LeadController extends Controller
         $lead = $this->leadRepository->update(request()->all(), $id);
 
         Event::dispatch('lead.update.after', $lead);
-        
-        session()->flash('success', trans('admin::app.leads.update-success'));
 
-        return redirect()->route('admin.leads.index');
+        if (request()->ajax()) {
+            return response()->json([
+                'status'  => true,
+                'message' => trans('admin::app.leads.update-success'),
+            ]);
+        } else {
+            session()->flash('success', trans('admin::app.leads.update-success'));
+
+            if (request()->has('closed_at')) {
+                return redirect()->back();
+            } else {
+                return redirect()->route('admin.leads.index');
+            }
+        }
     }
 
     /**
@@ -173,13 +184,13 @@ class LeadController extends Controller
         $currencySymbol = core()->currencySymbol(config('app.currency'));
 
         $leads = $this->leadRepository
-                    ->select('leads.id as id', 'title', 'lead_value', 'lead_stages.name as status', 'persons.name as person_name', 'lead_stages.id as stage_id')
+                    ->select('leads.id as id', 'title', 'lead_value', 'lead_stages.name as status', 'persons.name as person_name')
+                    ->where("title", 'like', "%$searchedKeyword%")
                     ->leftJoin('persons', 'leads.person_id', '=', 'persons.id')
                     ->leftJoin('lead_stages', 'leads.lead_stage_id', '=', 'lead_stages.id')
-                    ->where("title", 'like', "%$searchedKeyword%")
                     ->get()
                     ->toArray();
-                    
+
         $stages = $this->stageRepository
                     ->select('name', 'id')
                     ->get()
@@ -187,19 +198,11 @@ class LeadController extends Controller
 
         foreach ($leads as $key => $lead) {
             foreach ($stages as $stageKey => $stage) {
-                if ($stage['id'] == $lead['stage_id']) {
-                    if (isset($totalCount[$stage['name']])) {
-                        $totalCount[$stage['name']] = (float) $totalCount[$stage['name']] + (float) $lead['lead_value'];
-                    } else {
-                        $totalCount[$stage['name']] = $lead['lead_value'];
-                    }
+                if ($stage['id'] == $lead['lead_stage_id']) {
+                    $totalCount[$stage['name']] = $currencySymbol . number_format($lead['lead_value']);
                 }
             }
         }
-
-        $totalCount = array_map(function ($count) use ($currencySymbol) {
-            return $currencySymbol . number_format($count);
-        }, $totalCount);
 
         $stages = \Arr::pluck($stages, 'name');
 

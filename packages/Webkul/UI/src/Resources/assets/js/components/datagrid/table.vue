@@ -2,17 +2,11 @@
     <div class="table-body" v-if="Object.keys(tableData).length > 0">
         <filter-component></filter-component>
 
-        <table v-if="tableData.records.total">
+        <table>
             <thead-component></thead-component>
 
-            <tbody-component :result-loaded="resultLoaded"></tbody-component>
+            <tbody-component></tbody-component>
         </table>
-
-        <div class="empty-table" v-else>
-            <img :src="`${baseURL}/vendor/webkul/admin/assets/images/empty-table-icon.svg`" />
-
-            <span>{{ __('ui.datagrid.no-records') }}</span>
-        </div>        
     </div>
 </template>
 
@@ -28,7 +22,6 @@
             return {
                 resultLoaded: true,
                 previousURL: null,
-                baseURL: window.baseURL,
             }
         },
         

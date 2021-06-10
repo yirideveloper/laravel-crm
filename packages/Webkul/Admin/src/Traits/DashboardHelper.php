@@ -15,50 +15,54 @@ trait DashboardHelper
             [
                 "selected"      => true,
                 "card_id"       => "leads",
+                "filter_type"   => "monthly",
                 "card_type"     => "bar_chart",
                 "label"         => __('admin::app.leads.title'),
             ], [
                 "selected"      => true,
-                "card_id"       => "leads_started",
-                "card_type"     => "line_chart",
-                "label"         => __('admin::app.dashboard.leads_started'),
+                "filter_type"   => "daily",
+                "card_id"       => "activity",
+                "card_type"     => "activity",
+                "label"         => __('admin::app.dashboard.activity'),
             ], [
                 "selected"      => true,
-                "card_id"       => "activities",
-                "card_type"     => "activities",
-                "label"         => __('admin::app.dashboard.activities'),
-            ], [
-                "selected"      => true,
+                "filter_type"   => "daily",
                 "card_id"       => "top_leads",
                 "card_type"     => "top_card",
                 "label"         => __('admin::app.dashboard.top_leads'),
             ], [
                 "selected"      => true,
+                "filter_type"   => "daily",
                 "card_id"       => "stages",
                 "card_type"     => "stages_bar",
                 "label"         => __('admin::app.dashboard.stages'),
             ], [
                 "selected"      => true,
+                "filter_type"   => "monthly",
                 "card_id"       => "emails",
                 "card_type"     => "emails",
                 "label"         => __('admin::app.dashboard.emails'),
             ], [
                 "selected"      => true,
+                "filter_type"   => "monthly",
                 "card_id"       => "customers",
                 "card_type"     => "line_chart",
                 "label"         => __('admin::app.dashboard.customers'),
             ], [
                 "selected"      => true,
+                "filter_type"   => "monthly",
                 "card_id"       => "top_customers",
                 "card_type"     => "emails",
                 "label"         => __('admin::app.dashboard.top_customers'),
             ], [
                 "selected"      => true,
+                "filter_type"   => "monthly",
                 "card_id"       => "products",
                 "card_type"     => "line_chart",
                 "label"         => __('admin::app.dashboard.products'),
             ], [
                 "selected"      => true,
+                "filter_type"   => "monthly",
                 "card_id"       => "top_products",
                 "card_type"     => "emails",
                 "label"         => __('admin::app.dashboard.top_products'),
@@ -138,10 +142,47 @@ trait DashboardHelper
             'startDateFilter'   => $startDateFilter,
         ) = $this->getDateRangeDetails($requestData);
 
-        $relevantFunction = "get" . str_replace(" ", "", ucwords(str_replace("_", " ", $cardId)));
+        switch ($cardId) {
+            case 'leads':
+                $relevantFunction = "getLeads";
 
-        if (! function_exists($relevantFunction)) {
-            $relevantFunction = false;
+                break;
+            case 'products':
+                $relevantFunction = "getProducts";
+
+                break;
+            case 'customers':
+                $relevantFunction = "getCustomers";
+
+                break;
+            case 'activity':
+                $relevantFunction = "getActivities";
+
+                break;
+            case 'top_leads':
+                $relevantFunction = "getTopLeads";
+
+                break;
+            case 'stages':
+                $relevantFunction = "getStages";
+
+                break;
+            case 'emails':
+                $relevantFunction = "getEmails";
+                
+                break;
+            case 'top_customers':
+                $relevantFunction = "getTopCustomers";
+                
+                break;
+            case 'top_products':
+                $relevantFunction = "getTopProducts";
+                
+                break;
+            default:
+                $cardData = [
+                    "data" => []
+                ];
         }
 
         $cardData = $relevantFunction

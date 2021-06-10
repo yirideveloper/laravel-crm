@@ -1,6 +1,5 @@
 <template>
     <div class="grid-container">
-
         <!-- searchbox and filters section -->
         <div class="datagrid-filters" id="datagrid-filters">
             <div class="filter-left">
@@ -52,7 +51,7 @@
         </div>
 
         <!-- applied filters section -->
-        <div class="filtered-tags" v-if="filters.length > 0">
+        <div class="filtered-tags">
             <template v-for="(filter, index) in filters">
                 <div
                     :key="index"
@@ -145,9 +144,9 @@
                 </option>
             </select>
 
-            <button type="button" class="btn btn-sm btn-primary" @click="onSubmit">
+            <span type="button" class="badge badge-lg badge-primary" @click="onSubmit">
                 {{ __('ui.datagrid.submit') }}
-            </button>
+            </span>
         </div>
     </div>
 </template>

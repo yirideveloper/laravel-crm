@@ -8,7 +8,7 @@
     import Chart from 'chart.js';
 
     export default {
-        name: 'LineChart',
+        name: 'BarChart',
 
         props: ['data', 'id'],
 
