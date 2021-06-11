@@ -115,21 +115,10 @@ class LeadController extends Controller
         $lead = $this->leadRepository->update(request()->all(), $id);
 
         Event::dispatch('lead.update.after', $lead);
+        
+        session()->flash('success', trans('admin::app.leads.update-success'));
 
-        if (request()->ajax()) {
-            return response()->json([
-                'status'  => true,
-                'message' => trans('admin::app.leads.update-success'),
-            ]);
-        } else {
-            session()->flash('success', trans('admin::app.leads.update-success'));
-
-            if (request()->has('closed_at')) {
-                return redirect()->back();
-            } else {
-                return redirect()->route('admin.leads.index');
-            }
-        }
+        return redirect()->route('admin.leads.index');
     }
 
     /**
@@ -197,22 +186,14 @@ class LeadController extends Controller
                     ->toArray();
 
         foreach ($leads as $key => $lead) {
-            foreach ($stages as $stageKey => $stage) {
-                if ($stage['id'] == $lead['stage_id']) {
-                    if (isset($totalCount[$stage['name']])) {
-                        $totalCount[$stage['name']] = (float) $totalCount[$stage['name']] + (float) $lead['lead_value'];
-                    } else {
-                        $totalCount[$stage['name']] = $lead['lead_value'];
-                    }
-                }
-            }
+            $totalCount[$lead['status']] = ($totalCount[$lead['status']] ?? 0) + (float) $lead['lead_value'];
         }
 
         $totalCount = array_map(function ($count) use ($currencySymbol) {
             return $currencySymbol . number_format($count);
         }, $totalCount);
 
-        $stages = \Arr::pluck($stages, 'name');
+        $stages = array_column($stages, "name");
 
         return response()->json([
             'blocks'          => $leads,
