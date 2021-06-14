@@ -497,12 +497,37 @@ h5 {
 
         &.post-heading {
             height: 36px;
-            width: 280px;
             float: right;
+            width: max-content;
             
-            .control {
+            input[type=search].control {
+                width: 280px;
                 height: 100%;
                 font-size: 15px;
+            }
+
+            .filter-btn {
+                cursor: pointer;
+                display: inline-block;
+
+                .grid-dropdown-header {
+                    width: 105px;
+                    height: 36px;
+                    border-radius: 3px;
+                    align-items: center;
+                    display: inline-flex;
+                    padding: 0px 7px 0px 10px;
+                    background-color: $white;
+                    color: $secondary-font-color;
+                    justify-content: space-between;
+                    font-weight: $font-weight-medium;
+                    border: 2px solid $secondary-font-color;
+                    vertical-align: middle;
+                
+                    .arrow-icon-down {
+                        float: right;
+                    }
+                }
             }
         }
     }
@@ -610,7 +635,6 @@ h5 {
                 .grid-dropdown-header {
                     width: 105px;
                     height: 36px;
-                    font-weight: $font-weight-medium;
                     border-radius: 3px;
                     align-items: center;
                     display: inline-flex;
@@ -618,6 +642,7 @@ h5 {
                     background-color: $white;
                     color: $secondary-font-color;
                     justify-content: space-between;
+                    font-weight: $font-weight-medium;
                     border: 2px solid $secondary-font-color;
                     vertical-align: middle;
                 
@@ -987,10 +1012,9 @@ h5 {
     margin: 10px 5px 5px 0px;
 
     .checkbox-view {
-        background-image: url("../images/controls.svg");
-        background-position: 0px 0px;
-        height: 20px;
-        width: 20px;
+        background-image: url("../images/checkbox-icon.svg");
+        height: 24px;
+        width: 24px;
         margin: 0;
         display: inline-block !important;
         vertical-align: middle;
@@ -1001,13 +1025,13 @@ h5 {
         position: absolute;
         top: 0;
         left: 0;
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         opacity: 0;
         z-index: 100;
 
         &:checked + .checkbox-view {
-            background-position: 0px -21px;
+            background-image: url("../images/checkbox-checked-icon.svg");
         }
 
         &:disabled + .checkbox-view {
@@ -1023,10 +1047,9 @@ h5 {
     margin: 10px 5px 5px 0px;
 
     .radio-view {
-        background-image: url("../images/controls.svg");
-        background-position: -21px 0px;
-        height: 20px;
-        width: 20px;
+        background-image: url("../images/radio-icon.svg");
+        height: 24px;
+        width: 24px;
         margin: 0;
         display: inline-block !important;
         vertical-align: middle;
@@ -1041,7 +1064,7 @@ h5 {
         z-index: 100;
 
         &:checked + .radio-view {
-            background-position: -21px -21px;
+            background-image: url("../images/radio-checked-icon.svg");
         }
 
         &:disabled + .radio-view {
@@ -1642,6 +1665,10 @@ modal {
                     color: $primary-color;
                     cursor: pointer;
                     margin-right: 20px;
+                }
+                
+                i.close-icon {
+                    vertical-align: middle;
                 }
             }
         }
