@@ -18,16 +18,11 @@
             </div>
         </div>
 
-        @if ($showDefaultTable ?? true)
-            <sidebar-filter></sidebar-filter>
+        <sidebar-filter></sidebar-filter>
 
-            @section('table-section')
-                <table-component table-class="{{ $tableClass }}"><table-component>
-            @show
-        @else
-            @section('table-section')
-            @show
-        @endif
+        @section('table-section')
+            <table-component table-class="{{ $tableClass }}"><table-component>
+        @show
     </div>
 
     @yield('meta-content')

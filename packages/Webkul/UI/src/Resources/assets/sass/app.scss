@@ -493,42 +493,16 @@ h5 {
 
         .control {
             width: 100%;
-            margin: 0;
         }
 
         &.post-heading {
             height: 36px;
+            width: 280px;
             float: right;
-            width: max-content;
             
-            input[type=search].control {
-                width: 280px;
+            .control {
                 height: 100%;
                 font-size: 15px;
-            }
-
-            .filter-btn {
-                cursor: pointer;
-                display: inline-block;
-
-                .grid-dropdown-header {
-                    width: 105px;
-                    height: 36px;
-                    border-radius: 3px;
-                    align-items: center;
-                    display: inline-flex;
-                    padding: 0px 7px 0px 10px;
-                    background-color: $white;
-                    color: $secondary-font-color;
-                    justify-content: space-between;
-                    font-weight: $font-weight-medium;
-                    border: 2px solid $secondary-font-color;
-                    vertical-align: middle;
-                
-                    .arrow-icon-down {
-                        float: right;
-                    }
-                }
             }
         }
     }
@@ -636,6 +610,7 @@ h5 {
                 .grid-dropdown-header {
                     width: 105px;
                     height: 36px;
+                    font-weight: $font-weight-medium;
                     border-radius: 3px;
                     align-items: center;
                     display: inline-flex;
@@ -643,7 +618,6 @@ h5 {
                     background-color: $white;
                     color: $secondary-font-color;
                     justify-content: space-between;
-                    font-weight: $font-weight-medium;
                     border: 2px solid $secondary-font-color;
                     vertical-align: middle;
                 
@@ -1661,16 +1635,20 @@ modal {
         padding-bottom: 20px;
         border-bottom: 1px solid $border-color;
 
-        i {
-            &.close-icon {
-                vertical-align: middle;
+        h1 {
+            .float-right {
+                label {
+                    font-size: $font-size-lg;
+                    color: $primary-color;
+                    cursor: pointer;
+                    margin-right: 20px;
+                }
             }
         }
     }
 
     .field-container {
         margin-bottom: 10px;
-        padding: 10px 0 0 0;
 
         label {
             font-weight: 500;
@@ -1678,8 +1656,6 @@ modal {
 
         .control {
             width: 90%;
-            margin: 0;
-            font-size: 16px;
 
             &.half {
                 width: 146px;
@@ -1692,11 +1668,6 @@ modal {
 
         .date-container {
             display: inline-block;
-
-            &::after {
-                top: 8px;
-                margin-top: 0;
-            }
         }
 
         .enter-new {
@@ -1705,14 +1676,13 @@ modal {
 
             input {
                 width: 100%;
-                height: 35px;
             }
         }
 
         > i {
             &.close-icon {
                 float: right;
-                margin-top: 9px;
+                margin-top: 19px;
             }
         }
     }
