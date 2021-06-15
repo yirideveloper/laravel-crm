@@ -1,20 +1,18 @@
 <template>
     <div :class="`sidebar-filter`">
         <header>
-            <button type="button" class="btn btn-sm btn-white text-black fs-18 pl-0">
-                {{ __('ui.datagrid.filter.title') }}
-            </button>
+            <h1>
+                <span>{{ __('ui.datagrid.filter.title') }}</span>
 
-            <div class="float-right">
-                <button type="button" class="btn btn-sm btn-white" @click="removeAll">
-                    {{ __('ui.datagrid.filter.remove_all') }}
-                </button>
+                <div class="float-right">
+                    <label @click="removeAll">{{ __('ui.datagrid.filter.remove_all') }}</label>
 
-                <i class="icon close-icon" @click="toggleSidebarFilter"></i>
-            </div>
+                    <i class="icon close-icon" @click="toggleSidebarFilter"></i>
+                </div>
+            </h1>
         </header>
         
-        <template v-for="(data, key) in columns || tableData.columns">
+        <template v-for="(data, key) in (columns || tableData.columns)">
             <div :class="`form-group ${data.filterable_type == 'date_range' ? 'date' : ''}`" :key="key" v-if="data.filterable_type">
                 <label>{{ data.label }}</label>
 
@@ -180,6 +178,7 @@
                 this.$store.state.filters = [];
 
                 this.toggleSidebarFilter();
+                this.updateFilterValues();
 
                 this.$forceUpdate();
             },
