@@ -1,5 +1,5 @@
 <template>
-    <div class="line-chart" v-if="data.length">
+    <div class="bar-chart">
         <canvas :id="id"></canvas>
     </div>
 </template>
@@ -17,9 +17,9 @@
 
             var maxData = 0;
             var stepSize = 10;
-            var dataCount = chartData.labels?.length;
+            var dataCount = chartData.labels.length;
 
-            chartData.datasets?.forEach(dataSet => {
+            chartData.datasets.forEach(dataSet => {
                 let maxDataSet = Math.max( ...dataSet.data );
 
                 maxData = maxDataSet > maxData ? maxDataSet : maxData;
@@ -65,15 +65,13 @@
         },
 
         mounted: function () {
-            if (this.data.length) {
-                var ctx = document.getElementById(this.id).getContext('2d');
+            var ctx = document.getElementById(this.id).getContext('2d');
 
-                new Chart(ctx, {
-                    type: 'line',
-                    data: this.data,
-                    options: this.options,
-                });
-            }
+            new Chart(ctx, {
+                type: 'line',
+                data: this.data,
+                options: this.options,
+            });
         }
     }
 </script>
