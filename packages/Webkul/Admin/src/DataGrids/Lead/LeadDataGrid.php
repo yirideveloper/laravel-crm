@@ -101,19 +101,17 @@ class LeadDataGrid extends DataGrid
             'filterable_type'    => 'dropdown',
             'filterable_options' => $this->stagesFilterableOptions,
             'closure'            => function ($row) {
+                $badge = "";
+
                 if ($row->stage == "New") {
-                    $badge = 'primary';
+                    $badge = '<span class="badge badge-round badge-primary"></span>';
                 } else if ($row->stage == "Won") {
-                    $badge = 'success';
+                    $badge = '<span class="badge badge-round badge-success"></span>';
                 } else if ($row->stage == "Lost") {
-                    $badge = 'danger';
-                } else {
-                    $badge = 'warning';
+                    $badge = '<span class="badge badge-round badge-danger"></span>';
                 }
 
-                $badge = "<span class='badge badge-round badge-$badge'></span>" . $row->stage;
-
-                return $badge;
+                return $badge .= $row->stage;
             },
         ]);
     }
@@ -124,7 +122,7 @@ class LeadDataGrid extends DataGrid
             'title'  => trans('ui::app.datagrid.edit'),
             'method' => 'GET',
             'route'  => 'admin.leads.view',
-            'icon'   => 'eye-icon',
+            'icon'   => 'icon eye-icon',
         ]);
 
         $this->addAction([
@@ -132,7 +130,7 @@ class LeadDataGrid extends DataGrid
             'method'       => 'DELETE',
             'route'        => 'admin.leads.delete',
             'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => trans('admin::app.contacts.persons.person')]),
-            'icon'         => 'trash-icon',
+            'icon'         => 'icon trash-icon',
         ]);
     }
 
