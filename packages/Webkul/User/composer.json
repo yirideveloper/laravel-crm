@@ -5,10 +5,6 @@
         {
             "name": "Jitendra Singh",
             "email": "jitendra@webkul.com"
-        },
-        {
-            "name": "Shubham Mehrotra",
-            "email": "shubhammehrotra.symfony@webkul.com"
         }
     ],
     "require": {},

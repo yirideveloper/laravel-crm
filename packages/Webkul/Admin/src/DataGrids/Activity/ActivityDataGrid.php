@@ -154,7 +154,7 @@ class ActivityDataGrid extends DataGrid
             'method'       => 'DELETE',
             'route'        => 'admin.activities.delete',
             'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'user']),
-            'icon'         => 'trash-icon',
+            'icon'         => 'icon trash-icon',
         ]);
     }
 }

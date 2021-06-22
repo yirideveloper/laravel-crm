@@ -960,10 +960,6 @@ body {
                 &::-webkit-scrollbar {
                     display: none;
                 }
-
-                &.full-height {
-                    max-height: 100%;
-                }
                 
                 .bar-chart,
                 .line-chart {
@@ -1113,47 +1109,48 @@ body {
 }
 
 .banner {
-    width: 100%;
-    z-index: 10;
-    display: none;
-    color: $white;
-    height: 50px;
-    position: fixed;
-    max-height: 50px;
-    padding: 13px 20px;
-    text-align: center;
-    background-color: $primary-color;
-
-    .thumbnail {
-        width: 20px;
-        cursor: pointer;
-        margin-right: 10px;
-    }
-
-    .hovered-container {
-        top: -28px;
+    &.header-banner {
+        width: 100%;
         z-index: 10;
-        right: 110px;
         display: none;
-        position: relative;
+        color: $white;
+        position: fixed;
+        max-height: 50px;
+        padding: 10px 20px;
+        text-align: center;
+        background-color: $primary-color;
 
-        &.show {
-            display: inline-block;
-        }
-
-        img {
-            position: absolute;
-        }
-    }
-
-    span {
-        vertical-align: super;
-    }
-
-    i {
-        &.close-white-icon {
-            float: right;
+        .thumbnail {
+            width: 20px;
             cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .hovered-container {
+            top: -28px;
+            z-index: 10;
+            right: 110px;
+            display: none;
+            position: relative;
+
+            &.show {
+                display: inline-block;
+            }
+
+            img {
+                position: absolute;
+            }
+        }
+
+        span {
+            vertical-align: super;
+        }
+
+        i {
+            &.close-white-icon {
+                float: right;
+                cursor: pointer;
+            }
         }
     }
 }
@@ -1174,7 +1171,7 @@ body {
             position: relative;
         }
 
-        .banner {
+        .header-banner {
             display: inline-block;
         }
     }

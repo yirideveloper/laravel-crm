@@ -80,8 +80,8 @@ class EmailDataGrid extends DataGrid
             'route'  => 'admin.mail.view',
             'params' => ['route' => request('route')],
             'icon'   => request('route') == 'draft'
-                        ? 'pencil-icon'
-                        : 'eye-icon'
+                        ? 'icon pencil-icon'
+                        : 'icon eye-icon'
         ]);
 
         $this->addAction([
@@ -89,7 +89,7 @@ class EmailDataGrid extends DataGrid
             'method'       => 'DELETE',
             'route'        => 'admin.mail.delete',
             'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'email']),
-            'icon'         => 'trash-icon',
+            'icon'         => 'icon trash-icon',
         ]);
     }
 
