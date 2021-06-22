@@ -87,10 +87,6 @@ Route::group(['middleware' => ['web']], function () {
                 Route::put('mass-update', 'LeadController@massUpdate')->name('admin.leads.mass-update');
 
                 Route::put('mass-destroy', 'LeadController@massDestroy')->name('admin.leads.mass-delete');
-
-                Route::post('tags/{id}', 'TagController@store')->name('admin.leads.tags.store');
-
-                Route::delete('{lead_id}/{tag_id?}', 'TagController@detete')->name('admin.leads.tags.delete');
             });
 
             Route::group([
@@ -243,13 +239,6 @@ Route::group(['middleware' => ['web']], function () {
                     Route::put('mass-destroy', 'AttributeController@massDestroy')->name('admin.settings.attributes.mass-delete');
 
                     Route::get('download', 'AttributeController@download')->name('admin.settings.attributes.download');
-                });
-
-                // Tags Routes
-                Route::prefix('tags')->group(function () {
-                    Route::post('create', 'TagController@store')->name('admin.settings.tags.store');
-
-                    Route::get('search', 'TagController@search')->name('admin.settings.tags.search');
                 });
             });
 

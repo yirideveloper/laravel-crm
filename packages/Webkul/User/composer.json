@@ -1,10 +1,14 @@
 {
-    "name": "krayin/laravel-user",
+    "name": "bagisto/laravel-user",
     "license": "MIT",
     "authors": [
         {
             "name": "Jitendra Singh",
             "email": "jitendra@webkul.com"
+        },
+        {
+            "name": "Shubham Mehrotra",
+            "email": "shubhammehrotra.symfony@webkul.com"
         }
     ],
     "require": {},

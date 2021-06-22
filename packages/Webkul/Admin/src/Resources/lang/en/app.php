@@ -84,6 +84,7 @@
 
         'leads' => [
             'title'                    => 'Leads',
+            'lead'                     => 'Lead',
             'add-title'                => 'Add Lead',
             'edit-title'               => 'Edit Lead',
             'save-btn-title'           => 'Save as Lead',
@@ -102,9 +103,7 @@
             'closed-date'              => 'Closed Date',
             'contact-person'           => 'Contact Person',
             'add-tag'                  => 'Add Tag',
-            'search-tag'               => 'Search Tag',
             'name'                     => 'Name',
-            'color'                    => 'Color',
             'email'                    => 'Email',
             'contact-numbers'          => 'Contact Numbers',
             'organization'             => 'Organization',
@@ -158,8 +157,6 @@
             'email-scheduled'          => 'Email scheduled at :from - :to',
             'file-added'               => 'File added',
             'lead_stage_updated'       => 'Lead stage updated successfully!',
-            'tag-create-success'       => 'Tag added successfully.',
-            'tag-destroy-success'      => 'Tag removed successfully.',
         ],
 
         'mail' => [
@@ -185,19 +182,19 @@
             'delete'          => 'Delete',
             'destroy-success' => 'Selected emails deleted successfully.',
             'save-to-draft'   => 'Save to Draft',
-            'create-success'  => 'Success: Email sent successfully.',
-            'update-success'  => 'Success: Email updated successfully.',
-            'saved-to-draft'  => 'Success: Email saved to draft.',
-            'delete-success'  => 'Success: Email deleted successfully.',
-            'delete-failed'   => 'Error: Email can not be deleted.',
+            'create-success'  => 'Email sent successfully.',
+            'update-success'  => 'Email updated successfully.',
+            'saved-to-draft'  => 'Email saved to draft.',
+            'delete-success'  => 'Email deleted successfully.',
+            'delete-failed'   => 'Email can not be deleted.',
         ],
 
         'activities' => [
             'title'           => 'Activities',
-            'create-success'  => 'Success: Activity created successfully.',
-            'update-success'  => 'Success: Activity updated successfully.',
-            'destroy-success' => 'Success: Activity deleted successfully.',
-            'delete-failed'   => 'Error: Activity can not be deleted.',
+            'create-success'  => 'Activity created successfully.',
+            'update-success'  => 'Activity updated successfully.',
+            'destroy-success' => 'Activity deleted successfully.',
+            'delete-failed'   => 'Activity can not be deleted.',
         ],
 
         'products' => [
@@ -336,13 +333,6 @@
                 'delete-failed'         => 'Attribute can not be deleted.',
                 'user-define-error'     => 'Can not delete system attribute.'
             ],
-
-            'tags' => [
-                'create-success'        => 'Tag created successfully.',
-                'update-success'        => 'Tag updated successfully.',
-                'delete-success'        => 'Tag deleted successfully.',
-                'delete-failed'         => 'Tag can not be deleted.',
-            ]
         ],
 
         'configuration' => [

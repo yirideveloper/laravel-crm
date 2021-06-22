@@ -86,6 +86,19 @@
                 }
             },
 
+            created: function() {
+                if (! this.products || ! this.products.length) {
+                    this.products = [{
+                        'id': null,
+                        'product_id': null,
+                        'name': '',
+                        'quantity': null,
+                        'price': null,
+                        'amount': null,
+                    }];
+                }
+            },
+
             methods: {
                 addProduct: function() {
                     this.products.push({
