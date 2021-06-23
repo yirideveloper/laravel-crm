@@ -477,7 +477,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-md btn-primary">
-                        {{ __('admin::app.leads.send') }}
+                        {{ __('admin::app.leads.upload') }}
                     </button>
 
                 </form>
@@ -787,7 +787,11 @@
 
             methods: {
                 onSubmit: function(e, formScope) {
-                    this.$root.onSubmit(e, formScope);
+                    this.$validator.validateAll(formScope).then(function (result) {
+                        if (result) {
+                            e.target.submit();
+                        }
+                    });
                 }
             }
         });

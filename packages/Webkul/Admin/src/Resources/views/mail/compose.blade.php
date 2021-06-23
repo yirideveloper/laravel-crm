@@ -128,7 +128,11 @@
 
             methods: {
                 onSubmit: function(e) {
-                    this.$root.onSubmit(e);
+                    this.$validator.validateAll().then(function (result) {
+                        if (result) {
+                            e.target.submit();
+                        }
+                    });
                 }
             }
         });
