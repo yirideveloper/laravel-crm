@@ -34,7 +34,6 @@ a {
     &:visited,
     &:focus,
     &:active {
-        padding: 6px 0px;
         text-decoration: none;
         color: $primary-color;
     }
@@ -106,7 +105,7 @@ h5 {
 }
 
 .btn {
-    @include border-radius(4px);
+    @include border-radius(2px);
     border: none;
     color: $white;
     cursor: pointer;
@@ -292,6 +291,7 @@ h5 {
 
 .table {
     width: 100%;
+    height: 100%;
     overflow-x: auto !important;
 
     .table-header {
@@ -331,6 +331,8 @@ h5 {
     }
 
     .table-body {
+        height: 100%;
+
         .custom-design-container {
             right: 25px;
             width: 350px;
@@ -374,7 +376,6 @@ h5 {
 
             div {
                 position: absolute;
-                top: calc(50% + 50px);
                 left: calc(50% - 75px);
 
                 img {
@@ -390,18 +391,14 @@ h5 {
     }
 
     table {
-        @include border-radius(4px);
-
         width: 100%;
-        border: none;
         text-align: left;
         margin-top: 20px;
         background: $white;
         table-layout: fixed;
         font-size: $font-size-md;
         border-collapse: collapse;
-        
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+        border: solid 1px $border-color;
 
         th, td {
             width: 100%;
@@ -417,11 +414,8 @@ h5 {
 
         thead {
             th {
-                border-right: 0px;
-                color: $dark-color;
                 cursor: not-allowed;
                 font-weight: $font-weight-medium;
-                border-bottom: 1px solid rgba(193,194,195,.5);
 
                 &.master-checkbox {
                     width: 41px;
@@ -445,12 +439,7 @@ h5 {
 
         tbody {
             tr {
-                td {
-                    border-right: 0px;
-                    color: $dark-color;
-                    background-color: rgba(255,255,255,.5);
-                    border-bottom: 1px solid rgba(193,194,195,.5);
-
+                td {                   
                     &.empty {
                         text-align: center;
                     }
@@ -490,7 +479,7 @@ h5 {
                 &.active,
                 &:hover {
                     td {
-                        background-color: rgba(193,194,195,.1);
+                        background: $table-active-cell-color;
                     }
                 }
 
@@ -634,7 +623,6 @@ h5 {
 
     .datagrid-filters {
         width: 100%;
-        align-items: center;
         display: inline-flex;
         justify-content: space-between;
 
@@ -1246,10 +1234,9 @@ h5 {
 }
 
 .tabs-content {
-    border: none;
+    border: 1px solid $border-color;
     padding: 30px;
     background: $white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
 .pill {
@@ -1373,19 +1360,16 @@ accordian,
 
 .panel {
     .panel-header {
-        padding: 8px 0;
-        font-size: 18px;
-        color: $dark-color;
         color: $secondary-font-color;
         font-weight: $font-weight-medium;
+        padding: 15px 0;
     }
 
     .panel-body {
-        border: none;
-        padding: 16px;
+        background: $white;
+        padding: 25px;
+        border: 1px solid $border-color;
         border-radius: 3px;
-        background-color: rgba(255,255,255,.5);
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
     }
 }
 
@@ -1421,11 +1405,8 @@ modal {
     @include border-radius(8px);
 
     .modal-header {
-        z-index: 10;
-        width: inherit;
+        width: 100%;
         display: table;
-        position: fixed;
-        background: white;
         padding: 20px;
         border-bottom: 1px solid $border-color;
 
@@ -1446,9 +1427,7 @@ modal {
     }
 
     .modal-body {
-        top: 75px;
         padding: 30px;
-        position: relative;
     }
 }
 

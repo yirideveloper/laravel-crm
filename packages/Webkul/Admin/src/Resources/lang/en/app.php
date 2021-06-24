@@ -92,7 +92,6 @@
             'upload'                   => 'Upload',
             'back'                     => 'Back',
             'cancel'                   => 'Cancel',
-            'no-lead'                  => 'No Lead',
             'details'                  => 'Details',
             'stage'                    => 'Stage',
             'new'                      => 'New',
