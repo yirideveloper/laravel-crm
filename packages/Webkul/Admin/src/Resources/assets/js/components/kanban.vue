@@ -74,7 +74,7 @@
                         this.currencySymbol = response.data.currency_symbol;
 
                         setTimeout(() => {
-                            this.toggleEmptyStateIcon();
+                            this.addEmptyStateIcon();
                         })
                     })
                     .catch(error => {});
@@ -123,21 +123,19 @@
                 // window.history.pushState({path: urlParams});
             },
 
-            toggleEmptyStateIcon: function () {
-                $('.empty-icon-container').remove();
-
-                $('ul.drag-inner-list').each((index, item) => {
-                    if (! $(item).children('.drag-item').length) {
-                        $(item).append(`
-                            <div class='empty-icon-container disable-drag'>
-                                <div class="icon-text-container">
-                                    <i class='icon empty-kanban-icon'></i>
-                                    <span>${this.noDataText}</span>
-                                </div>
-                            </div>
-                        `)
-                    }
-                });
+            addEmptyStateIcon: function () {
+                // $('ul.drag-inner-list').each((index, item) => {
+                //     if (! $(item).children().length) {
+                //         $(item).append(`
+                //             <div class='empty-icon-container'>
+                //                 <div class="icon-text-container">
+                //                     <i class='icon empty-kanban-icon'></i>
+                //                     <span>${this.noDataText}</span>
+                //                 </div>
+                //             </div>
+                //         `)
+                //     }
+                // });
             }
         }
     }

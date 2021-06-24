@@ -13,7 +13,7 @@
         }
 
         .content-container{
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .full-page {

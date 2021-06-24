@@ -278,18 +278,12 @@
 
                     dashboardWidget.forEach(widget => {
                         let card = filteredCards.find(card => card.card_id == widget.card_id);
+                        let previousSort = card.sort;
 
-                        if (card) {
-                            let previousSort = card.sort;
+                        card.sort = widget.sort;
 
-                            card.sort = widget.sort;
-
-                            let replaceCard = filteredCards.find(card => card.card_id == widget.targetCardId);
-
-                            if (replaceCard) {
-                                replaceCard.sort = previousSort;
-                            }
-                        }
+                        let replaceCard = filteredCards.find(card => card.card_id == widget.targetCardId);
+                        replaceCard.sort = previousSort;
                     });
 
                     filteredCards = filteredCards.sort((secondCard, firstCard) => secondCard.sort - firstCard.sort);
