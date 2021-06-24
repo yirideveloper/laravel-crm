@@ -439,8 +439,7 @@
             'no'                 => 'No',
             'delete'             => 'Delete',
             'save'               => 'Save',
-            'add-as'             => 'Add as new',
-            'no-records-found'   => 'No Records Found',
+            'add-as'             => 'Add as new'
         ],
 
         'user' => [
