@@ -7,19 +7,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use Webkul\Email\Mails\Email;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Lead\Repositories\LeadRepository;
 use Webkul\Email\Repositories\EmailRepository;
 use Webkul\Email\Repositories\AttachmentRepository;
 
 class EmailController extends Controller
 {
-    /**
-     * LeadRepository object
-     *
-     * @var \Webkul\Email\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
     /**
      * EmailRepository object
      *
@@ -37,20 +29,16 @@ class EmailController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\Lead\Repositories\LeadRepository  $leadRepository
      * @param \Webkul\Email\Repositories\EmailRepository  $emailRepository
      * @param \Webkul\Email\Repositories\AttachmentRepository  $attachmentRepository
      *
      * @return void
      */
     public function __construct(
-        LeadRepository $leadRepository,
         EmailRepository $emailRepository,
         AttachmentRepository $attachmentRepository
     )
     {
-        $this->leadRepository = $leadRepository;
-
         $this->emailRepository = $emailRepository;
 
         $this->attachmentRepository = $attachmentRepository;
@@ -79,7 +67,7 @@ class EmailController extends Controller
      */
     public function view()
     {
-        $email = $this->emailRepository->with(['emails', 'attachments', 'lead', 'person'])->findOrFail(request('id'));
+        $email = $this->emailRepository->with(['emails', 'attachments'])->findOrFail(request('id'));
 
         if (request('route') == 'draft') {
             return view('admin::mail.compose', compact('email'));
@@ -189,28 +177,9 @@ class EmailController extends Controller
             }
         }
 
-        if (request()->ajax()) {
-            $response = [
-                'status'  => true,
-                'message' => trans('admin::app.mail.update-success'),
-            ];
+        session()->flash('success', trans('admin::app.mail.update-success'));
 
-            if (request('lead_id')) {
-                $response['html'] = view('admin::common.custom-attributes.view', [
-                    'customAttributes' => app('Webkul\Attribute\Repositories\AttributeRepository')->findWhere([
-                        'entity_type' => 'leads',
-                    ]),
-                    'entity'           => $this->leadRepository->find(request('lead_id')),
-                ])->render();
-            }
-
-            return response()->json($response);
-        } else {
-            session()->flash('success', trans('admin::app.mail.update-success'));
-    
-            return redirect()->back();
-
-        }
+        return redirect()->back();
     }
 
     /**
