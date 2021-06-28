@@ -3,10 +3,8 @@
 
         <!-- searchbox and filters section -->
         <div class="datagrid-filters" id="datagrid-filters">
-            <div>
+            <div class="filter-left">
                 <div class="search-filter form-group" v-if="tableData.enableSearch">
-                    <i class="icon search-icon input-search-icon"></i>
-
                     <input
                         type="search"
                         class="control"
@@ -15,29 +13,6 @@
                         :placeholder="__('ui.datagrid.search')"
                         @keyup="searchCollection(searchValue)"
                     />
-                </div>
-
-                <!-- mass actions section -->
-                <div class="mass-actions form-group" v-if="selectedTableRows.length > 0">
-                    <select name="mass_action" class="control" v-model="massActionValue" v-validate="'required'">
-                        <option value="NA" disbaled="disbaled">{{ __('ui.datagrid.massaction.select_action') }}</option>
-
-                        <option :value="massAction" :key="index" v-for="(massAction, index) in tableData.massactions">
-                            {{ massAction.label }}
-                        </option>
-                    </select>
-
-                    <select class="control" v-model="massActionOptionValue" name="update-options" v-validate="'required'" v-if="massActionValue.type == 'update'">
-                        <option value="NA" disbaled="disbaled">{{ __('ui.datagrid.massaction.select_action') }}</option>
-
-                        <option :key="key" v-for="(option, key) in massActionValue.options" :value="option">
-                            {{ key }}
-                        </option>
-                    </select>
-
-                    <button type="button" class="btn btn-sm btn-primary" @click="onSubmit">
-                        {{ __('ui.datagrid.submit') }}
-                    </button>
                 </div>
             </div>
 
@@ -64,17 +39,7 @@
                     </div>
                 </div>
 
-                <div class="switch-icons-container" v-if="switchPageUrl">
-                    <a class="icon-container" :href="switchPageUrl">
-                        <i class="icon layout-column-line-icon"></i>
-                    </a>
-
-                    <a class="icon-container active">
-                        <i class="icon table-line-active-icon"></i>
-                    </a>
-                </div>
-
-                <div class="filter-btn" v-if="tableData.enableFilters" style="display: inline-block">
+                <div class="filter-btn" v-if="tableData.enableFilters">
                     <div class="grid-dropdown-header" @click="toggleSidebarFilter">
                         <span class="name">
                             {{ __('ui.datagrid.filter.title') }}
@@ -104,8 +69,8 @@
             </template>
         </div>
 
-        <!-- tabs section -->
-        <div class="tabs-container">
+        <!-- filters section -->
+        <template>
             <tabs
                 event-value-key="value"
                 event-key="updateFilter"
@@ -163,6 +128,25 @@
                     </button>
                 </div>
             </div>
+        </template>
+
+        <!-- mass actions section -->
+        <div class="mass-actions form-group" v-if="selectedTableRows.length > 0">
+            <select name="mass_action" class="control" v-model="massActionValue" v-validate="'required'">
+                <option :value="massAction" :key="index" v-for="(massAction, index) in tableData.massactions">
+                    {{ massAction.label }}
+                </option>
+            </select>
+
+            <select class="control" v-model="massActionOptionValue" name="update-options" v-validate="'required'" v-if="massActionValue.type == 'update'">
+                <option :key="key" v-for="(option, key) in massActionValue.options" :value="option">
+                    {{ key }}
+                </option>
+            </select>
+
+            <button type="button" class="btn btn-sm btn-primary" @click="onSubmit">
+                {{ __('ui.datagrid.submit') }}
+            </button>
         </div>
     </div>
 </template>
@@ -171,8 +155,6 @@
     import { mapState, mapActions } from 'vuex';
 
     export default {
-        props: ['switchPageUrl'],
-
         data: function () {
             return {
                 type: null,
@@ -184,13 +166,13 @@
                 sortDesc: 'desc',
                 stringValue: null,
                 booleanValue: null,
-                massActionValue: 'NA',
+                massActionValue: {},
                 sidebarFilter: false,
                 stringCondition: null,
                 numberCondition: null,
                 booleanCondition: null,
                 datetimeCondition: null,
-                massActionOptionValue: 'NA',
+                massActionOptionValue: null,
                 custom_filter: [null, null],
                 url: new URL(window.location.href),
                 ignoreDisplayFilter: ['duration', 'type'],
@@ -222,20 +204,12 @@
                 if (duration) {
                     duration = duration.val.split(",");
 
-                    var timestamp = Date.parse(duration[0]);
-
-                    if (isNaN(timestamp) == false) {
-                        this.custom_filter = duration;
-                    }
+                    this.custom_filter = duration;
                 }
             },
 
             '$store.state.filters': function (newValue, oldValue) {
                 this.filters = newValue;
-
-                if (this.filters.length == 0) {
-                    this.custom_filter = [null, null];
-                }
 
                 this.makeURL();
             }
@@ -585,8 +559,8 @@
 
                                     this.selectAllRows(false);
 
-                                    this.massActionValue = 'NA';
-                                    this.massActionOptionValue = 'NA';
+                                    this.massActionValue = {};
+                                    this.massActionOptionValue = null;
 
                                     this.toggleButtonDisable(false);
 

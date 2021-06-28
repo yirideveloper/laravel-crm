@@ -63,13 +63,10 @@
 
         methods: {
             getData: function (searchedKeyword, filterValues) {
-                this.$root.pageLoaded = false;
                 this.updateURI(searchedKeyword, filterValues);
 
                 this.$http.get(`${this.getUrl}${searchedKeyword ? `?search=${searchedKeyword}` : ''}${filterValues || ''}`)
                     .then(response => {
-                        this.$root.pageLoaded = true;
-
                         this.blocks = response.data.blocks;
                         this.stagesId = response.data.stages;
                         this.totalCounts = response.data.total_count;
@@ -80,9 +77,7 @@
                             this.toggleEmptyStateIcon();
                         })
                     })
-                    .catch(error => {
-                        this.$root.pageLoaded = true;
-                    });
+                    .catch(error => {});
             },
 
             updateBlock: function (id, status) {
@@ -123,7 +118,9 @@
             updateURI: function (searchedKeyword, filterValues) {
                 // const urlParams = new URLSearchParams(window.location.search);
 
-                // window.history.pushState({path: urlParams}, '');
+                // urlParams.set('order', 'date');
+
+                // window.history.pushState({path: urlParams});
             },
 
             toggleEmptyStateIcon: function () {

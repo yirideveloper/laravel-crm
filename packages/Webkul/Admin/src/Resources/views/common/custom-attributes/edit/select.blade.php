@@ -8,7 +8,7 @@
         $selectedOption = old($attribute->code) ?: $value;
     @endphp
 
-    <option value="" selected="selected" disabled="disabled">{{ __('admin::app.settings.attributes.select') }}</option>
+    <option value=""></option>
 
     @foreach ($options as $option)
         <option value="{{ $option->id }}" {{ $option->id == $selectedOption ? 'selected' : ''}}>

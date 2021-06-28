@@ -18,19 +18,14 @@ const UPDATE_FILTER_VALUES = (state, payload) => {
 };
 
 const SELECT_ALL_ROWS = (state, payload) => {
-    if (! (payload && state.selectedTableRows.length > 0)) {
-        state.selectedTableRows = [];
+    state.selectedTableRows = [];
+    state.allSelected = payload != 'undefined' ? payload : ! state.allSelected;
 
-        state.allSelected = payload || ! state.allSelected;
-    
-        state.tableData.records.data.forEach(row => {
-            if (state.allSelected) {
-                state.selectedTableRows.push(row.id);
-            }
-        });
-    } else {
-        state.selectedTableRows = [];
-    }
+    state.tableData.records.data.forEach(row => {
+        if (state.allSelected) {
+            state.selectedTableRows.push(row.id);
+        }
+    });
 };
 
 const SELECT_TABLE_ROW = (state, payload) => {

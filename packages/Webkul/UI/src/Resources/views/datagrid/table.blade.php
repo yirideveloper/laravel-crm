@@ -35,7 +35,7 @@
 
 @push('scripts')
     <script>
-        window.baseURL = "{{ route('krayin.home') }}";
+        window.baseURL = "{{ config('app.url') }}";
         window.params = @json(request()->route()->parameters());
     </script>
 @endpush
