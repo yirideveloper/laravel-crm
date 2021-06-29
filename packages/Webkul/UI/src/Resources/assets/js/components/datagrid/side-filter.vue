@@ -4,7 +4,7 @@
             <h1>
                 <span>{{ __('ui.datagrid.filter.title') }}</span>
 
-                <div class="right">
+                <div class="float-right">
                     <label @click="removeAll">{{ __('ui.datagrid.filter.remove_all') }}</label>
 
                     <i class="icon close-icon" @click="toggleSidebarFilter"></i>
@@ -175,17 +175,9 @@
             },
 
             removeAll: function () {
-                this.$store.state.filters = this.$store.state.filters.filter(filter => filter.column == 'type' && filter.val == 'table');
+                this.$store.state.filters = [];
 
-                (this.columns || this.tableData.columns).forEach((column, index) => {
-                    if (column.filterable_type && column.filterable_type == 'date_range') {
-                        this.removeFilter({
-                            key     : index,
-                            index   : column.index,
-                            type    : column.filterable_type,
-                        })
-                    }
-                });
+                this.toggleSidebarFilter();
 
                 this.$forceUpdate();
             },
