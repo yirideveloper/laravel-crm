@@ -1,17 +1,11 @@
 @extends('ui::datagrid.table')
 
-@section('page_title')
-    {{ __('admin::app.settings.roles.title') }}
-@stop
-
 @section('table-header')
-    {{ Breadcrumbs::render('settings.roles') }}
-
     {{ __('admin::app.settings.roles.title') }}
 @stop
 
 @section('table-action')
     <a href="{{ route('admin.settings.roles.create') }}" class="btn btn-sm btn-primary">
-        {{ __('admin::app.settings.roles.add-title') }}
+        {{ __('admin::app.settings.roles.create_role') }}
     </a>
 @stop

@@ -1,17 +1,18 @@
 @extends('admin::layouts.master')
 
 @section('page_title')
-    {{ __('admin::app.settings.users.add-title') }}
+    {{ __('admin::app.settings.users.create_user') }}
 @stop
 
 @section('content-wrapper')
     <div class="content full-page adjacent-center">
         <div class="page-header">
-            
-            {{ Breadcrumbs::render('settings.users.create') }}
+            <h6 class="breadcrumbs">
+                Home/Leads/ 
+            </h6>
 
             <div class="page-title">
-                <h1>{{ __('admin::app.settings.users.add-title') }}</h1>
+                <h1>{{ __('admin::app.settings.users.create_user') }}</h1>
             </div>
         </div>
 

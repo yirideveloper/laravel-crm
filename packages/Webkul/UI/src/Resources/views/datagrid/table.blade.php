@@ -1,5 +1,9 @@
 @extends('admin::layouts.master')
 
+@section('page_title')
+    @yield('table-header', "Table Default Header")
+@stop
+
 @section('content-wrapper')
     <div class="content full-page table">
         <div class="table-header">

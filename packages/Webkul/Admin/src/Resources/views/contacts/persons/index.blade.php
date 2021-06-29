@@ -1,12 +1,6 @@
 @extends('ui::datagrid.table')
 
-@section('page_title')
-    {{ __('admin::app.contacts.persons.title') }}
-@stop
-
 @section('table-header')
-    {{ Breadcrumbs::render('contacts.persons') }}
-
     {{ __('admin::app.contacts.persons.title') }}
 @stop
 

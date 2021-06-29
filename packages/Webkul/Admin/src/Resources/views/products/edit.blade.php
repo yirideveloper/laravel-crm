@@ -7,9 +7,6 @@
 @section('content-wrapper')
     <div class="content full-page adjacent-center">
         <div class="page-header">
-
-            {{ Breadcrumbs::render('products.edit', $product) }}
-
             <div class="page-title">
                 <h1>{{ __('admin::app.products.edit-title') }}</h1>
             </div>

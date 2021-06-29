@@ -1,17 +1,18 @@
 @extends('admin::layouts.master')
 
 @section('page_title')
-    {{ __('admin::app.settings.roles.add-title') }}
+    {{ __('admin::app.settings.roles.create_role') }}
 @stop
 
 @section('content-wrapper')
     <div class="content full-page adjacent-center">
         <div class="page-header">
-            
-            {{ Breadcrumbs::render('settings.roles.create') }}
+            <h6 class="breadcrumbs">
+                Home/Leads/ 
+            </h6>
 
             <div class="page-title">
-                <h1>{{ __('admin::app.settings.roles.add-title') }}</h1>
+                <h1>{{ __('admin::app.settings.roles.create_role') }}</h1>
             </div>
         </div>
 
