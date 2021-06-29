@@ -2,7 +2,7 @@
 
 namespace Webkul\Email\Providers;
 
-use Webkul\Core\Providers\BaseModuleServiceProvider;
+use Konekt\Concord\BaseModuleServiceProvider;
 
 class ModuleServiceProvider extends BaseModuleServiceProvider
 {

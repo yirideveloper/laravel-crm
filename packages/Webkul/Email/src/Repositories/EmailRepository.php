@@ -116,7 +116,7 @@ class EmailRepository extends Repository
         }
 
         $headers = [
-            'from'          => current($this->parseEmailAddress('from')),
+            'from'          => $this->parseEmailAddress('from'),
             'sender'        => $this->parseEmailAddress('sender'),
             'reply_to'      => $this->parseEmailAddress('to'),
             'cc'            => $this->parseEmailAddress('cc'),
@@ -169,6 +169,8 @@ class EmailRepository extends Repository
                 'user_type'     => 'person',
             ]));
         } else {
+            // Create person or admin if both are note exists (Optional)
+
             $this->update([
                 'reference_ids' => array_merge($email->reference_ids ?? [], [$headers['message_id']]),
             ], $email->id);
