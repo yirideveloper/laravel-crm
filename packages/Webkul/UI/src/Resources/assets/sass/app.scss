@@ -296,8 +296,10 @@ h5 {
     overflow-x: auto !important;
 
     .table-header {
+        display: grid;
         margin-bottom: 20px;
-        @include display-grid(repeat(2, auto));
+        align-items: center;
+        grid-template-columns: auto auto;
 
         h1 {
             margin-bottom: 0;
@@ -328,9 +330,11 @@ h5 {
 
             .form-group {
                 margin: 20px 0;
+                display: grid;
                 grid-gap: 5px;
                 text-align: center;
-                @include display-grid(140px auto 140px);
+                align-items: center;
+                grid-template-columns: 140px auto 140px;
 
                 &.date {
                     .date-container {
@@ -428,18 +432,11 @@ h5 {
 
         tbody {
             tr {
-                border-bottom: 1px solid rgba(193, 194, 195, 0.5);
-
-                &.active {
-                    border-bottom: none;
-                    background-color: $table-active-cell-color;
-                }
-
                 td {
                     border-right: 0px;
                     color: $dark-color;
-                    border-bottom: none;
                     background-color: rgba(255,255,255,.5);
+                    border-bottom: 1px solid rgba(193,194,195,.5);
 
                     &.empty {
                         text-align: center;
@@ -540,15 +537,16 @@ h5 {
     }
 
     .filtered-tags {
-        margin: 20px 0 0 0;
+        margin: 15px 20px 0 0;
 
         .filter-tag {
             grid-gap: 5px;
             margin-right: 20px;
             width: max-content;
-            text-transform: capitalize;
-            @include display-grid(repeat(2, auto));
+            align-items: center;
             display: inline-grid;
+            text-transform: capitalize;
+            grid-template-columns: auto auto;
     
             .wrapper {
                 font-size: 14px;
@@ -556,11 +554,12 @@ h5 {
                 color: #000311;
                 line-height: 40px;
                 padding: 0px 10px;
+                display: inline-grid;
+                align-items: center;
                 background: #E7E7E7;
                 @include border-radius(2px);
-                @include display-grid(auto 20px);
-                display: inline-grid;
-                
+                grid-template-columns: auto 20px;
+        
                 .icon.close-icon {
                     top: -2px;
                     cursor: pointer;
@@ -616,7 +615,9 @@ h5 {
 
     .datagrid-filters {
         width: 100%;
-        @include display-grid(repeat(2, auto));
+        display: grid;
+        align-items: center;
+        grid-template-columns: auto auto;
 
         .filter-right {
             text-align: right;
@@ -631,13 +632,13 @@ h5 {
                     border-radius: 3px;
                     align-items: center;
                     display: inline-flex;
-                    vertical-align: middle;
                     padding: 0px 7px 0px 10px;
                     background-color: $white;
                     color: $secondary-font-color;
                     justify-content: space-between;
                     font-weight: $font-weight-medium;
-                    border: 1px solid $secondary-font-color;
+                    border: 2px solid $secondary-font-color;
+                    vertical-align: middle;
                 
                     .arrow-icon-down {
                         float: right;
@@ -652,8 +653,10 @@ h5 {
             
             &.per-page {
                 .form-group {
+                    display: grid;
                     grid-gap: 10px;
-                    @include display-grid(repeat(2, auto));
+                    align-items: center;
+                    grid-template-columns: auto auto;
 
                     .control {
                         margin: 0;
@@ -674,8 +677,10 @@ h5 {
     }
 
     .tabs-container {
+        display: grid;
         margin: 20px 0;
-        @include display-grid(repeat(2, auto));
+        align-items: center;
+        grid-template-columns: auto auto;
 
         .tabs-right-container {
             text-align: right;
@@ -709,7 +714,6 @@ h5 {
 
         button {
             height: 40px;
-            vertical-align: middle;
         }
     }
 }
@@ -1033,6 +1037,8 @@ h5 {
 
     input {
         position: absolute;
+        top: 0;
+        left: 0;
         width: 24px;
         height: 24px;
         opacity: 0;
@@ -1413,11 +1419,13 @@ modal {
 
     .modal-header {
         z-index: 10;
+        display: grid;
         width: inherit;
         position: relative;
         background: $white;
+        align-items: center;
         padding: 20px 20px 10px 20px;
-        @include display-grid(repeat(2, auto));
+        grid-template-columns: auto auto;
         border-bottom: 1px solid $border-color;
 
         h3 {
@@ -1669,10 +1677,10 @@ modal {
     height: 100vh;
     right: -420px;
     position: fixed;
+    padding: 30px 20px;
     overflow-y: scroll;
     display: inline-block;
     background-color: $white;
-    padding: 30px 15px 30px 20px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.18);
     transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -1689,11 +1697,8 @@ modal {
             padding: 0;
             margin: 0;
             font-weight: 400;
-            @include display-grid(repeat(2, auto));
 
-            .right {
-                text-align: right;
-
+            .float-right {
                 label {
                     cursor: pointer;
                     margin-right: 20px;
@@ -1819,11 +1824,24 @@ modal {
     }
 }
 
-.breadcrumbs {
-    font-weight: 400;
-    margin: 0 0 10px 0;
-    color: $primary-color;
-    font-size: $font-size-md;
+ol.breadcrumb {
+    list-style: none;
+    padding: 0;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-regular;
+    margin-top: 0;
+    margin-bottom: 5px;
+
+    li.breadcrumb-item {
+        display: inline-block;
+
+        &+.breadcrumb-item::before {
+            display: inline-block;
+            padding-right: 5px;
+            padding-left: 5px;
+            content: "/";
+        }
+    }
 }
 
 .float-left {
@@ -1913,14 +1931,16 @@ modal {
 }
 
 .row-grid-3 {
+    display: grid;
     grid-row-gap: 15px;
     grid-auto-rows: auto;
     grid-column-gap: 15px;
-    @include display-grid(repeat(3, 1fr));
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .bar {
     height: 10px;
+    margin-top: 5px;
     background-color: $table-active-cell-color;
 
     > div {
@@ -1997,13 +2017,4 @@ modal {
 
 .cursor-pointer {
     cursor: pointer !important;
-}
-
-.display-grid {
-    display: grid;
-}
-
-.column-grid-2 {
-    grid-gap: 10px;
-    @include display-grid(repeat(2, auto));
 }
