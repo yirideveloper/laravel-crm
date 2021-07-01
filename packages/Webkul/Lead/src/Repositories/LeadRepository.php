@@ -183,13 +183,7 @@ class LeadRepository extends Repository
      */
     public function getLeadsCount($leadStage, $startDate, $endDate)
     {
-        $query = $this
-                ->whereBetween('leads.created_at', [$startDate, $endDate])
-                ->where(function ($query) {
-                    if (($currentUser = auth()->guard('user')->user())->lead_view_permission == "individual") {
-                        $query->where('leads.user_id', $currentUser->id);
-                    }
-                });
+        $query = $this->whereBetween('leads.created_at', [$startDate, $endDate]);
 
         if ($leadStage != "all") {
             $query
