@@ -5,11 +5,13 @@
         {
             "name": "Jitendra Singh",
             "email": "jitendra@webkul.com"
+        },
+        {
+            "name": "Shubham Mehrotra",
+            "email": "shubhammehrotra.symfony@webkul.com"
         }
     ],
-    "require": {
-        "krayin/laravel-core": "^1.0"
-    },
+    "require": {},
     "autoload": {
         "psr-4": {
             "Webkul\\User\\": "src/"
@@ -20,7 +22,9 @@
             "providers": [
                 "Webkul\\User\\Providers\\UserServiceProvider"
             ],
-            "aliases": {}
+            "aliases": {
+                "Bouncer": "Webkul\\User\\Facades\\Bouncer"
+            }
         }
     },
     "minimum-stability": "dev"
