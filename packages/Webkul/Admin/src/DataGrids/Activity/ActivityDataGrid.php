@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 class ActivityDataGrid extends DataGrid
 {
     protected $users = [];
-    protected $persons = [];
     protected $tabFilters = [];
 
     protected $redirectRow = [
@@ -19,7 +18,6 @@ class ActivityDataGrid extends DataGrid
 
     public function __construct()
     {
-        // table tab filters
         $this->tabFilters = [
             [
                 'type'      => 'pill',
@@ -82,7 +80,6 @@ class ActivityDataGrid extends DataGrid
             ],
         ];
 
-        // users list to filter table data
         $userRepository = app('\Webkul\User\Repositories\UserRepository');
 
         $users = $userRepository->all();
@@ -91,18 +88,6 @@ class ActivityDataGrid extends DataGrid
             array_push($this->users, [
                 'value' => $user['id'],
                 'label' => $user['name'],
-            ]);
-        }
-
-        // persons list to filter table data
-        $personRepository = app('\Webkul\Contact\Repositories\PersonRepository');
-
-        $persons = $personRepository->all();
-
-        foreach ($persons as $person) {
-            array_push($this->persons, [
-                'value' => $person['id'],
-                'label' => $person['name'],
             ]);
         }
 
@@ -132,9 +117,7 @@ class ActivityDataGrid extends DataGrid
 
         $this->addFilter('id', 'lead_activities.id');
         $this->addFilter('assigned_to', 'users.name');
-        $this->addFilter('contact_person', 'persons.id');
         $this->addFilter('user', 'lead_activities.user_id');
-        $this->addFilter('created_at', 'lead_activities.created_at');
 
         $this->setQueryBuilder($queryBuilder);
     }
@@ -143,7 +126,7 @@ class ActivityDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'             => 'user',
-            'label'             => trans('admin::app.datagrid.assigned_to'),
+            'label'             => trans('admin::app.datagrid.user'),
             'type'              => 'hidden',
             'sortable'          => true,
             'filterable_type'   => 'dropdown',
@@ -151,11 +134,11 @@ class ActivityDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'             => 'lead',
-            'label'             => trans('admin::app.datagrid.lead'),
+            'index'             => 'subject',
+            'label'             => trans('admin::app.datagrid.subject'),
             'type'              => 'string',
             'closure'           => function ($row) {
-                $route = urldecode(route('admin.leads.index', ['view_type' => 'table', 'id[eq]' => $row->lead_id]));
+                $route = urldecode(route('admin.leads.index', ['type' => 'table', 'id[eq]' => $row->lead_id]));
 
                 return "<a href='" . $route . "'>" . $row->lead_title . "</a>";
             },
@@ -198,12 +181,10 @@ class ActivityDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'              => 'contact_person',
-            'label'              => trans('admin::app.datagrid.contact_person'),
-            'type'               => 'string',
-            'filterable_type'    => 'dropdown',
-            'filterable_options' => $this->persons,
-            'closure'            => function ($row) {
+            'index'             => 'contact_person',
+            'label'             => trans('admin::app.datagrid.contact_person'),
+            'type'              => 'string',
+            'closure'           => function ($row) {
                 $route = urldecode(route('admin.contacts.persons.index', ['id[eq]' => $row->contact_person_id]));
 
                 return "<a href='" . $route . "'>" . $row->contact_person . "</a>";

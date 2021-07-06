@@ -1,7 +1,6 @@
 <template>
     <div class="bar-chart" v-if="showData">
         <canvas :id="id"></canvas>
-        <img :id="`img-${id}`" />
     </div>
 </template>
 
@@ -29,16 +28,12 @@
             stepSize = Math.ceil(maxData / dataCount);
             
             return {
-                chart: null,
                 chartData,
                 showData: this.data?.datasets && this.data?.labels,
                 options: {
                     "responsive": true,
                     "legend": {
                         "display": false
-                    },
-                    "animation": {
-                        "onComplete": this.onComplete
                     },
                     "scales": {
                         "xAxes": [
@@ -73,19 +68,11 @@
             if (this.showData) {
                 var ctx = document.getElementById(this.id).getContext('2d');
     
-                this.chart = new Chart(ctx, {
+                new Chart(ctx, {
                     type: 'bar',
                     data: this.data,
                     options: this.options,
                 });
-            }
-        },
-
-        methods: {
-            onComplete: function () {
-                const url = this.chart.toBase64Image();
-
-                $(`img#img-${this.id}`).attr('src', url);
             }
         }
     }
