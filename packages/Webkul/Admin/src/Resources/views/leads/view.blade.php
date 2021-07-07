@@ -355,11 +355,17 @@
                             <textarea class="control" name="lost_reason"></textarea>
                         </div>
 
+                        <div class="form-group" v-if="this[nextStageCode] && this[nextStageCode].code == 'won'">
+                            <label>{{ __('admin::app.leads.won-value') }}</label>
+
+                            <input type="text" name="lead_value" class="control" value="{{ $lead->lead_value }}" />
+                        </div>
+
                         <div class="form-group">
                             <label>{{ __('admin::app.leads.closed-date') }}</label>
 
                             <date>
-                                <input type="text" name="closed_at" class="control"/>
+                                <input type="text" name="closed_at" class="control" />
                             </date>
                         </div>
                     </div>
@@ -612,30 +618,6 @@
                         <span v-else>{{ __('admin::app.leads.empty-done-activities') }}</span>
                     </div>
                     
-                </div>
-            </tab>
-
-            <tab name="Quotes">
-                <div class="table" style="padding: 5px">
-                    <a href="{{ route('admin.quotes.create', $lead->id) }}" class="btn btn-primary">Create Quote</a>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="name">Name</th>
-                                <th class="created_at">Created Date</th>
-                                <th class="actions">Actions</th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            <tr>
-                                <td title="" class="name">Webkul</td>
-                                <td title="" class="created_at">28 Jun 2021 22:40</td>
-                                <td title="" class="actions"></td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </tab>
         </tabs>

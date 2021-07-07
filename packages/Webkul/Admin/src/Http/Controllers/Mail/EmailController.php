@@ -84,6 +84,7 @@ class EmailController extends Controller
     public function view()
     {
         $email = $this->emailRepository
+                ->select('subject')
                 ->with(['emails', 'attachments', 'lead', 'person'])
                 ->findOrFail(request('id'));
 
