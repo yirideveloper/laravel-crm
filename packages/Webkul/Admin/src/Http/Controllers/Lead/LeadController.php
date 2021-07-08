@@ -5,9 +5,7 @@ namespace Webkul\Admin\Http\Controllers\Lead;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Mail;
 
-use Webkul\Admin\Notifications\Lead\Create;
 use Webkul\Lead\Repositories\LeadRepository;
 use Webkul\Lead\Repositories\FileRepository;
 use Webkul\Lead\Repositories\StageRepository;
@@ -86,14 +84,6 @@ class LeadController extends Controller
 
         $lead = $this->leadRepository->create($data);
 
-        $user = $this->leadRepository->getUserByLeadId($lead->id);
-
-        try {
-            Mail::queue(new Create($user, $lead->id));
-        } catch (\Exception $e) {
-            report($e);
-        }
-
         Event::dispatch('lead.create.after', $lead);
         
         session()->flash('success', trans('admin::app.leads.create-success'));
@@ -110,6 +100,7 @@ class LeadController extends Controller
     public function view($id)
     {
         $lead = $this->leadRepository->findOrFail($id);
+
         if (($currentUser = auth()->guard('user')->user())->lead_view_permission == "individual") {
             if ($lead->user_id != $currentUser->id) {
                 return redirect()->route('admin.leads.index');

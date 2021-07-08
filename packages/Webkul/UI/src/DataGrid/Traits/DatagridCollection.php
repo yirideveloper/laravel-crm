@@ -136,15 +136,15 @@ trait DatagridCollection
         if ($count_keys == 1) {
             $collection->where(function ($collection) use ($info) {
                 foreach ($this->completeColumnDetails as $column) {
-                    if ($column['searchable'] ?? false) {
+                    if (isset($column['searchable']) && $column['searchable'] == true) {
                         if ($this->enableFilterMap && isset($this->filterMap[$column['index']])) {
-                            $collection->orWhere(
+                            $collection->where(
                                 $this->filterMap[$column['index']],
                                 'like',
                                 '%' . $info['all'] . '%'
                             );
                         } else {
-                            $collection->orWhere($column['index'], 'like', '%' . $info['all'] . '%');
+                            $collection->where($column['index'], 'like', '%' . $info['all'] . '%');
                         }
                     }
                 }
