@@ -5,7 +5,6 @@ namespace Webkul\Admin\DataGrids\Contact;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Webkul\UI\DataGrid\DataGrid;
-use Webkul\Contact\Repositories\OrganizationRepository;
 
 class PersonDataGrid extends DataGrid
 {
@@ -15,20 +14,6 @@ class PersonDataGrid extends DataGrid
         "id"    => "id",
         "route" => "admin.contacts.persons.edit",
     ];
-
-    public function __construct(OrganizationRepository $organizationRepository)
-    {
-        $organizations = $organizationRepository->all();
-
-        foreach ($organizations as $organization) {
-            array_push($this->organizations, [
-                'value' => $organization['id'],
-                'label' => $organization['name'],
-            ]);
-        }
-
-        parent::__construct();
-    }
 
     public function prepareQueryBuilder()
     {
@@ -67,12 +52,13 @@ class PersonDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'      => 'emails',
-            'label'      => trans('admin::app.datagrid.emails'),
-            'type'       => 'string',
-            'searchable' => true,
-            'sortable'   => false,
-            'closure'    => function ($row) {
+            'index'             => 'emails',
+            'label'             => trans('admin::app.datagrid.emails'),
+            'type'              => 'string',
+            'searchable'        => true,
+            'sortable'          => false,
+            'filterable_type'   => 'add',
+            'closure'           => function ($row) {
                 $emails = json_decode($row->emails, true);
 
                 if ($emails) {
@@ -84,12 +70,13 @@ class PersonDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'      => 'contact_numbers',
-            'label'      => trans('admin::app.datagrid.contact_numbers'),
-            'type'       => 'string',
-            'searchable' => true,
-            'sortable'   => false,
-            'closure'    => function ($row) {
+            'index'             => 'contact_numbers',
+            'label'             => trans('admin::app.datagrid.contact_numbers'),
+            'type'              => 'string',
+            'searchable'        => true,
+            'sortable'          => false,
+            'filterable_type'   => 'add',
+            'closure'           => function ($row) {
                 $contactNumbers = json_decode($row->contact_numbers, true);
 
                 if ($contactNumbers) {
@@ -107,7 +94,7 @@ class PersonDataGrid extends DataGrid
             'searchable'         => true,
             'sortable'           => true,
             'filterable_type'    => 'dropdown',
-            'filterable_options' => $this->organizations,
+            'filterable_options' => app('\Webkul\Contact\Repositories\OrganizationRepository')->get(['id as value', 'name as label'])->toArray(),
         ]);
     }
 
@@ -134,7 +121,7 @@ class PersonDataGrid extends DataGrid
         $this->addMassAction([
             'type'   => 'delete',
             'label'  => trans('ui::app.datagrid.delete'),
-            'action' => route('admin.contacts.persons.mass-delete'),
+            'action' => route('admin.contacts.persons.mass_delete'),
             'method' => 'PUT',
         ]);
     }
