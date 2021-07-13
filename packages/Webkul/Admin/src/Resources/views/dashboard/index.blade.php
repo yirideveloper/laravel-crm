@@ -8,18 +8,9 @@
     <div class="content full-page dashboard">
         <h1>{{ __('admin::app.dashboard.title') }}</h1>
 
-        {!! view_render_event('admin.dashboard.index.filter.before') !!}
-
         <selected-cards-filter></selected-cards-filter>
 
-        {!! view_render_event('admin.dashboard.index.filter.after') !!}
-
-
-        {!! view_render_event('admin.dashboard.index.cards.before') !!}
-
         <cards-collection></cards-collection>
-
-        {!! view_render_event('admin.dashboard.index.cards.after') !!}
     </div>
 @stop
 

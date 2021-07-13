@@ -15,8 +15,6 @@
 
 @section('content-wrapper')
     <div class="content full-page adjacent-center">
-        {!! view_render_event('admin.settings.attributes.create.header.before') !!}
-
         <div class="page-header">
             
             {{ Breadcrumbs::render('settings.attributes.create') }}
@@ -26,8 +24,6 @@
             </div>
         </div>
 
-        {!! view_render_event('admin.settings.attributes.create.header.after') !!}
-
         <form method="POST" action="{{ route('admin.settings.attributes.store') }}" @submit.prevent="onSubmit">
 
             <div class="page-content">
@@ -35,20 +31,14 @@
 
                     <div class="panel">
                         <div class="panel-header">
-                            {!! view_render_event('admin.settings.attributes.create.form_buttons.before') !!}
-
                             <button type="submit" class="btn btn-md btn-primary">
                                 {{ __('admin::app.settings.attributes.save-btn-title') }}
                             </button>
 
                             <a href="{{ route('admin.settings.attributes.index') }}">{{ __('admin::app.settings.attributes.back') }}</a>
-
-                            {!! view_render_event('admin.settings.attributes.create.form_buttons.after') !!}
                         </div>
         
                         <div class="panel-body">
-                            {!! view_render_event('admin.settings.attributes.create.form_controls.before') !!}
-
                             @csrf()
 
                             <div class="form-group" :class="[errors.has('code') ? 'has-error' : '']">
@@ -121,8 +111,6 @@
                                     <option value="url">{{ __('admin::app.settings.attributes.url') }}</option>
                                 </select>
                             </div>
-
-                            {!! view_render_event('admin.settings.attributes.create.form_controls.after') !!}
                         </div>
                     </div>
                 </div>

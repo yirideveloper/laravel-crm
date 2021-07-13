@@ -5,13 +5,9 @@
 @stop
 
 @section('table-header')
-    {!! view_render_event('admin.activities.index.header.before') !!}
-
     {{ Breadcrumbs::render('activities') }}
 
     {{ __('admin::app.activities.title') }}
-
-    {!! view_render_event('admin.activities.index.header.before') !!}
 @stop
 
 @php

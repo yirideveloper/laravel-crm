@@ -7,7 +7,6 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Attribute\Http\Requests\AttributeForm;
 use Webkul\Quote\Repositories\QuoteRepository;
-use Webkul\Lead\Repositories\LeadRepository;
 
 class QuoteController extends Controller
 {
@@ -19,28 +18,15 @@ class QuoteController extends Controller
     protected $quoteRepository;
 
     /**
-     * LeadRepository object
-     *
-     * @var \Webkul\Lead\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param \Webkul\Quote\Repositories\QuoteRepository  $quoteRepository
-     * @param \Webkul\Lead\Repositories\LeadRepository  $leadRepository
      *
      * @return void
      */
-    public function __construct(
-        QuoteRepository $quoteRepository,
-        LeadRepository $leadRepository
-    )
+    public function __construct(QuoteRepository $quoteRepository)
     {
         $this->quoteRepository = $quoteRepository;
-
-        $this->leadRepository = $leadRepository;
 
         request()->request->add(['entity_type' => 'quotes']);
     }
@@ -76,12 +62,6 @@ class QuoteController extends Controller
         Event::dispatch('quote.create.before');
 
         $quote = $this->quoteRepository->create(request()->all());
-
-        if (request('lead_id')) {
-            $lead = $this->leadRepository->find(request('lead_id'));
-
-            $lead->quotes()->attach($quote->id);
-        }
 
         Event::dispatch('quote.create.after', $quote);
         

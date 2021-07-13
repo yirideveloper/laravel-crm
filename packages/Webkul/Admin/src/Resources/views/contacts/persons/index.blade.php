@@ -5,13 +5,9 @@
 @stop
 
 @section('table-header')
-    {!! view_render_event('admin.contacts.persons.index.persons.before') !!}
-
     {{ Breadcrumbs::render('contacts.persons') }}
 
     {{ __('admin::app.contacts.persons.title') }}
-
-    {!! view_render_event('admin.contacts.persons.index.persons.after') !!}
 @stop
 
 @php
@@ -28,18 +24,12 @@
             <h3 slot="header-title">{{ __('admin::app.contacts.persons.add-title') }}</h3>
             
             <div slot="header-actions">
-                {!! view_render_event('admin.contacts.persons.create.form_buttons.before') !!}
-
                 <button class="btn btn-sm btn-secondary-outline" @click="closeModal('addPersonModal')">{{ __('admin::app.contacts.persons.cancel') }}</button>
 
                 <button class="btn btn-sm btn-primary">{{ __('admin::app.contacts.persons.save-btn-title') }}</button>
-
-                {!! view_render_event('admin.contacts.persons.create.form_buttons.after') !!}
             </div>
 
             <div slot="body">
-                {!! view_render_event('admin.contacts.persons.create.form_controls.before') !!}
-
                 @csrf()
                 
                 <input type="hidden" name="quick_add" value="1"/>
@@ -50,8 +40,6 @@
                         'quick_add'   => 1
                     ])
                 ])
-
-                {!! view_render_event('admin.contacts.persons.create.form_controls.after') !!}
             </div>
         </modal>
     </form>

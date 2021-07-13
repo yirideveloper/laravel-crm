@@ -5,6 +5,7 @@ namespace Webkul\Admin\DataGrids\Contact;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Webkul\UI\DataGrid\DataGrid;
+use Webkul\Contact\Repositories\OrganizationRepository;
 
 class PersonDataGrid extends DataGrid
 {
@@ -14,6 +15,20 @@ class PersonDataGrid extends DataGrid
         "id"    => "id",
         "route" => "admin.contacts.persons.edit",
     ];
+
+    public function __construct(OrganizationRepository $organizationRepository)
+    {
+        $organizations = $organizationRepository->all();
+
+        foreach ($organizations as $organization) {
+            array_push($this->organizations, [
+                'value' => $organization['id'],
+                'label' => $organization['name'],
+            ]);
+        }
+
+        parent::__construct();
+    }
 
     public function prepareQueryBuilder()
     {
@@ -92,7 +107,7 @@ class PersonDataGrid extends DataGrid
             'searchable'         => true,
             'sortable'           => true,
             'filterable_type'    => 'dropdown',
-            'filterable_options' => app('\Webkul\Contact\Repositories\OrganizationRepository')->get(['id as value', 'name as label'])->toArray(),
+            'filterable_options' => $this->organizations,
         ]);
     }
 
@@ -119,7 +134,7 @@ class PersonDataGrid extends DataGrid
         $this->addMassAction([
             'type'   => 'delete',
             'label'  => trans('ui::app.datagrid.delete'),
-            'action' => route('admin.contacts.persons.mass_delete'),
+            'action' => route('admin.contacts.persons.mass-delete'),
             'method' => 'PUT',
         ]);
     }

@@ -6,8 +6,6 @@
 
 @section('content-wrapper')
     <div class="content full-page adjacent-center">
-        {!! view_render_event('admin.quotes.edit.header.before', ['quote' => $quote]) !!}
-
         <div class="page-header">
 
             {{ Breadcrumbs::render('quotes.edit', $quote) }}
@@ -17,8 +15,6 @@
             </div>
         </div>
 
-        {!! view_render_event('admin.quotes.edit.header.after', ['quote' => $quote]) !!}
-
         <form method="POST" action="{{ route('admin.quotes.update', $quote->id) }}" @submit.prevent="onSubmit">
 
             <div class="page-content">
@@ -26,27 +22,19 @@
 
                     <div class="panel">
                         <div class="panel-header">
-                            {!! view_render_event('admin.quotes.edit.form_buttons.before', ['quote' => $quote]) !!}
-
                             <button type="submit" class="btn btn-md btn-primary">
                                 {{ __('admin::app.quotes.save-btn-title') }}
                             </button>
 
                             <a href="{{ route('admin.quotes.index') }}">{{ __('admin::app.quotes.back') }}</a>
-
-                            {!! view_render_event('admin.quotes.edit.form_buttons.after', ['quote' => $quote]) !!}
                         </div>
         
                         <div class="panel-body">
-                            {!! view_render_event('admin.quotes.edit.form_controls.before', ['quote' => $quote]) !!}
-
                             @csrf()
 
                             <input name="_method" type="hidden" value="PUT">
 
                             <input type="hidden" name="lead_id" value="{{ request('id') }}"/>
-
-                            {!! view_render_event('admin.quotes.edit.form_controls.information.before', ['quote' => $quote]) !!}
 
                             <accordian :title="'{{ __('admin::app.quotes.quote-information') }}'" :active="true">
                                 <div slot="body">
@@ -70,11 +58,6 @@
                                 </div>
                             </accordian>
 
-                            {!! view_render_event('admin.quotes.edit.form_controls.information.after', ['quote' => $quote]) !!}
-
-
-                            {!! view_render_event('admin.quotes.edit.form_controls.address.before', ['quote' => $quote]) !!}
-
                             <accordian :title="'{{ __('admin::app.quotes.address-information') }}'" :active="true">
                                 <div slot="body">
 
@@ -94,11 +77,6 @@
                                 </div>
                             </accordian>
 
-                            {!! view_render_event('admin.quotes.edit.form_controls.address.after', ['quote' => $quote]) !!}
-
-
-                            {!! view_render_event('admin.quotes.edit.form_controls.items.before', ['quote' => $quote]) !!}
-
                             <accordian :title="'{{ __('admin::app.quotes.quote-items') }}'" :active="true">
                                 <div slot="body">
 
@@ -106,10 +84,6 @@
 
                                 </div>
                             </accordian>
-
-                            {!! view_render_event('admin.quotes.edit.form_controls.items.after', ['quote' => $quote]) !!}
-
-                            {!! view_render_event('admin.quotes.edit.form_controls.after', ['quote' => $quote]) !!}
                         </div>
                     </div>
 
@@ -173,8 +147,6 @@
                 <a class="add-more-link" href @click.prevent="addProduct">+ {{ __('admin::app.common.add_more') }}</a>
             </div>
             
-            {!! view_render_event('admin.quotes.edit.form_controls.summary.before', ['quote' => $quote]) !!}
-
             <div class="quote-summary">
                 <table>
                     <tr>
@@ -239,8 +211,6 @@
                     </tr>
                 </table>
             </div>
-
-            {!! view_render_event('admin.quotes.edit.form_controls.summary.after', ['quote' => $quote]) !!}
         </div>
     </script>
 

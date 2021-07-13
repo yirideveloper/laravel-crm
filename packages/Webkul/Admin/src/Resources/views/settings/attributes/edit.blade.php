@@ -15,8 +15,6 @@
 
 @section('content-wrapper')
     <div class="content full-page adjacent-center">
-        {!! view_render_event('admin.settings.attributes.edit.header.before', ['attribute' => $attribute]) !!}
-
         <div class="page-header">
             
             {{ Breadcrumbs::render('settings.attributes.edit', $attribute) }}
@@ -26,8 +24,6 @@
             </div>
         </div>
 
-        {!! view_render_event('admin.settings.attributes.edit.header.after', ['attribute' => $attribute]) !!}
-
         <form method="POST" action="{{ route('admin.settings.attributes.update', $attribute->id) }}" @submit.prevent="onSubmit">
 
             <div class="page-content">
@@ -35,20 +31,14 @@
 
                     <div class="panel">
                         <div class="panel-header">
-                            {!! view_render_event('admin.settings.attributes.edit.form_buttons.before', ['attribute' => $attribute]) !!}
-
                             <button type="submit" class="btn btn-md btn-primary">
                                 {{ __('admin::app.settings.attributes.save-btn-title') }}
                             </button>
 
                             <a href="{{ route('admin.settings.attributes.index') }}">{{ __('admin::app.settings.attributes.back') }}</a>
-
-                            {!! view_render_event('admin.settings.attributes.edit.form_buttons.after', ['attribute' => $attribute]) !!}
                         </div>
         
                         <div class="panel-body">
-                            {!! view_render_event('admin.settings.attributes.edit.form_controls.before', ['attribute' => $attribute]) !!}
-
                             @csrf()
 
                             <input name="_method" type="hidden" value="PUT">
@@ -169,8 +159,6 @@
                                     </option>
                                 </select>
                             </div>
-
-                            {!! view_render_event('admin.settings.attributes.edit.form_controls.after', ['attribute' => $attribute]) !!}
                         </div>
                     </div>
                 </div>
