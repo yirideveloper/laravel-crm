@@ -1,26 +1,24 @@
 <?php
 
-namespace Webkul\Admin\DataGrids\Product;
+namespace Webkul\Admin\DataGrids\Setting;
 
 use Webkul\UI\DataGrid\DataGrid;
 use Illuminate\Support\Facades\DB;
 
-class ProductDataGrid extends DataGrid
+class GroupDataGrid extends DataGrid
 {
     protected $redirectRow = [
         "id"    => "id",
-        "route" => "admin.products.edit",
+        "route" => "admin.settings.groups.edit",
     ];
 
     public function prepareQueryBuilder()
     {
-        $queryBuilder = DB::table('products')
+        $queryBuilder = DB::table('groups')
             ->addSelect(
-                'products.id',
-                'products.sku',
-                'products.name',
-                'products.price',
-                'products.quantity'
+                'groups.id',
+                'groups.name',
+                'groups.description',
             );
 
         $this->setQueryBuilder($queryBuilder);
@@ -29,8 +27,9 @@ class ProductDataGrid extends DataGrid
     public function addColumns()
     {
         $this->addColumn([
-            'index'           => 'sku',
-            'label'           => trans('admin::app.datagrid.sku'),
+            'index'           => 'id',
+            'head_style'      => 'width: 50px',
+            'label'           => trans('admin::app.datagrid.id'),
             'type'            => 'string',
             'searchable'      => true,
             'sortable'        => true,
@@ -47,22 +46,11 @@ class ProductDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'      => 'price',
-            'label'      => trans('admin::app.datagrid.price'),
+            'index'      => 'description',
+            'label'      => trans('admin::app.datagrid.description'),
             'type'       => 'string',
             'searchable' => true,
-            'sortable'   => true,
-            'closure'    => function ($row) {
-                return round($row->price, 2);
-            },
-        ]);
-
-        $this->addColumn([
-            'index'      => 'quantity',
-            'label'      => trans('admin::app.datagrid.quantity'),
-            'type'       => 'string',
-            'searchable' => true,
-            'sortable'   => true,
+            'sortable'   => false,
         ]);
     }
 
@@ -71,26 +59,20 @@ class ProductDataGrid extends DataGrid
         $this->addAction([
             'title'  => trans('ui::app.datagrid.edit'),
             'method' => 'GET',
-            'route'  => 'admin.products.edit',
+            'route'  => 'admin.settings.groups.edit',
             'icon'   => 'pencil-icon',
         ]);
 
         $this->addAction([
             'title'        => trans('ui::app.datagrid.delete'),
             'method'       => 'DELETE',
-            'route'        => 'admin.products.delete',
-            'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'user']),
+            'route'        => 'admin.settings.groups.delete',
+            'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'group']),
             'icon'         => 'trash-icon',
         ]);
     }
 
     public function prepareMassActions()
     {
-        $this->addMassAction([
-            'type'   => 'delete',
-            'label'  => trans('ui::app.datagrid.delete'),
-            'action' => route('admin.products.mass_delete'),
-            'method' => 'PUT',
-        ]);
     }
 }
