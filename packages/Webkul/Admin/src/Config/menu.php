@@ -101,39 +101,34 @@ return [
     ], [
         'key'        => 'settings',
         'name'       => 'admin::app.layouts.settings',
-        'route'      => 'admin.settings.groups.index',
+        'route'      => 'admin.settings.roles.index',
         'sort'       => 8,
         'icon-class' => 'settings-icon',
-    ], [
-        'key'        => 'settings.groups',
-        'name'       => 'admin::app.layouts.groups',
-        'route'      => 'admin.settings.groups.index',
-        'sort'       => 1,
     ], [
         'key'        => 'settings.roles',
         'name'       => 'admin::app.layouts.roles',
         'route'      => 'admin.settings.roles.index',
-        'sort'       => 2,
+        'sort'       => 1,
     ], [
         'key'        => 'settings.users',
         'name'       => 'admin::app.layouts.users',
         'route'      => 'admin.settings.users.index',
-        'sort'       => 3,
+        'sort'       => 2,
     ], [
         'key'        => 'settings.attributes',
         'name'       => 'admin::app.layouts.attributes',
         'route'      => 'admin.settings.attributes.index',
-        'sort'       => 4,
+        'sort'       => 3,
     ], [
         'key'        => 'settings.sources',
         'name'       => 'admin::app.layouts.sources',
         'route'      => 'admin.settings.sources.index',
-        'sort'       => 5,
+        'sort'       => 4,
     ], [
         'key'        => 'settings.types',
         'name'       => 'admin::app.layouts.types',
         'route'      => 'admin.settings.types.index',
-        'sort'       => 6,
+        'sort'       => 5,
     // ], [
     //     'key'        => 'configuration',
     //     'name'       => 'admin::app.layouts.configuration',

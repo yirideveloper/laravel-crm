@@ -141,25 +141,25 @@ return [
         'name'  => 'admin::app.acl.settings',
         'route' => 'admin.settings.users.index',
         'sort'  => 7,
-    ], [
-        'key'   => 'settings.groups',
-        'name'  => 'admin::app.acl.groups',
-        'route' => 'admin.settings.groups.index',
+    ],  [
+        'key'   => 'settings.users',
+        'name'  => 'admin::app.acl.users',
+        'route' => 'admin.settings.users.index',
         'sort'  => 1,
     ], [
-        'key'   => 'settings.groups.create',
+        'key'   => 'settings.users.create',
         'name'  => 'admin::app.acl.create',
-        'route' => ['admin.settings.groups.create', 'admin.settings.groups.store'],
+        'route' => ['admin.settings.users.create', 'admin.settings.users.store'],
         'sort'  => 1,
     ], [
-        'key'   => 'settings.groups.edit',
+        'key'   => 'settings.users.edit',
         'name'  => 'admin::app.acl.edit',
-        'route' => ['admin.settings.groups.edit', 'admin.settings.groups.update'],
+        'route' => ['admin.settings.users.edit', 'admin.settings.users.update'],
         'sort'  => 2,
     ], [
-        'key'   => 'settings.groups.delete',
+        'key'   => 'settings.users.delete',
         'name'  => 'admin::app.acl.delete',
-        'route' => 'admin.settings.groups.delete',
+        'route' => ['admin.settings.users.delete', 'admin.settings.users.mass_delete'],
         'sort'  => 3,
     ], [
         'key'   => 'settings.roles',
@@ -181,31 +181,11 @@ return [
         'name'  => 'admin::app.acl.delete',
         'route' => 'admin.settings.roles.delete',
         'sort'  => 3,
-    ],  [
-        'key'   => 'settings.users',
-        'name'  => 'admin::app.acl.users',
-        'route' => 'admin.settings.users.index',
-        'sort'  => 3,
-    ], [
-        'key'   => 'settings.users.create',
-        'name'  => 'admin::app.acl.create',
-        'route' => ['admin.settings.users.create', 'admin.settings.users.store'],
-        'sort'  => 1,
-    ], [
-        'key'   => 'settings.users.edit',
-        'name'  => 'admin::app.acl.edit',
-        'route' => ['admin.settings.users.edit', 'admin.settings.users.update'],
-        'sort'  => 2,
-    ], [
-        'key'   => 'settings.users.delete',
-        'name'  => 'admin::app.acl.delete',
-        'route' => ['admin.settings.users.delete', 'admin.settings.users.mass_delete'],
-        'sort'  => 3,
     ], [
         'key'   => 'settings.attributes',
         'name'  => 'admin::app.acl.attributes',
         'route' => 'admin.settings.attributes.index',
-        'sort'  => 4,
+        'sort'  => 3,
     ], [
         'key'   => 'settings.attributes.create',
         'name'  => 'admin::app.acl.create',
@@ -225,7 +205,7 @@ return [
         'key'   => 'settings.sources',
         'name'  => 'admin::app.acl.sources',
         'route' => 'admin.settings.sources.index',
-        'sort'  => 5,
+        'sort'  => 3,
     ], [
         'key'   => 'settings.sources.create',
         'name'  => 'admin::app.acl.create',
@@ -245,7 +225,7 @@ return [
         'key'   => 'settings.types',
         'name'  => 'admin::app.acl.types',
         'route' => 'admin.settings.types.index',
-        'sort'  => 6,
+        'sort'  => 3,
     ], [
         'key'   => 'settings.types.create',
         'name'  => 'admin::app.acl.create',

@@ -22,8 +22,6 @@
         <form method="POST" action="{{ route('admin.settings.users.store') }}" @submit.prevent="onSubmit">
             <div class="page-content">
                 <div class="form-container">
-
-
                     <div class="panel">
                         <div class="panel-header">
                             {!! view_render_event('admin.settings.users.create.form_buttons.before') !!}
@@ -39,160 +37,137 @@
                             {!! view_render_event('admin.settings.users.create.form_buttons.after') !!}
                         </div>
 
-                        <tabs>
-                            <tab name="{{ __('admin::app.settings.users.general') }}" :selected="true">
-                                {!! view_render_event('admin.settings.users.create.form_controls.general.before') !!}
+                        <div class="panel-body">
+                            {!! view_render_event('admin.settings.users.create.form_controls.before') !!}
 
-                                @csrf()
-                                
-                                <div class="form-group" :class="[errors.has('name') ? 'has-error' : '']">
-                                    <label>
-                                        {{ __('admin::app.settings.users.name') }}
-                                    </label>
+                            @csrf()
+                            
+                            <div class="form-group" :class="[errors.has('name') ? 'has-error' : '']">
+                                <label>
+                                    {{ __('admin::app.settings.users.name') }}
+                                </label>
 
+                                <input
+                                    type="text"
+                                    name="name"
+                                    class="control"
+                                    v-validate="'required'"
+                                    data-vv-as="{{ __('admin::app.settings.users.name') }}"
+                                    placeholder="{{ __('admin::app.settings.users.name') }}"
+                                />
+
+                                <span class="control-error" v-if="errors.has('name')">
+                                    @{{ errors.first('name') }}
+                                </span>
+                            </div>
+
+                            <div class="form-group" :class="[errors.has('email') ? 'has-error' : '']">
+                                <label>
+                                    {{ __('admin::app.settings.users.email') }}
+                                </label>
+
+                                <input
+                                    type="email"
+                                    name="email"
+                                    class="control"
+                                    v-validate="'required|email'"
+                                    data-vv-as="{{ __('admin::app.settings.users.email') }}"
+                                    placeholder="{{ __('admin::app.settings.users.email') }}"
+                                />
+
+                                <span class="control-error" v-if="errors.has('email')">
+                                    @{{ errors.first('email') }}
+                                </span>
+                            </div>
+
+                            <div class="form-group" :class="[errors.has('status') ? 'has-error' : '']">
+                                <label>
+                                    {{ __('admin::app.settings.users.status') }}
+                                </label>
+
+                                <label class="switch">
                                     <input
-                                        type="text"
-                                        name="name"
+                                        type="checkbox"
+                                        id="status"
+                                        name="status"
                                         class="control"
-                                        v-validate="'required'"
-                                        data-vv-as="{{ __('admin::app.settings.users.name') }}"
-                                        placeholder="{{ __('admin::app.settings.users.name') }}"
                                     />
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
 
-                                    <span class="control-error" v-if="errors.has('name')">
-                                        @{{ errors.first('name') }}
-                                    </span>
-                                </div>
+                            <div class="form-group" :class="[errors.has('role') ? 'has-error' : '']">
+                                <label>
+                                    {{ __('admin::app.settings.users.role') }}
+                                </label>
 
-                                <div class="form-group" :class="[errors.has('email') ? 'has-error' : '']">
-                                    <label>
-                                        {{ __('admin::app.settings.users.email') }}
-                                    </label>
+                                <select name="role_id" class="control" data-vv-as="{{ __('admin::app.settings.users.role') }}" v-validate="'required'">
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
 
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        class="control"
-                                        v-validate="'required|email'"
-                                        data-vv-as="{{ __('admin::app.settings.users.email') }}"
-                                        placeholder="{{ __('admin::app.settings.users.email') }}"
-                                    />
+                                <span class="control-error" v-if="errors.has('role_id')">
+                                    @{{ errors.first('role_id') }}
+                                </span>
+                            </div>
 
-                                    <span class="control-error" v-if="errors.has('email')">
-                                        @{{ errors.first('email') }}
-                                    </span>
-                                </div>
+                            <div class="form-group" :class="[errors.has('lead_view_permission') ? 'has-error' : '']">
+                                <label>
+                                    {{ __('admin::app.settings.users.lead-view') }}
+                                </label>
 
-                                <div class="form-group" :class="[errors.has('status') ? 'has-error' : '']">
-                                    <label>
-                                        {{ __('admin::app.settings.users.status') }}
-                                    </label>
+                                <select name="lead_view_permission" class="control" v-validate="'required'" data-vv-as="{{ __('admin::app.settings.users.lead-view') }}">
+                                    <option value="global">{{ __('admin::app.settings.users.global') }}</option>
+                                    <option value="individual">{{ __('admin::app.settings.users.individual') }}</option>
+                                </select>
 
-                                    <label class="switch">
-                                        <input
-                                            type="checkbox"
-                                            id="status"
-                                            name="status"
-                                            class="control"
-                                        />
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
+                                <span class="control-error" v-if="errors.has('lead_view_permission')">
+                                    @{{ errors.first('lead_view_permission') }}
+                                </span>
+                            </div>
 
-                                <div class="form-group" :class="[errors.has('password') ? 'has-error' : '']">
-                                    <label>
-                                        {{ __('admin::app.settings.users.password') }}
-                                    </label>
-    
-                                    <input
-                                        ref="password"
-                                        type="password"
-                                        name="password"
-                                        class="control"
-                                        v-validate="'required|min:6'"
-                                        data-vv-as="{{ __('admin::app.settings.users.password') }}"
-                                        placeholder="{{ __('admin::app.settings.users.password') }}"
-                                    />
-    
-                                    <span class="control-error" v-if="errors.has('password')">
-                                        @{{ errors.first('password') }}
-                                    </span>
-                                </div>
-    
-                                <div class="form-group" :class="[errors.has('confirm_password') ? 'has-error' : '']">
-                                    <label>
-                                        {{ __('admin::app.settings.users.confirm_password') }}
-                                    </label>
-    
-                                    <input
-                                        type="password"
-                                        class="control"
-                                        name="confirm_password"
-                                        v-validate="'required|confirmed:password'"
-                                        data-vv-as="{{ __('admin::app.settings.users.confirm_password') }}"
-                                        placeholder="{{ __('admin::app.settings.users.confirm_password') }}"
-                                    />
-    
-                                    <span class="control-error" v-if="errors.has('confirm_password')">
-                                        @{{ errors.first('confirm_password') }}
-                                    </span>
-                                </div>
+                            <div class="form-group" :class="[errors.has('password') ? 'has-error' : '']">
+                                <label>
+                                    {{ __('admin::app.settings.users.password') }}
+                                </label>
 
-                                {!! view_render_event('admin.settings.users.create.form_controls.general.after') !!}
-                            </tab>
-    
-                            <tab name="{{ __('admin::app.settings.users.permission') }}">
-                                {!! view_render_event('admin.settings.users.create.form_controls.permission.before') !!}
+                                <input
+                                    ref="password"
+                                    type="password"
+                                    name="password"
+                                    class="control"
+                                    v-validate="'required|min:6'"
+                                    data-vv-as="{{ __('admin::app.settings.users.password') }}"
+                                    placeholder="{{ __('admin::app.settings.users.password') }}"
+                                />
 
-                                <div class="form-group">
-                                    <label>
-                                        {{ __('admin::app.settings.users.groups') }}
-                                    </label>
+                                <span class="control-error" v-if="errors.has('password')">
+                                    @{{ errors.first('password') }}
+                                </span>
+                            </div>
 
-                                    <select name="groups[]" class="control" multiple>
-                                        @foreach ($groups as $group)
-                                            <option value="{{ $group->id }}" {{ old('groups') && in_array($group->id, old('groups')) ? 'selected' : '' }}>
-                                                {{ $group->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="form-group" :class="[errors.has('confirm_password') ? 'has-error' : '']">
+                                <label>
+                                    {{ __('admin::app.settings.users.confirm_password') }}
+                                </label>
 
-                                <div class="form-group" :class="[errors.has('role') ? 'has-error' : '']">
-                                    <label>
-                                        {{ __('admin::app.settings.users.role') }}
-                                    </label>
-    
-                                    <select name="role_id" class="control" data-vv-as="{{ __('admin::app.settings.users.role') }}" v-validate="'required'">
-                                        @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                        @endforeach
-                                    </select>
-    
-                                    <span class="control-error" v-if="errors.has('role_id')">
-                                        @{{ errors.first('role_id') }}
-                                    </span>
-                                </div>
-    
-                                <div class="form-group" :class="[errors.has('lead_view_permission') ? 'has-error' : '']">
-                                    <label>
-                                        {{ __('admin::app.settings.users.lead-view') }}
-                                    </label>
-    
-                                    <select name="lead_view_permission" class="control" v-validate="'required'" data-vv-as="{{ __('admin::app.settings.users.lead-view') }}">
-                                        <option value="global">{{ __('admin::app.settings.users.global') }}</option>
-                                        <option value="group">{{ __('admin::app.settings.users.group') }}</option>
-                                        <option value="individual">{{ __('admin::app.settings.users.individual') }}</option>
-                                    </select>
-    
-                                    <span class="control-error" v-if="errors.has('lead_view_permission')">
-                                        @{{ errors.first('lead_view_permission') }}
-                                    </span>
-                                </div>
+                                <input
+                                    type="password"
+                                    class="control"
+                                    name="confirm_password"
+                                    v-validate="'required|confirmed:password'"
+                                    data-vv-as="{{ __('admin::app.settings.users.confirm_password') }}"
+                                    placeholder="{{ __('admin::app.settings.users.confirm_password') }}"
+                                />
 
-                                {!! view_render_event('admin.settings.users.create.form_controls.permission.after') !!}
-                            </tab>
-                        </tabs>
+                                <span class="control-error" v-if="errors.has('confirm_password')">
+                                    @{{ errors.first('confirm_password') }}
+                                </span>
+                            </div>
+
+                            {!! view_render_event('admin.settings.users.create.form_controls.after') !!}
+                        </div>
                     </div>
                 </div>
             </div>
