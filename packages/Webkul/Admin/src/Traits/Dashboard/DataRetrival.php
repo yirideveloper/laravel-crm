@@ -250,8 +250,14 @@ trait DataRetrival
                     ->orderBy('lead_value', 'desc')
                     ->whereBetween('leads.created_at', [$startDateFilter, $endDateFilter])
                     ->where(function ($query) {
-                        if (($currentUser = auth()->guard('user')->user())->lead_view_permission == "individual") {
-                            $query->where('leads.user_id', $currentUser->id);
+                        $currentUser = auth()->guard('user')->user();
+
+                        if ($currentUser->lead_view_permission != 'global') {
+                            if ($currentUser->lead_view_permission == 'group') {
+                                $query->whereIn('leads.user_id', app('\Webkul\User\Repositories\UserRepository')->getCurrentUserGroupsUserIds());
+                            } else {
+                                $query->where('leads.user_id', $currentUser->id);
+                            }
                         }
                     })
                     ->limit(3)
@@ -414,58 +420,5 @@ trait DataRetrival
         ];
 
         return $cardData;
-    }
-
-    /**
-     * Collect quotes card data.
-     */
-    private function getQuotes($startDateFilter, $endDateFilter, $totalWeeks)
-    {
-        $labels = $quotes = [];
-
-        $quotesRepository = app('Webkul\Quote\Repositories\QuoteRepository');
-
-        if ($totalWeeks) {
-            for ($index = $totalWeeks; $index >= 1; $index--) {
-                list(
-                    'startDate' => $startDate,
-                    'endDate'   => $endDate,
-                    'labels'    => $labels,
-                ) = $this->getFormattedDateRange([
-                    "start_date"    => $startDateFilter,
-                    "end_date"      => $endDateFilter,
-                    "index"         => $index,
-                    "labels"        => $labels,
-                    "total_weeks"   => $totalWeeks,
-                ]);
-
-                // get quotes count
-                array_push($quotes, $quotesRepository->getQuotesCount("all", $startDate, $endDate));
-            }
-        } else {
-            $labels = [__("admin::app.dashboard.week") . "1"];
-            
-            $quotes = [$quotesRepository->getQuotesCount("Won", $startDateFilter, $endDateFilter)];
-        }
-
-        if (! empty(array_filter($quotes))) {
-            $cardData = [
-                "data" => [
-                    "labels" => $labels,
-                    "datasets" => [
-                        [
-                            "fill"              => true,
-                            "tension"           => 0.6,
-                            "backgroundColor"   => "#4BC0C0",
-                            "borderColor"       => '#2f7373',
-                            "data"              => $quotes,
-                            "label"             => __("admin::app.dashboard.leads_started"),
-                        ],
-                    ]
-                ]
-            ];
-        }
-
-        return $cardData ?? false;
     }
 }

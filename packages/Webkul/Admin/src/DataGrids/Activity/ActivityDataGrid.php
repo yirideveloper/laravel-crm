@@ -37,14 +37,20 @@ class ActivityDataGrid extends DataGrid
                             'persons.name as contact_person',
                             'persons.id as contact_person_id'
                         )
-                        ->where(function ($query) {
-                            if (($currentUser = auth()->guard('user')->user())->lead_view_permission == "individual") {
-                                $query->where('lead_activities.user_id', $currentUser->id);
-                            }
-                        })
                         ->leftJoin('leads', 'lead_activities.lead_id', '=', 'leads.id')
                         ->leftJoin('users', 'lead_activities.user_id', '=', 'users.id')
                         ->leftJoin('persons', 'leads.person_id', '=', 'persons.id');
+
+
+        $currentUser = auth()->guard('user')->user();
+
+        if ($currentUser->lead_view_permission != 'global') {
+            if ($currentUser->lead_view_permission == 'group') {
+                $queryBuilder->whereIn('lead_activities.user_id', app('\Webkul\User\Repositories\UserRepository')->getCurrentUserGroupsUserIds());
+            } else {
+                $queryBuilder->where('lead_activities.user_id', $currentUser->id);
+            }
+        }
 
         $this->addFilter('id', 'lead_activities.id');
         $this->addFilter('assigned_to', 'users.name');
@@ -184,7 +190,7 @@ class ActivityDataGrid extends DataGrid
             'title'        => trans('ui::app.datagrid.delete'),
             'method'       => 'DELETE',
             'route'        => 'admin.activities.delete',
-            'confirm_text' => trans('ui::app.datagrid.massaction.delete'),
+            'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'user']),
             'icon'         => 'trash-icon',
         ]);
     }

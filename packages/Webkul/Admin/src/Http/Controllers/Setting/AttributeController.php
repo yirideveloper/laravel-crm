@@ -174,10 +174,7 @@ class AttributeController extends Controller
     {
         $data = request()->all();
 
-        $this->attributeRepository
-            ->where('is_user_defined', 1)
-            ->whereIn('id', $data['rows'])
-            ->delete();
+        $this->attributeRepository->destroy($data['rows']);
 
         return response()->json([
             'status'    => true,
