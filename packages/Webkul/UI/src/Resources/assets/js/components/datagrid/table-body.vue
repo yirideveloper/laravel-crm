@@ -174,7 +174,7 @@
                                     type    : "success",
                                     message : response.data.message,
                                 });
-    
+
                                 EventBus.$emit('refresh_table_data', {usePrevious: true});
                             }
                         }
