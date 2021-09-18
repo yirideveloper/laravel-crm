@@ -35,39 +35,42 @@
                     <td
                         :key="rowIndex"
                         v-if="column.type != 'hidden'"
+                        @click="redirectRow(row.redirect_url)"
                         v-html="getRowContent(row[column.index])"
                         :title="column.title ? row[column.index] : ''"
-                        :class="column.class"
+                        :class="[row.redirect_url ? 'cursor-pointer' : '', column.class || column.index ]"
                     ></td>
                 </template>
 
-                <td class="action">
-                    <template v-for="(action, index) in actions">
+                <td v-if="row['action']" class="action">
+                    <template v-for="(action, index) in row['action']">
                         <a
                             :key="index"
-                            :href="row[`${action.key}_url`]"
+                            :href="action.route"
                             :title="action.title"
-                            :data-action="row[`${action.key}_url`]"
+                            :target="action.target"
+                            :data-action="action.route"
                             v-if="action.method == 'GET'"
                             :data-method="action.method"
                         >
-                            <i :data-route="row[`${action.key}_url`]" :class="`icon ${action.icon}`"></i>
+                            <i :data-route="action.route" :class="`icon ${action.icon}`"></i>
                         </a>
 
                         <a
                             v-else
                             :key="index"
                             :title="action.title"
-                            :data-action="row[`${action.key}_url`]"
+                            :target="action.target"
+                            :data-action="action.route"
                             :data-method="action.method"
                             @click="doAction({
                                 event           : $event,
-                                route           : row[`${action.key}_url`],
+                                route           : action.route,
                                 method          : action.method,
                                 confirm_text    : action.confirm_text,
                             })"
                         >
-                            <i :key="index" :data-route="row[`${action.key}_url`]" :class="`icon ${action.icon}`"></i>
+                            <i :key="index" :data-route="action.route" :class="`icon ${action.icon}`"></i>
                         </a>
                     </template>
                 </td>
@@ -109,7 +112,7 @@
             },
 
             massActions: function () {
-                return this.tableData.massActions;
+                return this.tableData.massactions;
             },
 
             dataCollection: function () {
@@ -139,6 +142,9 @@
             },
 
             getRowContent: function (content) {
+                if (content) {
+                    // content = content.replace("<script>", "<\/script>");
+                }
                 return content || (content === 0 ? content : '--')
             },
 
