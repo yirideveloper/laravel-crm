@@ -53,10 +53,10 @@
                                     type="text"
                                     name="name"
                                     class="control"
-                                    value="{{ $source->name }}"
-                                    placeholder="{{ __('admin::app.layouts.name') }}"
                                     v-validate="'required'"
+                                    value="{{ $source->name }}"
                                     data-vv-as="{{ __('admin::app.layouts.name') }}"
+                                    placeholder="{{ __('admin::app.layouts.name') }}"
                                 />
 
                                 <span class="control-error" v-if="errors.has('name')">

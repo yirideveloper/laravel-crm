@@ -5,26 +5,9 @@
             <div class="form-group" :class="[errors.has('{!! $formScope ?? '' !!}person[name]') ? 'has-error' : '']">
                 <label for="person[name]" class="required">{{ __('admin::app.leads.name') }}</label>
 
-                <input
-                    type="text"
-                    name="person[name]"
-                    class="control"
-                    id="person[name]"
-                    v-model="person.name"
-                    autocomplete="off"
-                    v-validate="'required'"
-                    data-vv-as="&quot;{{ __('admin::app.leads.name') }}&quot;"
-                    v-on:keyup="search"
-                />
+                <input type="text" v-validate="'required'" class="control" id="person[name]" name="person[name]" v-model="person.name" v-on:keyup="search" data-vv-as="&quot;{{ __('admin::app.leads.name') }}&quot;" autocomplete="off"/>
 
-                <input
-                    type="hidden"
-                    name="person[id]"
-                    v-model="person.id"
-                    v-validate="'required'"
-                    data-vv-as="&quot;{{ __('admin::app.leads.name') }}&quot;"
-                    v-if="person.id"
-                />
+                <input type="hidden" v-validate="'required'" name="person[id]" data-vv-as="&quot;{{ __('admin::app.leads.name') }}&quot;" v-model="person.id" v-if="person.id"/>
 
                 <div class="lookup-results" v-if="state == ''">
                     <ul>
@@ -44,9 +27,7 @@
                     </ul>
                 </div>
 
-                <span class="control-error" v-if="errors.has('{!! $formScope ?? '' !!}person[name]')">
-                    @{{ errors.first('{!! $formScope ?? '' !!}person[name]') }}
-                </span>
+                <span class="control-error" v-if="errors.has('{!! $formScope ?? '' !!}person[name]')">@{{ errors.first('{!! $formScope ?? '' !!}person[name]') }}</span>
             </div>
 
             <div class="form-group email">
@@ -54,11 +35,7 @@
 
                 @include('admin::common.custom-attributes.edit.email', ['formScope' => $formScope ?? ''])
                     
-                <email-component
-                    :attribute="{'code': 'person[emails]', 'name': 'Email'}"
-                    :data="person.emails"
-                    validations="required|email"
-                ></email-component>
+                <email-component :attribute="{'code': 'person[emails]', 'name': 'Email'}" validations="required|email" :data="person.emails"></email-component>
             </div>
 
             <div class="form-group contact-numbers">
@@ -66,10 +43,7 @@
 
                 @include('admin::common.custom-attributes.edit.phone', ['formScope' => $formScope ?? ''])
                     
-                <phone-component
-                    :attribute="{'code': 'person[contact_numbers]', 'name': 'Contact Numbers'}"
-                    :data="person.contact_numbers"
-                ></phone-component>
+                <phone-component :attribute="{'code': 'person[contact_numbers]', 'name': 'Contact Numbers'}" :data="person.contact_numbers"></phone-component>
             </div>
 
             <div class="form-group organization">
@@ -86,10 +60,7 @@
 
                 @include('admin::common.custom-attributes.edit.lookup')
 
-                <lookup-component
-                    :attribute='@json($organizationAttribute)'
-                    :data="person.organization"
-                ></lookup-component>
+                <lookup-component :attribute='@json($organizationAttribute)' :data="person.organization"></lookup-component>
             </div>
         </div>
     </script>

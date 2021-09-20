@@ -2,47 +2,44 @@
 
 namespace Webkul\Admin\DataGrids\Activity;
 
-use Carbon\Carbon;
-use Webkul\UI\DataGrid\DataGrid;
 use Illuminate\Support\Facades\DB;
+use Webkul\UI\DataGrid\DataGrid;
 
 class ActivityDataGrid extends DataGrid
 {
-    protected $users = [];
-
-    protected $persons = [];
-
-    protected $tabFilters = [];
-
-    protected $redirectRow = [
-        "id"    => "lead_id",
-        "route" => "admin.leads.view",
-    ];
-
+    /**
+     * Create datagrid instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
-        // table tab filters
-        $this->tabFilters = $this->prepareTabFilters("activities");
-
         parent::__construct();
+
+        $this->tabFilters = $this->prepareTabFilters("activities");
     }
 
+    /**
+     * Prepare query builder.
+     *
+     * @return void
+     */
     public function prepareQueryBuilder()
     {
         $queryBuilder = DB::table('activities')
-                        ->distinct()
-                        ->select(
-                            'activities.*',
-                            'leads.id as lead_id',
-                            'users.id as created_by_id',
-                            'users.name as created_by',
-                            'leads.title as lead_title',
-                        )
-                        ->leftJoin('activity_participants', 'activities.id', '=', 'activity_participants.activity_id')
-                        ->leftJoin('lead_activities', 'activities.id', '=', 'lead_activities.activity_id')
-                        ->leftJoin('leads', 'lead_activities.lead_id', '=', 'leads.id')
-                        ->leftJoin('users', 'activities.user_id', '=', 'users.id')
-                        ->whereIn('type', ['call', 'meeting', 'lunch']);
+            ->distinct()
+            ->select(
+                'activities.*',
+                'leads.id as lead_id',
+                'users.id as created_by_id',
+                'users.name as created_by',
+                'leads.title as lead_title',
+            )
+            ->leftJoin('activity_participants', 'activities.id', '=', 'activity_participants.activity_id')
+            ->leftJoin('lead_activities', 'activities.id', '=', 'lead_activities.activity_id')
+            ->leftJoin('leads', 'lead_activities.lead_id', '=', 'leads.id')
+            ->leftJoin('users', 'activities.user_id', '=', 'users.id')
+            ->whereIn('type', ['call', 'meeting', 'lunch']);
 
 
         $currentUser = auth()->guard('user')->user();
@@ -51,14 +48,14 @@ class ActivityDataGrid extends DataGrid
             if ($currentUser->view_permission == 'group') {
                 $queryBuilder->where(function ($query) use($currentUser) {
                     $userIds = app('\Webkul\User\Repositories\UserRepository')->getCurrentUserGroupsUserIds();
-                    
+
                     $query->whereIn('activities.user_id', $userIds)
                         ->orWhereIn('activity_participants.user_id', $userIds);
 
                     return $query;
                 });
             } else {
-                $queryBuilder->where(function ($query) use($currentUser) {
+                $queryBuilder->where(function ($query) use ($currentUser) {
                     $query->where('activities.user_id', $currentUser->id)
                         ->orWhere('activity_participants.user_id', $currentUser->id);
 
@@ -75,6 +72,11 @@ class ActivityDataGrid extends DataGrid
         $this->setQueryBuilder($queryBuilder);
     }
 
+    /**
+     * Add columns.
+     *
+     * @return void
+     */
     public function addColumns()
     {
         $this->addColumn([
@@ -104,7 +106,8 @@ class ActivityDataGrid extends DataGrid
             'index'   => 'lead',
             'label'   => trans('admin::app.datagrid.lead'),
             'type'    => 'string',
-            'closure' => function ($row) {
+            'closure' => true,
+            'wrapper' => function ($row) {
                 $route = urldecode(route('admin.leads.index', ['view_type' => 'table', 'id[eq]' => $row->lead_id]));
 
                 return "<a href='" . $route . "'>" . $row->lead_title . "</a>";
@@ -133,7 +136,8 @@ class ActivityDataGrid extends DataGrid
                     'label' => __("admin::app.common.yes"),
                 ]
             ],
-            'closure'            => function ($row) {
+            'closure'            => true,
+            'wrapper'            => function ($row) {
                 if ($row->is_done) {
                     return '<span class="badge badge-round badge-success"></span>' . __("admin::app.common.yes");
                 } else {
@@ -146,7 +150,8 @@ class ActivityDataGrid extends DataGrid
             'index'   => 'created_by',
             'label'   => trans('admin::app.datagrid.created_by'),
             'type'    => 'string',
-            'closure' => function ($row) {
+            'closure' => true,
+            'wrapper' => function ($row) {
                 $route = urldecode(route('admin.settings.users.index', ['id[eq]' => $row->created_by_id]));
 
                 return "<a href='" . $route . "'>" . $row->created_by . "</a>";
@@ -161,7 +166,7 @@ class ActivityDataGrid extends DataGrid
             'type'            => 'string',
             'sortable'        => true,
             'filterable_type' => 'date_range',
-            'closure'         => function ($row) {
+            'wrapper'         => function ($row) {
                 return core()->formatDate($row->schedule_from);
             },
         ]);
@@ -174,7 +179,7 @@ class ActivityDataGrid extends DataGrid
             'type'            => 'string',
             'sortable'        => true,
             'filterable_type' => 'date_range',
-            'closure'         => function ($row) {
+            'wrapper'         => function ($row) {
                 return core()->formatDate($row->schedule_to);
             },
         ]);
@@ -187,12 +192,17 @@ class ActivityDataGrid extends DataGrid
             'type'            => 'string',
             'sortable'        => true,
             'filterable_type' => 'date_range',
-            'closure'         => function ($row) {
+            'wrapper'         => function ($row) {
                 return core()->formatDate($row->created_at);
             },
         ]);
     }
 
+    /**
+     * Prepare actions.
+     *
+     * @return void
+     */
     public function prepareActions()
     {
         $this->addAction([

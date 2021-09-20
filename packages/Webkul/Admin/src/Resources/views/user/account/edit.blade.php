@@ -47,12 +47,12 @@
                                 </label>
                     
                                 <input
-                                    type="text"
-                                    name="name"
-                                    class="control"
                                     id="name"
-                                    value="{{ old('name') ?: $user->name }}"
+                                    name="name"
+                                    type="text"
+                                    class="control"
                                     v-validate="'required'"
+                                    value="{{ old('name') ?: $user->name }}"
                                     data-vv-as="{{ __('admin::app.user.account.name') }}"
                                 />
 
@@ -67,12 +67,12 @@
                                 </label>
                     
                                 <input
-                                    type="text"
-                                    name="email"
-                                    class="control"
                                     id="email"
-                                    value="{{ old('email') ?: $user->email }}"
+                                    name="email"
+                                    type="text"
+                                    class="control"
                                     v-validate="'required'"
+                                    value="{{ old('email') ?: $user->email }}"
                                     data-vv-as="{{ __('admin::app.user.account.email') }}"
                                 />
 
@@ -88,10 +88,10 @@
                     
                                 <input
                                     type="password"
-                                    name="current_password"
                                     class="control"
                                     id="current_password"
                                     v-validate="'required'"
+                                    name="current_password"
                                     data-vv-as="{{ __('admin::app.user.account.current_password') }}"
                                 />
 
@@ -107,9 +107,9 @@
                     
                                 <input
                                     type="password"
+                                    id="password"
                                     name="password"
                                     class="control"
-                                    id="password"
                                     ref="password"
                                     data-vv-as="{{ __('admin::app.user.account.password') }}"
                                 />
@@ -126,9 +126,9 @@
                     
                                 <input
                                     type="password"
-                                    name="password_confirmation"
                                     class="control"
                                     id="confirm_password"
+                                    name="password_confirmation"
                                     v-validate="'confirmed:password'"
                                     data-vv-as="{{ __('admin::app.user.account.confirm_password') }}"
                                 />

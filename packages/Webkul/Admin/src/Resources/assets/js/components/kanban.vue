@@ -6,7 +6,7 @@
                 <span class="float-right">{{ totalCounts[stage] || 0 }}</span>
             </h2>
 
-            <a :href="createUrl + '?lead_stage_id=' + openAddModal(stage, stagesId)">{{ detailText }}</a>
+            <a @click="openAddModal(stage, stagesId)">{{ detailText }}</a>
         </div>
 
         <div v-for="block in blocks" :slot="block.id" :key="`block-${block.id}`">
@@ -30,7 +30,7 @@
 
 <script>
     export default {
-        props: ['getUrl', 'createUrl', 'updateUrl', 'detailText', 'noDataText'],
+        props: ['getUrl', 'updateUrl', 'detailText', 'noDataText'],
 
         data: function () {
             return {
@@ -101,17 +101,17 @@
             },
 
             openAddModal: function (stage, stagesId) {
-                var leadStageId = 0;
+                $('#add-new').click();
 
-                for (let stageId in stagesId) {
-                    if (stagesId[stageId] == stage) {
-                        leadStageId = stageId;
+                setTimeout(() => {
+                    for (let stageId in stagesId) {
+                        if (stagesId[stageId] == stage) {
+                            $('#lead_stage_id').val(stageId);
 
-                        break;
+                            break;
+                        }
                     }
-                }
-
-                return leadStageId;
+                });
             },
 
             updateFilter: function (data) {
