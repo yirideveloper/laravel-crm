@@ -1,27 +1,23 @@
-@extends('admin::layouts.master')
+@extends('ui::datagrid.table')
 
 @section('page_title')
     {{ __('admin::app.products.title') }}
 @stop
 
-@section('content-wrapper')
-    <div class="content full-page">
-        <table-component data-src="{{ route('admin.products.index') }}">
-            <template v-slot:table-header>
-                <h1>
-                    {!! view_render_event('admin.products.index.header.before') !!}
+@section('table-header')
+    {!! view_render_event('admin.products.index.header.before') !!}
 
-                    {{ Breadcrumbs::render('products') }}
+    {{ Breadcrumbs::render('products') }}
 
-                    {{ __('admin::app.products.title') }}
+    {{ __('admin::app.products.title') }}
 
-                    {!! view_render_event('admin.products.index.header.after') !!}
-                </h1>
-            </template>
+    {!! view_render_event('admin.products.index.header.after') !!}
+@stop
 
-            <template v-slot:table-action>
-                <a href="{{ route('admin.products.create') }}" class="btn btn-md btn-primary">{{ __('admin::app.products.create-title') }}</a>
-            </template>
-        <table-component>
-    </div>
+@php
+    $tableClass = "\Webkul\Admin\DataGrids\Product\ProductDataGrid";
+@endphp
+
+@section('table-action')
+    <a href="{{ route('admin.products.create') }}" class="btn btn-md btn-primary">{{ __('admin::app.products.create-title') }}</a>
 @stop

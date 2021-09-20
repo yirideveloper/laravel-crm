@@ -53,11 +53,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (request()->ajax()) {
-            return app(\Webkul\Admin\DataGrids\Setting\UserDataGrid::class)->toJson();
-        }
-
-        return view('admin::settings.users.index');
+        return view('admin::settings.users.index', [
+            'tableClass' => '\Webkul\Admin\DataGrids\Setting\UserDataGrid'
+        ]);
     }
 
     /**
@@ -88,7 +86,7 @@ class UserController extends Controller
             'confirm_password' => 'nullable|required_with:password|same:password',
             'role_id'          => 'required',
         ]);
-
+        
         $data = request()->all();
 
         if (isset($data['password']) && $data['password']) {

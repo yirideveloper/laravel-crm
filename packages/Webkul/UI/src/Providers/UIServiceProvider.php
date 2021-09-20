@@ -3,6 +3,7 @@
 namespace Webkul\UI\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class UIServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,12 @@ class UIServiceProvider extends ServiceProvider
         ], 'public');
 
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'ui');
+
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'ui');
+
+        Paginator::defaultView('ui::partials.pagination');
+        
+        Paginator::defaultSimpleView('ui::partials.pagination');
     }
 
     /**
