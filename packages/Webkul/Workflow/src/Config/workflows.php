@@ -2,40 +2,6 @@
 
 return [
     'trigger_entities' => [
-
-        'leads' => [
-            'name'   => 'Leads',
-            'class'  => 'Webkul\Workflow\Helpers\Entity\Lead',
-            'events' => [
-                [
-                    'event' => 'lead.create.after',
-                    'name'  => 'Created',  
-                ], [
-                    'event' => 'lead.update.after',
-                    'name'  => 'Updated',  
-                ], [
-                    'event' => 'lead.delete.before',
-                    'name'  => 'Deleted',  
-                ],
-            ]
-        ],
-
-        'activities' => [
-            'name'   => 'Activities',
-            'class'  => 'Webkul\Workflow\Helpers\Entity\Activity',
-            'events' => [
-                [
-                    'event' => 'activity.create.after',
-                    'name'  => 'Created',  
-                ], [
-                    'event' => 'activity.update.after',
-                    'name'  => 'Updated',  
-                ], [
-                    'event' => 'activity.delete.before',
-                    'name'  => 'Deleted',  
-                ],
-            ]
-        ],
         
         'persons' => [
             'name'   => 'Persons',
@@ -49,6 +15,23 @@ return [
                     'name'  => 'Updated',  
                 ], [
                     'event' => 'contacts.person.delete.before',
+                    'name'  => 'Deleted',  
+                ],
+            ]
+        ],
+
+        'leads' => [
+            'name'   => 'Leads',
+            'class'  => 'Webkul\Workflow\Helpers\Entity\Lead',
+            'events' => [
+                [
+                    'event' => 'lead.create.after',
+                    'name'  => 'Created',  
+                ], [
+                    'event' => 'lead.update.after',
+                    'name'  => 'Updated',  
+                ], [
+                    'event' => 'lead.delete.before',
                     'name'  => 'Deleted',  
                 ],
             ]

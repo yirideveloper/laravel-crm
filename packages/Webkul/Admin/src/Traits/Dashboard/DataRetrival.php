@@ -231,10 +231,8 @@ trait DataRetrival
     
                             if ($currentUser->view_permission != 'global') {
                                 if ($currentUser->view_permission == 'group') {
-                                    $userIds = app('\Webkul\User\Repositories\UserRepository')->getCurrentUserGroupsUserIds();
-
-                                    $query->whereIn('activities.user_id', $userIds)
-                                        ->orWhereIn('activity_participants.user_id', $userIds);
+                                    $query->whereIn('activities.user_id', app('\Webkul\User\Repositories\UserRepository')->getCurrentUserGroupsUserIds())
+                                        ->orWhereIn('activity_participants.user_id', app('\Webkul\User\Repositories\UserRepository')->getCurrentUserGroupsUserIds());
                                 } else {
                                     $query->where('activities.user_id', $currentUser->id)
                                         ->orWhere('activity_participants.user_id', $currentUser->id);

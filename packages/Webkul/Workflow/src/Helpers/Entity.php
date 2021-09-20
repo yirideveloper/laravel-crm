@@ -115,9 +115,21 @@ class Entity
         $placeholders = [];
 
         foreach ($entities as $key => $entity) {
-            $object = app($entity['class']);
+            $menuItems = [];
 
-            $placeholders[] = $object->getEmailTemplatePlaceholders($entity);
+            $attributes = $this->attributeRepository->findByField('entity_type', $key);
+
+            foreach ($attributes as $attribute) {
+                $menuItems[] = [
+                    'text'  => $attribute->name,
+                    'value' => '{%' . $key . '.' . $attribute->code . '%}',
+                ];
+            }
+
+            $placeholders[] = [
+                'text' => $entity['name'],
+                'menu' => $menuItems,
+            ];
         }
 
         return $placeholders;
