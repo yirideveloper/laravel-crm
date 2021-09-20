@@ -2,14 +2,214 @@
 
 namespace Webkul\UI\DataGrid;
 
-use Carbon\Carbon;
-use Webkul\UI\DataGrid\Traits\DatagridCollection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
+use Webkul\UI\DataGrid\Traits\ProvideBouncer;
+use Webkul\UI\DataGrid\Traits\ProvideCollection;
+use Webkul\UI\DataGrid\Traits\ProvideExceptionHandler;
 
 abstract class DataGrid
 {
-    use DatagridCollection;
+    use ProvideBouncer, ProvideCollection, ProvideExceptionHandler;
 
     /**
+     * Set index columns, ex: id.
+     *
+     * @var int
+     */
+    protected $index = 'id';
+
+    /**
+     * Default sort order of datagrid.
+     *
+     * @var string
+     */
+    protected $sortOrder = 'asc';
+
+    /**
+     * Situation handling property when working with custom columns in datagrid, helps abstaining
+     * aliases on custom column.
+     *
+     * @var bool
+     */
+    protected $enableFilterMap = false;
+
+    /**
+     * This is array where aliases and custom column's name are passed.
+     *
+     * @var array
+     */
+    protected $filterMap = [];
+
+    /**
+     * Tab filters.
+     *
+     * @var string[]
+     */
+    protected $tabFilters = [];
+
+    /**
+     * Array to hold all the columns which will be displayed on frontend.
+     *
+     * @var array
+     */
+    protected $columns = [];
+
+
+    /**
+     * Complete column details.
+     *
+     * @var array
+     */
+    protected $completeColumnDetails = [];
+
+    /**
+     * Hold query builder instance of the query prepared by executing datagrid
+     * class method `setQueryBuilder`.
+     *
+     * @var object
+     */
+    protected $queryBuilder;
+
+    /**
+     * Final result of the datagrid program that is collection object.
+     *
+     * @var array
+     */
+    protected $collection = [];
+
+    /**
+     * Set of handly click tools which you could be using for various operations.
+     * ex: dyanmic and static redirects, deleting, etc.
+     *
+     * @var array
+     */
+    protected $actions = [];
+
+    /**
+     * Works on selection of values index column as comma separated list as response
+     * to your endpoint set as route.
+     *
+     * @var array
+     */
+    protected $massActions = [];
+
+    /**
+     * Parsed value of the url parameters.
+     *
+     * @var array
+     */
+    protected $parse;
+
+    /**
+     * To show mass action or not.
+     *
+     * @var bool
+     */
+    protected $enableMassAction = false;
+
+    /**
+     * To enable actions or not.
+     */
+    protected $enableAction = false;
+
+    /**
+     * Paginate the collection or not.
+     *
+     * @var bool
+     */
+    protected $paginate = true;
+
+    /**
+     * If paginated then value of pagination.
+     *
+     * @var int
+     */
+    protected $itemsPerPage = 10;
+
+    /**
+     * Enable items per page.
+     *
+     * @var boolean
+     */
+    protected $enablePerPage = true;
+
+    /**
+     * Enable search field.
+     *
+     * @var boolean
+     */
+    protected $enableSearch = true;
+
+    /**
+     * Enable sidebar filters.
+     *
+     * @var boolean
+     */
+    protected $enableFilters = true;
+
+    /**
+     * Operators mapping.
+     *
+     * @var array
+     */
+    protected $operators = [
+        'eq'       => '=',
+        'lt'       => '<',
+        'gt'       => '>',
+        'lte'      => '<=',
+        'gte'      => '>=',
+        'neqs'     => '<>',
+        'neqn'     => '!=',
+        'eqo'      => '<=>',
+        'like'     => 'like',
+        'blike'    => 'like binary',
+        'nlike'    => 'not like',
+        'ilike'    => 'ilike',
+        'and'      => '&',
+        'bor'      => '|',
+        'regex'    => 'regexp',
+        'notregex' => 'not regexp',
+    ];
+
+    /**
+     * Bindings.
+     *
+     * @var array
+     */
+    protected $bindings = [
+        0 => 'select',
+        1 => 'from',
+        2 => 'join',
+        3 => 'where',
+        4 => 'having',
+        5 => 'order',
+        6 => 'union',
+    ];
+
+    /**
+     * Select components.
+     *
+     * @var array
+     */
+    protected $selectcomponents = [
+        0  => 'aggregate',
+        1  => 'columns',
+        2  => 'from',
+        3  => 'joins',
+        4  => 'wheres',
+        5  => 'groups',
+        6  => 'havings',
+        7  => 'orders',
+        8  => 'limit',
+        9  => 'offset',
+        10 => 'lock',
+    ];
+
+    /**
+     * Create datagrid instance.
+     *
      * @return void
      */
     public function __construct()
@@ -18,12 +218,41 @@ abstract class DataGrid
     }
 
     /**
-     * @param string $column
+     * Abstract method.
+     */
+    abstract public function prepareQueryBuilder();
+
+    /**
+     * Abstract method.
+     */
+    abstract public function addColumns();
+
+    /**
+     * Add the index as alias of the column and use the column to make things happen.
+     *
+     * @param string  $alias
+     * @param string  $column
+     *
+     * @return void
+     */
+    public function addFilter($alias, $column)
+    {
+        $this->filterMap[$alias] = $column;
+
+        $this->enableFilterMap = true;
+    }
+
+    /**
+     * Add column.
+     *
+     * @param string  $column
      *
      * @return void
      */
     public function addColumn($column)
     {
+        $this->checkRequiredColumnKeys($column);
+
         $this->fireEvent('add.column.before.' . $column['index']);
 
         $this->columns[] = $column;
@@ -34,7 +263,9 @@ abstract class DataGrid
     }
 
     /**
-     * @param string $column
+     * Set complete column details.
+     *
+     * @param string  $column
      *
      * @return void
      */
@@ -44,7 +275,9 @@ abstract class DataGrid
     }
 
     /**
-     * @param \Illuminate\Database\Query\Builder $queryBuilder
+     * Set query builder.
+     *
+     * @param \Illuminate\Database\Query\Builder  $queryBuilder
      *
      * @return void
      */
@@ -54,95 +287,155 @@ abstract class DataGrid
     }
 
     /**
-     * @param array $action
+     * Add action. Some datagrids are used in shops also. So extra
+     * parameters is their. If needs to give an access just pass true
+     * in second param.
      *
+     * @param  array  $action
+     * @param  bool   $specialPermission
      * @return void
      */
-    public function addAction($action)
+    public function addAction($action, $specialPermission = false)
     {
-        $eventName = null;
+        $this->checkRequiredActionKeys($action);
 
-        if (isset($action['title'])) {
-            $eventName = strtolower($action['title']);
-            $eventName = explode(' ', $eventName);
-            $eventName = implode('.', $eventName);
-        }
+        $this->checkPermissions($action, $specialPermission, function ($action, $eventName) {
+            $this->fireEvent('action.before.' . $eventName);
 
-        $this->fireEvent('action.before.' . $eventName);
+            $action['key'] = Str::slug($action['title'], '_');
 
-        array_push($this->actions, $action);
+            $this->actions[] = $action;
 
-        $this->enableAction = true;
+            $this->enableAction = true;
 
-        $this->fireEvent('action.after.' . $eventName);
+            $this->fireEvent('action.after.' . $eventName);
+        });
     }
 
     /**
-     * @param array $massAction
+     * Add mass action. Some datagrids are used in shops also. So extra
+     * parameters is their. If needs to give an access just pass true
+     * in second param.
      *
+     * @param  array  $massAction
+     * @param  bool   $specialPermission
      * @return void
      */
-    public function addMassAction($massAction)
+    public function addMassAction($massAction, $specialPermission = false)
     {
-        if (isset($massAction['label'])) {
-            $eventName = strtolower($massAction['label']);
-            $eventName = explode(' ', $eventName);
-            $eventName = implode('.', $eventName);
-        } else {
-            $eventName = null;
-        }
+        $massAction['route'] = $this->getRouteNameFromUrl($massAction['action'], $massAction['method']);
 
-        $this->fireEvent('mass.action.before.' . $eventName);
+        $this->checkPermissions($massAction, $specialPermission, function ($action, $eventName) {
+            $this->fireEvent('mass.action.before.' . $eventName);
 
-        $this->massActions[] = $massAction;
+            $this->massActions[] = $action;
+            $this->enableMassAction = true;
 
-        $this->enableMassAction = true;
-
-        $this->fireEvent('mass.action.after.' . $eventName);
+            $this->fireEvent('mass.action.after.' . $eventName);
+        }, 'label');
     }
 
     /**
-     * @param \Illuminate\Support\Collection $collection
-     * @param array                          $parseInfo
+     * Trigger event.
      *
-     * @return \Illuminate\Support\Collection
+     * @param  string  $name
+     * @return void
      */
-    public function sortOrFilterCollection($collection, $parseInfo)
+    public function fireEvent($name)
     {
-        foreach ($parseInfo as $key => $info) {
-            $columnType = $this->findColumnType($key)[0] ?? null;
-            $columnName = $this->findColumnType($key)[1] ?? null;
+        if (isset($name)) {
+            $className = get_class($this->invoker);
 
-            switch ($key) {
-                case 'sort':
-                    $collection = $this->filterCollection($collection, $info, $columnName, "sort");
-                    break;
+            $className = last(explode('\\', $className));
 
-                case 'type':
-                case 'duration':
-                case 'scheduled':
-                    $collection = $this->prepareTabFilter($collection, $key, $info);
-                    break;
+            $className = strtolower($className);
 
-                case 'search':
-                    $collection = $this->prepareSearch($collection, $info);
-                    break;
+            $eventName = $className . '.' . $name;
 
-                default:
-                    $this->attachColumnValues($columnName, $info);
+            Event::dispatch($eventName, $this->invoker);
+        }
+    }
 
-                    $collection = $this->filterCollection($collection, $info, $columnName);
-                    break;
+    /**
+     * Prepare tab filters.
+     *
+     * @return array
+     */
+    public function prepareTabFilters($key)
+    {
+        $tabFilters = config("datagrid_filters")[$key] ?? [];
+
+        foreach ($tabFilters as $tabIndex => $filter) {
+            if (($filter['value_type'] ?? false) == "lookup") {
+                $values = app($filter['repositoryClass'])
+                            ->get(['name', 'code as key', DB::raw("false as isActive")])
+                            ->prepend([
+                                'isActive'  => true,
+                                'key'       => 'all',
+                                'name'      => trans('admin::app.datagrid.all'),
+                            ])
+                            ->toArray();
+
+                $tabFilters[$tabIndex]['values'] = $values;
+            } else {
+                foreach ($filter['values'] as $valueIndex => $value) {
+                    $tabFilters[$tabIndex]['values'][$valueIndex]['name'] = trans($tabFilters[$tabIndex]['values'][$valueIndex]['name']);
+                }
             }
         }
 
-        return $collection;
+        return $tabFilters;
     }
 
     /**
-     * @return \Illuminate\Http\Response
+     * Prepare actions.
+     *
+     * @return void
      */
-    public function toArray()
+    public function prepareActions()
+    {
+    }
+
+    /**
+     * Preprare mass actions.
+     *
+     * @return void
+     */
+    public function prepareMassActions()
+    {
+    }
+
+    /**
+     * Prepare data for json response.
+     *
+     * @return array
+     */
+    public function prepareData()
+    {
+        return [
+            'index'             => $this->index,
+            'records'           => $this->collection,
+            'columns'           => $this->completeColumnDetails,
+            'tabFilters'        => $this->tabFilters,
+            'actions'           => $this->actions,
+            'enableActions'     => $this->enableAction,
+            'massActions'       => $this->massActions,
+            'enableMassActions' => $this->enableMassAction,
+            'paginated'         => $this->paginate,
+            'itemsPerPage'      => $this->itemsPerPage,
+            'enableSearch'      => $this->enableSearch,
+            'tabFilters'        => $this->tabFilters,
+            'enablePerPage'     => $this->enablePerPage,
+            'enableFilters'     => $this->enableFilters,
+        ];
+    }
+
+    /**
+     * Get json data.
+     *
+     * @return object
+     */
+    public function toJson()
     {
         $this->addColumns();
 
@@ -152,8 +445,10 @@ abstract class DataGrid
 
         $this->prepareQueryBuilder();
 
-        $data = $this->prepareResponseData();
+        $this->getCollection();
 
-        return $data;
+        $this->formatCollection();
+
+        return response()->json($this->prepareData());
     }
 }
