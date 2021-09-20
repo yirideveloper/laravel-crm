@@ -1,23 +1,19 @@
-@extends('admin::layouts.master')
+@extends('ui::datagrid.table')
 
 @section('page_title')
-    {{ __('admin::app.products.title') }}
+    {{ __('admin::app.quotes.title') }}
 @stop
 
-@section('content-wrapper')
-    <div class="content full-page">
-        <table-component data-src="{{ route('admin.quotes.index') }}">
-            <template v-slot:table-header>
-                <h1>
-                    {!! view_render_event('admin.quotes.index.header.before') !!}
+@section('table-header')
+    {!! view_render_event('admin.quotes.index.header.before') !!}
 
-                    {{ Breadcrumbs::render('quotes') }}
+    {{ Breadcrumbs::render('quotes') }}
 
-                    {{ __('admin::app.quotes.title') }}
+    {{ __('admin::app.quotes.title') }}
 
-                    {!! view_render_event('admin.quotes.index.header.after') !!}
-                </h1>
-            </template>
-        <table-component>
-    </div>
+    {!! view_render_event('admin.quotes.index.header.after') !!}
 @stop
+
+@php
+    $tableClass = "\Webkul\Admin\DataGrids\Quote\QuoteDataGrid";
+@endphp

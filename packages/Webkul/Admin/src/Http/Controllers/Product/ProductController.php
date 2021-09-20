@@ -37,10 +37,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        if (request()->ajax()) {
-            return app(\Webkul\Admin\DataGrids\Product\ProductDataGrid::class)->toJson();
-        }
-
         return view('admin::products.index');
     }
 
