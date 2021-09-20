@@ -2,11 +2,16 @@
 
 namespace Webkul\Admin\DataGrids\Setting;
 
-use Illuminate\Support\Facades\DB;
 use Webkul\UI\DataGrid\DataGrid;
+use Illuminate\Support\Facades\DB;
 
 class GroupDataGrid extends DataGrid
 {
+    protected $redirectRow = [
+        "id"    => "id",
+        "route" => "admin.settings.groups.edit",
+    ];
+
     public function prepareQueryBuilder()
     {
         $queryBuilder = DB::table('groups')
@@ -23,6 +28,7 @@ class GroupDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'           => 'id',
+            'head_style'      => 'width: 50px',
             'label'           => trans('admin::app.datagrid.id'),
             'type'            => 'string',
             'searchable'      => true,
@@ -64,5 +70,9 @@ class GroupDataGrid extends DataGrid
             'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'group']),
             'icon'         => 'trash-icon',
         ]);
+    }
+
+    public function prepareMassActions()
+    {
     }
 }

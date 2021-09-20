@@ -1,7 +1,9 @@
 <template>
-    <div :class="`pagination ${tabView ? 'tab-view' : 'full-view'}`" v-if="records.data.length > 0">
+    <div :class="`pagination ${tabView ? 'tab-view' : 'full-view'}`" v-if="paginationData.has_pages">
         <template v-if="tabView">
-            <a class="page-item previous disabled" v-if="! records.prev_page_url">
+            <!-- <span>{{ paginationData.current_page *  perPage }}-{{ (paginationData.current_page *  perPage) + perPage }} of {{ paginationData.total_rows }}</span> -->
+
+            <a class="page-item previous disabled" v-if="paginationData.on_first_page">
                 <i class="icon arrow-left-line-icon"></i>
             </a>
 
@@ -10,20 +12,20 @@
                 id="previous"
                 class="page-item previous"
                 @click="changePage({
-                    url: records.prev_page_url,
-                    page_number: records.current_page - 1
+                    url: paginationData.previous_page_url,
+                    page_number: paginationData.current_page - 1
                 })"
             >
                 <i class="icon arrow-left-line-icon"></i>
             </a>
-
+            
             <a
                 id="next"
                 class="page-item next"
-                v-if="records.next_page_url"
+                v-if="paginationData.has_more_pages"
                 @click="changePage({
-                    url: records.next_page_url,
-                    page_number: records.current_page + 1
+                    url: paginationData.next_page_url,
+                    page_number: paginationData.current_page + 1
                 })"
             >
                 <i class="icon arrow-right-line-icon"></i>
@@ -35,27 +37,55 @@
         </template>
 
         <template v-else>
+            <a class="page-item previous" v-if="paginationData.on_first_page">
+                <i class="icon arrow-left-line-icon"></i>
+            </a>
+
             <a
-                v-for="(link, index) in records.links"
-                :key="index"
-                href="javascript:void(0);"
-                :data-page="link.url"
-                :class="
-                    `page-item ${index == 0 ? 'previous' : ''} ${
-                        link.active ? 'active' : ''
-                    } ${index == records.links.length - 1 ? 'next' : ''}`
-                "
-                @click="changePage({
-                    url: link.url,
-                    page_number: records.current_page
-                })"
+                v-else
+                id="previous"
+                class="page-item previous"
+                :href="paginationData.previous_page_url"
+                :data-page="paginationData.previous_page_url"
             >
-                <i class="icon angle-left-icon" v-if="index == 0"></i>
-                <i
-                        class="icon angle-right-icon"
-                        v-else-if="index == records.links.length - 1"
-                ></i>
-                <span v-text="link.label" v-else></span>
+                <i class="icon arrow-left-line-icon"></i>
+            </a>
+
+            <template v-for="(element, index) in paginationData.elements">
+                <template v-if="typeof(element) == 'string'">
+                    <a class="page-item disabled" aria-disabled="true" :key="index">
+                        {{ element }}
+                    </a>
+                </template>
+
+                <template v-else>
+                    <template v-for="(url, page) in element">
+                        <template v-if="paginationData.current_page == page">
+                            <a class="page-item active" :key="`${index} + ${page}`">
+                                {{ page }}
+                            </a>
+                        </template>
+
+                        <template v-else>
+                            <a class="page-item as" :href="url" :key="`${index} + ${page}`">
+                                {{ page }}
+                            </a>
+                        </template>
+                    </template>
+                </template>
+            </template>
+
+            <a
+                id="next"
+                class="page-item next"
+                v-if="paginationData.has_more_pages"
+                :href="paginationData.next_page_url"
+            >
+                <i class="icon arrow-right-line-icon"></i>
+            </a>
+
+            <a class="page-item next" v-else>
+                <i class="icon arrow-right-line-icon"></i>
             </a>
         </template>
     </div>
@@ -74,12 +104,12 @@
         },
 
         computed: {
-            ...mapState({
+            ...mapState({                
                 tableData : state => state.tableData,
             }),
 
-            records: function () {
-                return this.tableData.records;
+            paginationData: function () {
+                return this.tableData.paginationData;
             },
         },
 

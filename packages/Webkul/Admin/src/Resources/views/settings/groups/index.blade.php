@@ -1,29 +1,21 @@
-@extends('admin::layouts.master')
+@extends('ui::datagrid.table')
 
 @section('page_title')
     {{ __('admin::app.settings.groups.title') }}
 @stop
 
-@section('content-wrapper')
-    <div class="content full-page">
-        <table-component data-src="{{ route('admin.settings.groups.index') }}">
-            <template v-slot:table-header>
-                <h1>
-                    {!! view_render_event('admin.settings.groups.index.header.before') !!}
+@section('table-header')
+    {!! view_render_event('admin.settings.groups.index.header.before') !!}
 
-                    {{ Breadcrumbs::render('settings.groups') }}
+    {{ Breadcrumbs::render('settings.groups') }}
 
-                    {{ __('admin::app.settings.groups.title') }}
+    {{ __('admin::app.settings.groups.title') }}
 
-                    {!! view_render_event('admin.settings.groups.index.header.after') !!}
-                </h1>
-            </template>
+    {!! view_render_event('admin.settings.groups.index.header.after') !!}
+@stop
 
-            <template v-slot:table-action>
-                <a href="{{ route('admin.settings.groups.create') }}" class="btn btn-md btn-primary">
-                    {{ __('admin::app.settings.groups.create-title') }}
-                </a>
-            </template>
-        <table-component>
-    </div>
+@section('table-action')
+    <a href="{{ route('admin.settings.groups.create') }}" class="btn btn-md btn-primary">
+        {{ __('admin::app.settings.groups.create-title') }}
+    </a>
 @stop

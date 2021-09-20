@@ -1,27 +1,19 @@
-@extends('admin::layouts.master')
+@extends('ui::datagrid.table')
 
 @section('page_title')
     {{ __('admin::app.settings.workflows.title') }}
 @stop
 
-@section('content-wrapper')
-    <div class="content full-page">
-        <table-component data-src="{{ route('admin.settings.workflows.index') }}">
-            <template v-slot:table-header>
-                <h1>
-                    {!! view_render_event('admin.settings.workflows.index.header.before') !!}
+@section('table-header')
+    {!! view_render_event('admin.settings.workflows.index.header.before') !!}
 
-                    {{ Breadcrumbs::render('settings.workflows') }}
+    {{ Breadcrumbs::render('settings.workflows') }}
 
-                    {{ __('admin::app.settings.workflows.title') }}
+    {{ __('admin::app.settings.workflows.title') }}
 
-                    {!! view_render_event('admin.settings.workflows.index.header.after') !!}
-                </h1>
-            </template>
+    {!! view_render_event('admin.settings.workflows.index.header.after') !!}
+@stop
 
-            <template v-slot:table-action>
-                <a href="{{ route('admin.settings.workflows.create') }}" class="btn btn-md btn-primary">{{ __('admin::app.settings.workflows.create-title') }}</a>
-            </template>
-        <table-component>
-    </div>
+@section('table-action')
+    <a href="{{ route('admin.settings.workflows.create') }}" class="btn btn-md btn-primary">{{ __('admin::app.settings.workflows.create-title') }}</a>
 @stop

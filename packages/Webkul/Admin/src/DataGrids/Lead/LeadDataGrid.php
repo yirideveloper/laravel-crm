@@ -7,23 +7,23 @@ use Illuminate\Support\Facades\DB;
 
 class LeadDataGrid extends DataGrid
 {
-    /**
-     * Create datagrid instance.
-     *
-     * @return void
-     */
+    protected $users = [];
+
+    protected $tabFilters = [];
+    
+    protected $redirectRow = [
+        "id"    => "id",
+        "route" => "admin.leads.view",
+    ];
+
     public function __construct()
     {
-        parent::__construct();
-
+        // get all stages
         $this->tabFilters = $this->prepareTabFilters("leads");
-    }
 
-    /**
-     * Prepare query builder.
-     *
-     * @return void
-     */
+        parent::__construct();
+    }
+    
     public function prepareQueryBuilder()
     {
         $queryBuilder = DB::table('leads')
@@ -63,16 +63,10 @@ class LeadDataGrid extends DataGrid
         $this->setQueryBuilder($queryBuilder);
     }
 
-    /**
-     * Add columns.
-     *
-     * @return void
-     */
     public function addColumns()
     {
         $this->addColumn([
             'index'      => 'id',
-            'label'      => 'ID',
             'type'       => 'hidden',
             'searchable' => true,
         ]);
@@ -100,7 +94,7 @@ class LeadDataGrid extends DataGrid
             'searchable'      => true,
             'sortable'        => true,
             'filterable_type' => 'add',
-            'wrapper'         => function ($row) {
+            'closure'         => function ($row) {
                 return core()->formatBasePrice($row->lead_value, 2);
             },
         ]);
@@ -109,8 +103,7 @@ class LeadDataGrid extends DataGrid
             'index'   => 'user_name',
             'label'   => trans('admin::app.datagrid.contact_person'),
             'type'    => 'string',
-            'closure' => true,
-            'wrapper' => function ($row) {
+            'closure' => function ($row) {
                 $route = urldecode(route('admin.contacts.persons.index', ['id[eq]' => $row->user_id]));
 
                 return "<a href='" . $route . "'>" . $row->user_name . "</a>";
@@ -121,8 +114,7 @@ class LeadDataGrid extends DataGrid
             'index'   => 'stage',
             'label'   => trans('admin::app.datagrid.stage'),
             'type'    => 'boolean',
-            'closure' => true,
-            'wrapper' => function ($row) {
+            'closure' => function ($row) {
                 if ($row->stage == "Won") {
                     $badge = 'success';
                 } else if ($row->stage == "Lost") {
@@ -140,18 +132,13 @@ class LeadDataGrid extends DataGrid
             'label'           => trans('admin::app.datagrid.created_at'),
             'type'            => 'string',
             'sortable'        => true,
-            'wrapper'         => function ($row) {
+            'filterable_type' => 'date_range',
+            'closure'         => function ($row) {
                 return core()->formatDate($row->created_at);
             },
-            'filterable_type' => 'date_range',
         ]);
     }
 
-    /**
-     * Prepare actions.
-     *
-     * @return void
-     */
     public function prepareActions()
     {
         $this->addAction([
@@ -170,11 +157,6 @@ class LeadDataGrid extends DataGrid
         ]);
     }
 
-    /**
-     * Prepare mass actions.
-     *
-     * @return void
-     */
     public function prepareMassActions()
     {
         $stages = [];

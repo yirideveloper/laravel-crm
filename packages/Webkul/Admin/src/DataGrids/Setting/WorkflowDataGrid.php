@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class WorkflowDataGrid extends DataGrid
 {
+    protected $redirectRow = [
+        "id"    => "id",
+        "route" => "admin.settings.workflows.edit",
+    ];
+
     public function prepareQueryBuilder()
     {
         $queryBuilder = DB::table('workflows')
@@ -22,6 +27,7 @@ class WorkflowDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'           => 'id',
+            'head_style'      => 'width: 50px',
             'label'           => trans('admin::app.datagrid.id'),
             'type'            => 'string',
             'searchable'      => true,

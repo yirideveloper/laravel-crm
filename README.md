@@ -62,7 +62,7 @@ Take advantage of two of the hottest frameworks used in this project -- Laravel 
 ##### Execute these commands below, in order
 
 ```
-composer create-project krayin/laravel-crm
+1. composer create-project krayin/laravel-crm
 ```
 
 -   Find **.env** file in root directory and change the **APP_URL** param to your **domain**.
@@ -70,7 +70,7 @@ composer create-project krayin/laravel-crm
 -   Also, Configure the **Mail** and **Database** parameters inside **.env** file.
 
 ```
-php artisan krayin-crm:install
+2. php artisan krayin-crm:install
 ```
 
 **To execute Krayin**:

@@ -2,15 +2,20 @@
 
 namespace Webkul\Admin\DataGrids\Setting;
 
-use Illuminate\Support\Facades\DB;
 use Webkul\UI\DataGrid\DataGrid;
+use Illuminate\Support\Facades\DB;
 
 class AttributeDataGrid extends DataGrid
 {
+    protected $tabFilters = [];
+    
+    protected $redirectRow = [
+        "id"    => "id",
+        "route" => "admin.settings.attributes.edit",
+    ];
+
     public function __construct()
     {
-        parent::__construct();
-
         $this->tabFilters = [
             [
                 'type'      => 'pill',
@@ -45,6 +50,10 @@ class AttributeDataGrid extends DataGrid
                 ]
             ]
         ];
+
+        $this->addFilter('type', 'entity_type');
+
+        parent::__construct();
     }
 
     public function prepareQueryBuilder()
@@ -58,8 +67,6 @@ class AttributeDataGrid extends DataGrid
                 'attributes.entity_type'
             );
 
-        $this->addFilter('type', 'entity_type');
-
         $this->setQueryBuilder($queryBuilder);
     }
 
@@ -67,6 +74,7 @@ class AttributeDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'           => 'id',
+            'head_style'      => 'width: 50px',
             'label'           => trans('admin::app.datagrid.id'),
             'type'            => 'string',
             'searchable'      => true,

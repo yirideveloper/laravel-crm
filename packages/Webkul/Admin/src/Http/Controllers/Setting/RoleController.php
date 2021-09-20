@@ -34,11 +34,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        if (request()->ajax()) {
-            return app(\Webkul\Admin\DataGrids\Setting\RoleDataGrid::class)->toJson();
-        }
-
-        return view('admin::settings.roles.index');
+        return view('admin::settings.roles.index', [
+            'tableClass' => '\Webkul\Admin\DataGrids\Setting\RoleDataGrid'
+        ]);
     }
 
     /**
@@ -164,15 +162,15 @@ class RoleController extends Controller
                     $this->roleRepository->delete($id);
 
                     Event::dispatch('settings.role.delete.after', $id);
-
+    
                     $message = trans('admin::app.settings.roles.delete-success');
-
+    
                     $response = [
                         'status'        => true,
                         'responseCode'  => 200,
                         'message'       => $message,
                     ];
-
+    
                     session()->flash('success', $message);
                 }
 

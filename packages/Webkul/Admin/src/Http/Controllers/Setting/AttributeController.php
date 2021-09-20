@@ -35,11 +35,9 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        if (request()->ajax()) {
-            return app(\Webkul\Admin\DataGrids\Setting\AttributeDataGrid::class)->toJson();
-        }
-
-        return view('admin::settings.attributes.index');
+        return view('admin::settings.attributes.index', [
+            'tableClass' => '\Webkul\Admin\DataGrids\Setting\AttributeDataGrid'
+        ]);
     }
 
     /**
