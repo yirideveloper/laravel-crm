@@ -7,11 +7,23 @@ use Illuminate\Support\Facades\DB;
 
 class LeadDataGrid extends DataGrid
 {
-    /**
-     * Prepare query builder.
-     *
-     * @return void
-     */
+    protected $users = [];
+
+    protected $tabFilters = [];
+    
+    protected $redirectRow = [
+        "id"    => "id",
+        "route" => "admin.leads.view",
+    ];
+
+    public function __construct()
+    {
+        // get all stages
+        $this->tabFilters = $this->prepareTabFilters("leads");
+
+        parent::__construct();
+    }
+    
     public function prepareQueryBuilder()
     {
         $queryBuilder = DB::table('leads')
@@ -29,7 +41,8 @@ class LeadDataGrid extends DataGrid
             ->leftJoin('lead_types', 'leads.lead_type_id', '=', 'lead_types.id')
             ->leftJoin('lead_stages', 'leads.lead_stage_id', '=', 'lead_stages.id')
             ->leftJoin('lead_sources', 'leads.lead_source_id', '=', 'lead_sources.id')
-            ->leftJoin('lead_pipelines', 'leads.lead_pipeline_id', '=', 'lead_pipelines.id');
+            ->leftJoin('lead_pipelines', 'leads.lead_pipeline_id', '=', 'lead_pipelines.id')
+            ;
 
         $currentUser = auth()->guard('user')->user();
 
@@ -50,16 +63,10 @@ class LeadDataGrid extends DataGrid
         $this->setQueryBuilder($queryBuilder);
     }
 
-    /**
-     * Add columns.
-     *
-     * @return void
-     */
     public function addColumns()
     {
         $this->addColumn([
             'index'      => 'id',
-            'label'      => 'ID',
             'type'       => 'hidden',
             'searchable' => true,
         ]);
@@ -87,7 +94,7 @@ class LeadDataGrid extends DataGrid
             'searchable'      => true,
             'sortable'        => true,
             'filterable_type' => 'add',
-            'wrapper'         => function ($row) {
+            'closure'         => function ($row) {
                 return core()->formatBasePrice($row->lead_value, 2);
             },
         ]);
@@ -96,8 +103,7 @@ class LeadDataGrid extends DataGrid
             'index'   => 'user_name',
             'label'   => trans('admin::app.datagrid.contact_person'),
             'type'    => 'string',
-            'closure' => true,
-            'wrapper' => function ($row) {
+            'closure' => function ($row) {
                 $route = urldecode(route('admin.contacts.persons.index', ['id[eq]' => $row->user_id]));
 
                 return "<a href='" . $route . "'>" . $row->user_name . "</a>";
@@ -108,8 +114,7 @@ class LeadDataGrid extends DataGrid
             'index'   => 'stage',
             'label'   => trans('admin::app.datagrid.stage'),
             'type'    => 'boolean',
-            'closure' => true,
-            'wrapper' => function ($row) {
+            'closure' => function ($row) {
                 if ($row->stage == "Won") {
                     $badge = 'success';
                 } else if ($row->stage == "Lost") {
@@ -127,34 +132,13 @@ class LeadDataGrid extends DataGrid
             'label'           => trans('admin::app.datagrid.created_at'),
             'type'            => 'string',
             'sortable'        => true,
-            'wrapper'         => function ($row) {
+            'filterable_type' => 'date_range',
+            'closure'         => function ($row) {
                 return core()->formatDate($row->created_at);
             },
-            'filterable_type' => 'date_range',
         ]);
     }
 
-    /**
-     * Prepare tab filters.
-     *
-     * @return array
-     */
-    public function prepareTabFilters()
-    {
-        $this->addTabFilter([
-            'type'              => 'pill',
-            'key'               => 'type',
-            'condition'         => 'eq',
-            "value_type"        => "lookup",
-            "repositoryClass"   => "\Webkul\Lead\Repositories\StageRepository",
-        ]);
-    }
-
-    /**
-     * Prepare actions.
-     *
-     * @return void
-     */
     public function prepareActions()
     {
         $this->addAction([
@@ -173,11 +157,6 @@ class LeadDataGrid extends DataGrid
         ]);
     }
 
-    /**
-     * Prepare mass actions.
-     *
-     * @return void
-     */
     public function prepareMassActions()
     {
         $stages = [];

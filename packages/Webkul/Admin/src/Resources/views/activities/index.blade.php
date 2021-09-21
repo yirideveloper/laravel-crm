@@ -1,21 +1,19 @@
-@extends('admin::layouts.master')
+@extends('ui::datagrid.table')
 
 @section('page_title')
     {{ __('admin::app.activities.title') }}
 @stop
 
-@section('content-wrapper')
-    <div class="content full-page">
-        <table-component data-src="{{ route('admin.activities.index') }}">
-            <template v-slot:table-header>
-                {!! view_render_event('admin.activities.index.header.before') !!}
+@section('table-header')
+    {!! view_render_event('admin.activities.index.header.before') !!}
 
-                {{ Breadcrumbs::render('activities') }}
+    {{ Breadcrumbs::render('activities') }}
 
-                {{ __('admin::app.activities.title') }}
+    {{ __('admin::app.activities.title') }}
 
-                {!! view_render_event('admin.activities.index.header.before') !!}
-            </template>
-        <table-component>
-    </div>
+    {!! view_render_event('admin.activities.index.header.before') !!}
 @stop
+
+@php
+    $tableClass = "\Webkul\Admin\DataGrids\Activity\ActivityDataGrid";
+@endphp

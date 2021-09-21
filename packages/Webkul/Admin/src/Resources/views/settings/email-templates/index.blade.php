@@ -1,27 +1,19 @@
-@extends('admin::layouts.master')
+@extends('ui::datagrid.table')
 
 @section('page_title')
     {{ __('admin::app.settings.email-templates.title') }}
 @stop
 
-@section('content-wrapper')
-    <div class="content full-page">
-        <table-component data-src="{{ route('admin.settings.email_templates.index') }}">
-            <template v-slot:table-header>
-                <h1>
-                    {!! view_render_event('admin.settings.email_templates.index.header.before') !!}
+@section('table-header')
+    {!! view_render_event('admin.settings.email_templates.index.header.before') !!}
 
-                    {{ Breadcrumbs::render('settings.email_templates') }}
+    {{ Breadcrumbs::render('settings.email_templates') }}
 
-                    {{ __('admin::app.settings.email-templates.title') }}
+    {{ __('admin::app.settings.email-templates.title') }}
 
-                    {!! view_render_event('admin.settings.email_templates.index.header.after') !!}
-                </h1>
-            </template>
+    {!! view_render_event('admin.settings.email_templates.index.header.after') !!}
+@stop
 
-            <template v-slot:table-action>
-                <a href="{{ route('admin.settings.email_templates.create') }}" class="btn btn-md btn-primary">{{ __('admin::app.settings.email-templates.create-title') }}</a>
-            </template>
-        <table-component>
-    </div>
+@section('table-action')
+    <a href="{{ route('admin.settings.email_templates.create') }}" class="btn btn-md btn-primary">{{ __('admin::app.settings.email-templates.create-title') }}</a>
 @stop

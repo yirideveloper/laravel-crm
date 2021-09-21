@@ -2,11 +2,18 @@
 
 namespace Webkul\Admin\Providers;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Webkul\Core\Tree;
+use Webkul\Admin\Menu;
+use Webkul\Admin\Bouncer;
+use Webkul\Admin\Exceptions\Handler;
+use Webkul\Admin\Facades\Menu as MenuFacade;
+use Webkul\Admin\Facades\Bouncer as BouncerFacade;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Webkul\Admin\Http\Middleware\Bouncer as BouncerMiddleware;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -18,7 +25,7 @@ class AdminServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         include __DIR__ . '/../Http/helpers.php';
-
+        
         $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
 
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
@@ -27,9 +34,9 @@ class AdminServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'admin');
 
-        $this->app->bind(\Illuminate\Contracts\Debug\ExceptionHandler::class, \Webkul\Admin\Exceptions\Handler::class);
+        $this->app->bind(ExceptionHandler::class, Handler::class);
 
-        $router->aliasMiddleware('user', \Webkul\Admin\Http\Middleware\Bouncer::class);
+        $router->aliasMiddleware('user', BouncerMiddleware::class);
 
         $this->publishes([
             __DIR__ . '/../../publishable/assets' => public_path('vendor/webkul/admin/assets'),
@@ -42,7 +49,7 @@ class AdminServiceProvider extends ServiceProvider
             'organizations' => 'Webkul\Contact\Models\Organization',
             'quotes'        => 'Webkul\Quote\Models\Quote',
         ]);
-
+        
         $this->app->register(EventServiceProvider::class);
     }
 
@@ -71,15 +78,15 @@ class AdminServiceProvider extends ServiceProvider
     {
         $loader = AliasLoader::getInstance();
 
-        $loader->alias('Bouncer', \Webkul\Admin\Facades\Bouncer::class);
-        $loader->alias('Menu', \Webkul\Admin\Facades\Menu::class);
+        $loader->alias('Bouncer', BouncerFacade::class);
+        $loader->alias('Menu', MenuFacade::class);
 
         $this->app->singleton('bouncer', function () {
-            return new \Webkul\Admin\Bouncer();
+            return new Bouncer();
         });
 
         $this->app->singleton('menu', function () {
-            return new \Webkul\Admin\Menu();
+            return new Menu();
         });
     }
 
@@ -98,8 +105,10 @@ class AdminServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(dirname(__DIR__) . '/Config/dashboard_cards.php', 'dashboard_cards');
 
-        $this->mergeConfigFrom(dirname(__DIR__) . '/Config/attribute_lookups.php', 'attribute_lookups');
+        $this->mergeConfigFrom(dirname(__DIR__) . '/Config/datagrid_filters.php', 'datagrid_filters');
 
+        $this->mergeConfigFrom(dirname(__DIR__) . '/Config/attribute_lookups.php', 'attribute_lookups');
+        
         $this->mergeConfigFrom(dirname(__DIR__) . '/Config/attribute_entity_types.php', 'attribute_entity_types');
     }
 
@@ -116,19 +125,19 @@ class AdminServiceProvider extends ServiceProvider
             foreach (config('core_config') as $item) {
                 $tree->add($item);
             }
-
+    
             $tree->items = core()->sortItems($tree->items);
 
             return $tree;
         });
     }
-
+    
     /**
-     * Registers acl to entire application.
+     * Registers acl to entire application
      *
      * @return void
      */
-    protected function registerACL()
+    public function registerACL()
     {
         $this->app->singleton('acl', function () {
             return $this->createACL();
@@ -136,11 +145,11 @@ class AdminServiceProvider extends ServiceProvider
     }
 
     /**
-     * Create ACL tree.
+     * Create acl tree
      *
      * @return mixed
      */
-    protected function createACL()
+    public function createACL()
     {
         static $tree;
 

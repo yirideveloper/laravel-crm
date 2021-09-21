@@ -1,29 +1,21 @@
-@extends('admin::layouts.master')
+@extends('ui::datagrid.table')
 
 @section('page_title')
     {{ __('admin::app.settings.roles.title') }}
 @stop
 
-@section('content-wrapper')
-    <div class="content full-page">
-        <table-component data-src="{{ route('admin.settings.roles.index') }}">
-            <template v-slot:table-header>
-                <h1>
-                    {!! view_render_event('admin.settings.roles.index.header.before') !!}
+@section('table-header')
+    {!! view_render_event('admin.settings.roles.index.header.before') !!}
 
-                    {{ Breadcrumbs::render('settings.roles') }}
+    {{ Breadcrumbs::render('settings.roles') }}
 
-                    {{ __('admin::app.settings.roles.title') }}
+    {{ __('admin::app.settings.roles.title') }}
 
-                    {!! view_render_event('admin.settings.roles.index.header.after') !!}
-                </h1>
-            </template>
+    {!! view_render_event('admin.settings.roles.index.header.after') !!}
+@stop
 
-            <template v-slot:table-action>
-                <a href="{{ route('admin.settings.roles.create') }}" class="btn btn-md btn-primary">
-                    {{ __('admin::app.settings.roles.create-title') }}
-                </a>
-            </template>
-        <table-component>
-    </div>
+@section('table-action')
+    <a href="{{ route('admin.settings.roles.create') }}" class="btn btn-md btn-primary">
+        {{ __('admin::app.settings.roles.create-title') }}
+    </a>
 @stop
