@@ -4,11 +4,10 @@ namespace Webkul\Admin\Http\Controllers\Lead;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
-use Webkul\Admin\Notifications\Lead\Create;
-use Webkul\Lead\Repositories\LeadRepository;
-use Webkul\Lead\Repositories\StageRepository;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Attribute\Http\Requests\AttributeForm;
+use Webkul\Lead\Repositories\LeadRepository;
+use Webkul\Lead\Repositories\StageRepository;
 
 class LeadController extends Controller
 {
@@ -52,6 +51,10 @@ class LeadController extends Controller
      */
     public function index()
     {
+        if (request()->ajax()) {
+            return app(\Webkul\Admin\DataGrids\Lead\LeadDataGrid::class)->toJson();
+        }
+
         return view('admin::leads.index');
     }
 
@@ -74,7 +77,7 @@ class LeadController extends Controller
     public function store(AttributeForm $request)
     {
         Event::dispatch('lead.create.before');
-        
+
         $data = request()->all();
 
         $data['user_id'] = $data['status'] = $data['lead_pipeline_id'] = 1;
@@ -84,7 +87,7 @@ class LeadController extends Controller
         $user = $this->leadRepository->getUserByLeadId($lead->id);
 
         Event::dispatch('lead.create.after', $lead);
-        
+
         session()->flash('success', trans('admin::app.leads.create-success'));
 
         return redirect()->route('admin.leads.index');
@@ -184,7 +187,7 @@ class LeadController extends Controller
         }
 
         $leads = $this->leadRepository->getLeads($searchedKeyword, $createdAt)->toArray();
-                    
+
         $stages = $this->stageRepository->get();
 
         foreach ($leads as $key => $lead) {
@@ -239,7 +242,7 @@ class LeadController extends Controller
     public function destroy($id)
     {
         $this->leadRepository->findOrFail($id);
-        
+
         try {
             Event::dispatch('lead.delete.before', $id);
 
