@@ -94,19 +94,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="entity_type" class="required">{{ __('admin::app.settings.attributes.entity-type') }}</label>
-
-                                <?php $selectedOption = old('type') ?: $attribute->entity_type ?>
-
-                                <select class="control" id="entity_type" name="entity_type">
-
-                                    @foreach (config('attribute_entity_types') as $key => $entityType)
-                                        <option value="{{ $key }}" {{ $selectedOption == $key ? 'selected' : '' }}>
-                                            {{ $entityType['name'] }}
-                                        </option>
-                                    @endforeach
-
-                                </select>
+                                <entity-type
+                                    name="entity_type"
+                                    value="{{ $attribute->entity_type }}"
+                                    disabled="true"
+                                    required="true"
+                                ></entity-type>
                             </div>
 
                             <div class="form-group">
@@ -300,36 +293,37 @@
                     </button>
                 </template>
 
-                <div v-else>
-                    <label for="lookup_type" class="required">
-                        {{ __('admin::app.settings.attributes.lookup-type') }}
-                    </label>
-
-                    <select class="control" id="lookup_type" name="lookup_type" :value="'{{ $attribute->lookup_type }}'">
-                        <option
-                            :key="index"
-                            :value="index"
-                            v-text="entityType.name"
-                            v-for="(entityType, index) in lookupEntityTypes"
-                        ></option>
-                    </select>
-                </div>
+                <entity-type
+                    name="lookup_type"
+                    value="{{ $attribute->lookup_type }}"
+                    v-else-if="optionType == 'lookup'"
+                    disabled="false"
+                ></entity-type>
             </template>
 
-            <div v-else>
-                <label for="lookup_type" class="required">
-                    {{ __('admin::app.settings.attributes.lookup-type') }}
-                </label>
+            <entity-type
+                name="lookup_type"
+                value="{{ $attribute->lookup_type }}"
+                disabled="false"
+                v-else
+            ></entity-type>
+        </div>
+    </script>
 
-                <select class="control" id="lookup_type" name="lookup_type" :value="'{{ $attribute->lookup_type }}'">
-                    <option
-                        :key="index"
-                        :value="index"
-                        v-text="entityType.name"
-                        v-for="(entityType, index) in lookupEntityTypes"
-                    ></option>
-                </select>
-            </div>
+    <script type="text/x-template" id="entity-type-template">
+        <div>
+            <label :for="name" class="required">
+                {{ __('admin::app.settings.attributes.entity-type') }}
+            </label>
+
+            <select class="control" :id="name" :name="name" :value="value" :disabled="disabled == 'true'">
+                <option
+                    :key="index"
+                    :value="index"
+                    v-text="entityType.name"
+                    v-for="(entityType, index) in lookupEntityTypes"
+                ></option>
+            </select>
         </div>
     </script>
 
@@ -343,14 +337,9 @@
             data: function() {
                 return {
                     optionRowCount: 1,
-
                     typeValue: "{{ $selectedOption }}",
-
                     optionType: "{{ $attribute->lookup_type ? 'lookup' : 'options' }}",
-
                     optionRows: @json($attribute->options()->orderBy('sort_order')->get()),
-
-                    lookupEntityTypes: @json(config('attribute_lookups')),
                 }
             },
 
@@ -364,6 +353,18 @@
 
                     Vue.delete(this.optionRows, index);
                 },
+            },
+        });
+
+        Vue.component('entity-type', {
+            template: '#entity-type-template',
+
+            props: ['name', 'value', 'disabled'],
+
+            data: function() {
+                return {
+                    lookupEntityTypes: @json(config('attribute_lookups')),
+                }
             },
         });
     </script>
