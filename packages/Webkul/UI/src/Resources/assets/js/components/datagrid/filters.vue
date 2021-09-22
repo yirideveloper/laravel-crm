@@ -1,9 +1,8 @@
 <template>
     <div class="grid-container">
+        <!-- searchbox and filters section -->
         <div class="datagrid-filters" id="datagrid-filters">
-            <!-- searchbox and mass action -->
             <div>
-                <!-- searchbox and filters section -->
                 <div
                     class="search-filter form-group"
                     v-if="tableData.enableSearch"
@@ -74,7 +73,6 @@
                 </div>
             </div>
 
-            <!-- items per page, pagination and filter section -->
             <div class="filter-right">
                 <div
                     class="dropdown-filters per-page"
@@ -104,7 +102,7 @@
                 <pagination-component
                     tab-view="true"
                     :per-page="perPage"
-                    v-if="!tableData.tabFilters.length > 0"
+                    v-if="! tableData.tabFilters.length > 0"
                 ></pagination-component>
 
                 <div class="switch-icons-container" v-if="switchPageUrl">
@@ -142,12 +140,12 @@
                 event-value-key="value"
                 event-key="updateFilter"
                 :tabs-collection="tableData.tabFilters[0].values"
+                v-if="tableData.tabFilters && tableData.tabFilters[0]"
                 :class="`${tableData.tabFilters[0].type} tabs-left-container`"
                 :event-data="{
                     key: tableData.tabFilters[0].key,
                     cond: tableData.tabFilters[0].condition
                 }"
-                v-if="tableData.tabFilters && tableData.tabFilters[0]"
             ></tabs>
 
             <div v-else></div>
@@ -287,8 +285,8 @@ export default {
             return this.tableData.columns;
         },
 
-        customTabFilters: function() {
-            return this.tableData.customTabFilters;
+        extraFilters: function() {
+            return this.tableData.extraFilters;
         }
     },
 
@@ -346,14 +344,14 @@ export default {
                     $(event.target).parents(".flatpickr-calendar").length ||
                     $(event.target).parents(".custom-design-container")
                         .length) &&
-                !$(event.target).attr("data-close-container")
+                ! $(event.target).attr("data-close-container")
             ) {
                 event.stopPropagation();
             }
         });
 
         EventBus.$on("updateFilter", data => {
-            if (this.customTabFilters.includes(data.key) && data.value == "custom") {
+            if (data.key == "duration" && data.value == "custom") {
                 setTimeout(() => {
                     $(".custom-design-container").toggle();
                 });
@@ -702,7 +700,7 @@ export default {
                     }
                 });
 
-                if (!applied) {
+                if (! applied) {
                     this.tableData.tabFilters[index].values[
                         defaultSelectrdIndex[index]
                     ].isActive = true;

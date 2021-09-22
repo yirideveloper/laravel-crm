@@ -8,15 +8,13 @@
     <div class="content full-page">
         <table-component data-src="{{ route('admin.activities.index') }}">
             <template v-slot:table-header>
-                <h1>
-                    {!! view_render_event('admin.activities.index.header.before') !!}
+                {!! view_render_event('admin.activities.index.header.before') !!}
 
-                    {{ Breadcrumbs::render('activities') }}
+                {{ Breadcrumbs::render('activities') }}
 
-                    {{ __('admin::app.activities.title') }}
+                {{ __('admin::app.activities.title') }}
 
-                    {!! view_render_event('admin.activities.index.header.before') !!}
-                </h1>
+                {!! view_render_event('admin.activities.index.header.before') !!}
             </template>
         <table-component>
     </div>

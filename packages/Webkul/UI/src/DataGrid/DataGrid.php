@@ -72,13 +72,6 @@ abstract class DataGrid
     protected $tabFilters = [];
 
     /**
-     * Custom tab filter listing.
-     *
-     * @var array
-     */
-    protected $customTabFilters = ['type', 'duration', 'scheduled'];
-
-    /**
      * To enable actions or not.
      *
      * @var bool
@@ -431,14 +424,14 @@ abstract class DataGrid
             'records'           => $this->collection,
             'columns'           => $this->completeColumnDetails,
             'tabFilters'        => $this->tabFilters,
-            'customTabFilters'  => $this->customTabFilters,
-            'enableActions'     => $this->enableAction,
             'actions'           => $this->actions,
-            'enableMassActions' => $this->enableMassAction,
+            'enableActions'     => $this->enableAction,
             'massActions'       => $this->massActions,
+            'enableMassActions' => $this->enableMassAction,
             'paginated'         => $this->paginate,
             'itemsPerPage'      => $this->itemsPerPage,
             'enableSearch'      => $this->enableSearch,
+            'tabFilters'        => $this->tabFilters,
             'enablePerPage'     => $this->enablePerPage,
             'enableFilters'     => $this->enableFilters,
         ];
