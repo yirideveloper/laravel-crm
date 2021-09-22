@@ -459,7 +459,7 @@
                             <input type="text" name="lead_value" class="control" value="{{ $lead->lead_value }}" />
                         </div>
 
-                        <div class="form-group date">
+                        <div class="form-group">
                             <label>{{ __('admin::app.leads.closed-date') }}</label>
 
                             <date>
@@ -619,7 +619,6 @@
                                     class="control"
                                     v-model="search_term"
                                     autocomplete="off"
-                                    placeholder="{{ __('admin::app.leads.participant-info') }}"
                                     v-on:keyup="search"
                                 >
 

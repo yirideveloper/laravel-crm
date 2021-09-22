@@ -144,7 +144,6 @@
             'from'                     => 'From',
             'to'                       => 'To',
             'participants'             => 'Participants',
-            'participant-info'         => 'Start typing name',
             'users'                    => 'Users',
             'persons'                  => 'Persons',
             'cc'                       => 'Cc',
