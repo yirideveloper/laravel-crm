@@ -85,7 +85,7 @@
                     debounce: [],
                     columns: {
                         'created_at': {
-                            'type'   : 'date_range',
+                            'filterable_type'   : 'date_range',
                             'label'             : "{{ trans('admin::app.datagrid.created_at') }}",
                             'values'            : [null, null]
                         },
