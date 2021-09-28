@@ -711,12 +711,6 @@ export default {
         },
 
         onSubmit: function(event) {
-            if (! this.massActionValue.action) {
-                alert('Please select an action to perform.')
-
-                return;
-            }
-
             this.toggleButtonDisable(true);
 
             if (! confirm('Do you really want to perform this action?')) {
