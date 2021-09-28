@@ -64,13 +64,7 @@
         </div>
     </div>
 
-    <form
-        action="{{ route('admin.contacts.persons.store') }}"
-        method="post"
-        data-vv-scope="person-form"
-        @submit.prevent="onSubmit($event, 'person-form')"
-    >
-
+    <form action="{{ route('admin.contacts.persons.store') }}" data-vv-scope="person-form" method="post" @submit.prevent="onSubmit($event, 'person-form')">
         <modal id="addPersonModal" :is-open="modalIds.addPersonModal">
             <h3 slot="header-title">{{ __('admin::app.contacts.persons.create-title') }}</h3>
             
@@ -109,7 +103,6 @@
                 {!! view_render_event('admin.mail.view.actions.persons.create.form_controls.after', ['email' => $email]) !!}
             </div>
         </modal>
-
     </form>
 
     <form
@@ -190,7 +183,6 @@
                 {!! view_render_event('admin.mail.view.actions.leads.create.form_controls.after', ['email' => $email]) !!}
             </div>
         </modal>
-
     </form>
 @stop
 
@@ -491,7 +483,7 @@
                     </span>
                 </div>
                 
-                <div class="row" v-if="email.cc && email.cc.length">
+                <div class="row" v-if="email.cc.length">
                     <span class="label">
                         {{ __('admin::app.mail.cc-') }}
                     </span>
@@ -501,7 +493,7 @@
                     </span>
                 </div>
                 
-                <div class="row" v-if="email.bcc && email.bcc.length">
+                <div class="row" v-if="email.bcc.length">
                     <span class="label">
                         {{ __('admin::app.mail.bcc-') }}
                     </span>
