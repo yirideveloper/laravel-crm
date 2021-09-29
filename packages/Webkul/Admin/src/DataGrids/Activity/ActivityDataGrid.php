@@ -170,9 +170,9 @@ class ActivityDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'           => 'created_at',
+            'index'           => 'date_range',
             'label'           => trans('admin::app.datagrid.created_at'),
-            'type'            => 'date_range',
+            'type'            => 'string',
             'searchable'      => false,
             'sortable'        => true,
             'closure'         => function ($row) {
