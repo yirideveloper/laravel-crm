@@ -38,11 +38,16 @@ trait ProvideQueryResolver
      */
     private function resolveQuery($query, $columnName, $condition, $filterValue, $clause = 'where')
     {
-        return $query->$clause(
-            $columnName,
-            $this->operators[$condition],
-            $filterValue
-        );
+        return $clause === 'whereBetween'
+            ? $query->$clause(
+                $columnName,
+                $filterValue
+            )
+            : $query->$clause(
+                $columnName,
+                $this->operators[$condition],
+                $filterValue
+            );
     }
 
     /**
