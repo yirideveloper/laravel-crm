@@ -861,10 +861,6 @@
                     if (type != 'delete') {
                         this.$emit('onEmailAction', {'type': type, 'email': this.email});
                     } else {
-                        if (! confirm('Do you really want to perform this action?')) {
-                            return;
-                        }
-                        
                         this.$refs['form-' + this.email.id].submit()
                     }
                 },
