@@ -101,6 +101,10 @@ trait ProvideCollection
          * To Do (@devansh-webkul): Need to handle from record's column. For this frontend also needs to adjust.
          */
         foreach($this->columns as $index => $column) {
+            if (! isset($this->completeColumnDetails[$index]['filterable'])) {
+                $this->completeColumnDetails[$index]['filterable'] = true;
+            }
+
             if (isset($column['type']) && $column['type'] == 'date_range') {
                 if (! isset($this->completeColumnDetails[$index]['values'])) {
                     $this->completeColumnDetails[$index]['values'] = ['', ''];
@@ -266,12 +270,14 @@ trait ProvideCollection
                 case 'bw':
                     $dates = explode(',', $filterValue);
 
-                    if (sizeof($dates) == 2) {
+                    if (! empty($dates) && count($dates) == 2) {
                         if ($dates[1] == '') {
                             $dates[1] = Carbon::today()->format('Y-m-d');
                         }
 
-                        $this->resolve($collection, $columnName, $condition, $dates, 'whereBetween');
+                        $this->resolve($collection, $columnName, 'gte', $dates[0], 'whereDate');
+
+                        $this->resolve($collection, $columnName, 'lte', $dates[1], 'whereDate');
                     }
                     break;
 
