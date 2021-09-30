@@ -1,96 +1,82 @@
 <template>
-    <date-range-picker
-        ref="picker"
-        :class="classes"
-        :opens="opens"
-        :minDate="minDate"
-        :maxDate="maxDate"
-        :singleDatePicker="singleDatePicker"
-        :timePicker="timePicker"
-        :timePicker24Hour="timePicker24Hour"
-        :showWeekNumbers="showWeekNumbers"
-        :showDropdowns="showDropdowns"
-        :autoApply="autoApply"
-        :ranges="show_ranges ? undefined : false"
-        :linkedCalendars="linkedCalendars"
-        :dateFormat="dateFormat"
-        :always-show-calendars="false"
-        :alwaysShowCalendars="alwaysShowCalendars"
-        :append-to-body="appendToBody"
-        :closeOnEsc="closeOnEsc"
-        v-model="dateRange"
-        @update="updateValues"
-        @toggle="checkOpen"
-    >
-        <template v-slot:input="picker" style="min-width: 350px;">
-            {{ picker.startDate | moment("D MMM YYYY") }} -
-            {{ picker.endDate | moment("D MMM YYYY") }}
-        </template>
-    </date-range-picker>
+    <div>
+        <div class="date-container">
+            <input
+                ref="startDate"
+                type="text"
+                class="control half"
+                placeholder="Start Date"
+            />
+        </div>
+
+        <span class="middle-text">{{ __("ui.datagrid.filter.to") }}</span>
+
+        <div class="date-container">
+            <input
+                ref="endDate"
+                type="text"
+                class="control half"
+                placeholder="End Date"
+            />
+        </div>
+    </div>
 </template>
 
 <script>
-import DateRangePicker from "vue2-daterange-picker";
-import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
+import Flatpickr from "flatpickr";
 
 export default {
-    components: { DateRangePicker },
-
-    props: ["classes", "endDate", "startDate", "update"],
+    props: ["startDate", "endDate"],
 
     data: function() {
         return {
-            opens: "left",
-            minDate: "2021-03-01",
-            maxDate: this.$moment().format("YYYY-MM-DD"),
-            dateRange: {
-                endDate: this.endDate,
-                startDate: this.startDate
+            dates: [this.startDate, this.endDate],
+            config: {
+                allowInput: true,
+                altFormat: "Y-m-d",
+                dateFormat: "Y-m-d",
+                weekNumbers: true
             },
-            single_range_picker: true,
-            show_ranges: true,
-            singleDatePicker: false,
-            timePicker: false,
-            timePicker24Hour: true,
-            showDropdowns: true,
-            autoApply: false,
-            showWeekNumbers: true,
-            linkedCalendars: true,
-            alwaysShowCalendars: true,
-            appendToBody: false,
-            closeOnEsc: true
+            startDatePicker: null,
+            endDatePicker: null
         };
     },
 
+    mounted: function() {
+        this.activateStartDatePicker();
+
+        this.activateEndDatePicker();
+    },
+
     methods: {
-        updateValues: function(values) {
-            this.dateRange.startDate = values.startDate;
+        activateStartDatePicker: function() {
+            let self = this;
 
-            this.dateRange.endDate = values.endDate;
+            this.startDatePicker = new Flatpickr(this.$refs.startDate, {
+                ...this.config,
+                onChange: function(selectedDates, dateStr, instance) {
+                    self.dates[0] = dateStr;
 
-            let datesRange = [
-                this.$moment(this.dateRange.startDate).format("YYYY-MM-DD"),
-                this.$moment(this.dateRange.endDate).format("YYYY-MM-DD")
-            ];
+                    self.endDatePicker.set("minDate", dateStr);
 
-            datesRange = datesRange.join(",");
-
-            this.update({ datesRange });
+                    self.$emit("onChange", self.dates);
+                }
+            });
         },
 
-        checkOpen(open) {},
+        activateEndDatePicker: function() {
+            let self = this;
 
-        dateFormat(classes, date) {
-            let yesterday = new Date();
+            this.endDatePicker = new Flatpickr(this.$refs.endDate, {
+                ...this.config,
+                onChange: function(selectedDates, dateStr, instance) {
+                    self.dates[1] = dateStr;
 
-            let d1 = date;
-            let d2 = yesterday.setDate(yesterday.getDate() - 1);
+                    self.startDatePicker.set("maxDate", dateStr);
 
-            if (!classes.disabled) {
-                classes.disabled = d1 === d2;
-            }
-
-            return classes;
+                    self.$emit("onChange", self.dates);
+                }
+            });
         }
     }
 };

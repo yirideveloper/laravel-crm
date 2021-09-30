@@ -46,11 +46,11 @@
                     <template
                         v-else-if="data.filterable && data.type == 'date_range'"
                     >
-                        <date-range-basic
+                        <date-range
                             :start-date="data.values[0]"
                             :end-date="data.values[1]"
                             @onChange="changeDateRange(key, $event)"
-                        ></date-range-basic>
+                        ></date-range>
                     </template>
 
                     <template
