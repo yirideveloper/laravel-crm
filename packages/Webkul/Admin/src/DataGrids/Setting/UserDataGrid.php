@@ -39,6 +39,7 @@ class UserDataGrid extends DataGrid
             'index'           => 'id',
             'label'           => trans('admin::app.datagrid.id'),
             'type'            => 'string',
+            'searchable'      => true,
             'sortable'        => true,
         ]);
 
@@ -46,6 +47,7 @@ class UserDataGrid extends DataGrid
             'index'           => 'name',
             'label'           => trans('admin::app.datagrid.name'),
             'type'            => 'string',
+            'searchable'      => true,
             'sortable'        => true,
         ]);
 
@@ -53,6 +55,7 @@ class UserDataGrid extends DataGrid
             'index'           => 'email',
             'label'           => trans('admin::app.datagrid.email'),
             'type'            => 'string',
+            'searchable'      => true,
             'sortable'        => true,
         ]);
 

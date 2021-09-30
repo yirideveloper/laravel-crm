@@ -38,6 +38,7 @@ class RoleDataGrid extends DataGrid
             'index'           => 'id',
             'label'           => trans('admin::app.datagrid.id'),
             'type'            => 'string',
+            'searchable'      => true,
             'sortable'        => true,
         ]);
 
@@ -45,6 +46,7 @@ class RoleDataGrid extends DataGrid
             'index'           => 'name',
             'label'           => trans('admin::app.datagrid.name'),
             'type'            => 'string',
+            'searchable'      => true,
             'sortable'        => true,
         ]);
 
@@ -52,6 +54,7 @@ class RoleDataGrid extends DataGrid
             'index'      => 'description',
             'label'      => trans('admin::app.datagrid.description'),
             'type'       => 'string',
+            'searchable' => true,
             'sortable'   => false,
         ]);
 
@@ -68,6 +71,7 @@ class RoleDataGrid extends DataGrid
                     'value' => 'custom',
                 ],
             ],
+            'searchable'       => true,
             'sortable'         => false,
         ]);
     }
