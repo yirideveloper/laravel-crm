@@ -2,9 +2,8 @@
 
 namespace Webkul\Admin\DataGrids\Lead;
 
-use Illuminate\Support\Facades\DB;
-use Webkul\Lead\Repositories\StageRepository;
 use Webkul\UI\DataGrid\DataGrid;
+use Illuminate\Support\Facades\DB;
 
 class LeadDataGrid extends DataGrid
 {
@@ -26,12 +25,12 @@ class LeadDataGrid extends DataGrid
                 'users.name as user_name',
                 'persons.id as person_id',
                 'persons.name as person_name',
-                'lead_stages.name as stage'
+                'lead_pipeline_stages.name as stage'
             )
             ->leftJoin('users', 'leads.user_id', '=', 'users.id')
             ->leftJoin('persons', 'leads.person_id', '=', 'persons.id')
             ->leftJoin('lead_types', 'leads.lead_type_id', '=', 'lead_types.id')
-            ->leftJoin('lead_stages', 'leads.lead_stage_id', '=', 'lead_stages.id')
+            ->leftJoin('lead_pipeline_stages', 'leads.lead_pipeline_stage_id', '=', 'lead_pipeline_stages.id')
             ->leftJoin('lead_sources', 'leads.lead_source_id', '=', 'lead_sources.id')
             ->leftJoin('lead_pipelines', 'leads.lead_pipeline_id', '=', 'lead_pipelines.id');
 
@@ -48,13 +47,11 @@ class LeadDataGrid extends DataGrid
         $this->addFilter('id', 'leads.id');
         $this->addFilter('user', 'leads.user_id');
 
-        /**
-         * Linked should be `leads.user_id` but displaying should be `user_name`.
-         */
+        /* linked should be `leads.user_id` but displaying should be `user_name` */
         $this->addFilter('user_name', 'leads.user_id');
 
-        $this->addFilter('type', 'lead_stages.code');
-        $this->addFilter('stage', 'leads.lead_stage_id');
+        $this->addFilter('type', 'lead_pipeline_stages.code');
+        $this->addFilter('stage', 'lead_pipeline_stages.name');
         $this->addFilter('created_at', 'leads.created_at');
 
         $this->setQueryBuilder($queryBuilder);
@@ -68,10 +65,10 @@ class LeadDataGrid extends DataGrid
     public function addColumns()
     {
         $this->addColumn([
-            'index'      => 'id',
-            'label'      => trans('admin::app.datagrid.id'),
-            'type'       => 'hidden',
-            'sortable'   => true,
+            'index'    => 'id',
+            'label'    => trans('admin::app.datagrid.id'),
+            'type'     => 'hidden',
+            'sortable' => true,
         ]);
 
         $this->addColumn([
@@ -84,29 +81,29 @@ class LeadDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'      => 'title',
-            'label'      => trans('admin::app.datagrid.subject'),
-            'type'       => 'string',
-            'sortable'   => true,
+            'index'    => 'title',
+            'label'    => trans('admin::app.datagrid.subject'),
+            'type'     => 'string',
+            'sortable' => true,
         ]);
 
         $this->addColumn([
-            'index'           => 'lead_value',
-            'label'           => trans('admin::app.datagrid.lead_value'),
-            'type'            => 'string',
-            'sortable'        => true,
-            'closure'         => function ($row) {
+            'index'    => 'lead_value',
+            'label'    => trans('admin::app.datagrid.lead_value'),
+            'type'     => 'string',
+            'sortable' => true,
+            'closure'  => function ($row) {
                 return core()->formatBasePrice($row->lead_value, 2);
             },
         ]);
 
         $this->addColumn([
-            'index'   => 'person_name',
-            'label'   => trans('admin::app.datagrid.contact_person'),
-            'type'    => 'string',
+            'index'      => 'person_name',
+            'label'      => trans('admin::app.datagrid.contact_person'),
+            'type'       => 'string',
             'searchable' => false,
-            'sortable' => false,
-            'closure' => function ($row) {
+            'sortable'   => false,
+            'closure'    => function ($row) {
                 $route = urldecode(route('admin.contacts.persons.index', ['id[eq]' => $row->person_id]));
 
                 return "<a href='" . $route . "'>" . $row->person_name . "</a>";
@@ -114,31 +111,31 @@ class LeadDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'   => 'stage',
-            'label'   => trans('admin::app.datagrid.stage'),
-            'type'    => 'boolean',
+            'index'      => 'stage',
+            'label'      => trans('admin::app.datagrid.stage'),
+            'type'       => 'string',
             'searchable' => false,
-            'sortable' => false,
-            'closure' => function ($row) {
-                if ($row->stage == 'Won') {
+            'sortable'   => false,
+            'closure'    => function ($row) {
+                if ($row->stage == "Won") {
                     $badge = 'success';
-                } else if ($row->stage == 'Lost') {
+                } else if ($row->stage == "Lost") {
                     $badge = 'danger';
                 } else {
                     $badge = 'primary';
                 }
 
-                return "<span class='badge badge-round badge-{$badge}'></span>" . $row->stage;
+                return "<span class='badge badge-round badge-$badge'></span>" . $row->stage;
             },
         ]);
 
         $this->addColumn([
-            'index'           => 'created_at',
-            'label'           => trans('admin::app.datagrid.created_at'),
-            'type'            => 'date_range',
-            'searchable'      => false,
-            'sortable'        => true,
-            'closure'         => function ($row) {
+            'index'      => 'created_at',
+            'label'      => trans('admin::app.datagrid.created_at'),
+            'type'       => 'date_range',
+            'searchable' => false,
+            'sortable'   => true,
+            'closure'    => function ($row) {
                 return core()->formatDate($row->created_at);
             },
         ]);
@@ -151,21 +148,12 @@ class LeadDataGrid extends DataGrid
      */
     public function prepareTabFilters()
     {
-        $values = app(StageRepository::class)
-            ->get(['name', 'code as key', DB::raw('false as isActive')])
-            ->prepend([
-                'isActive'  => true,
-                'key'       => 'all',
-                'name'      => trans('admin::app.datagrid.all'),
-            ])
-            ->toArray();
-
         $this->addTabFilter([
-            'type'              => 'pill',
-            'key'               => 'type',
-            'condition'         => 'eq',
-            'value_type'        => 'lookup',
-            'values'            => $values,
+            'type'            => 'pill',
+            'key'             => 'type',
+            'condition'       => 'eq',
+            "value_type"      => "lookup",
+            "repositoryClass" => "\Webkul\Lead\Repositories\StageRepository",
         ]);
     }
 
@@ -201,7 +189,7 @@ class LeadDataGrid extends DataGrid
     {
         $stages = [];
 
-        foreach (app(StageRepository::class)->get(['id', 'name'])->toArray() as $stage) {
+        foreach (app("\Webkul\Lead\Repositories\StageRepository")->get(['id', 'name'])->toArray() as $stage) {
             $stages[$stage['name']] = $stage['id'];
         }
 
