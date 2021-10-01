@@ -2,11 +2,71 @@
 
 namespace Webkul\Admin\DataGrids\Lead;
 
-use Webkul\UI\DataGrid\DataGrid;
 use Illuminate\Support\Facades\DB;
+use Webkul\Lead\Repositories\PipelineRepository;
+use Webkul\Lead\Repositories\StageRepository;
+use Webkul\User\Repositories\UserRepository;
+use Webkul\UI\DataGrid\DataGrid;
 
 class LeadDataGrid extends DataGrid
 {
+    /**
+     * PipelineRepository object
+     *
+     * @var \Webkul\Lead\Repositories\PipelineRepository
+     */
+    protected $pipelineRepository;
+
+    /**
+     * Pipeline object
+     *
+     * @var \Webkul\Contract\Repositories\Pipeline
+     */
+    protected $pipeline;
+
+    /**
+     * StageRepository object
+     *
+     * @var \Webkul\Lead\Repositories\StageRepository
+     */
+    protected $stageRepository;
+
+    /**
+     * UserRepository object
+     *
+     * @var \Webkul\User\Repositories\UserRepository
+     */
+    protected $userRepository;
+
+    /**
+     * Create data grid instance.
+     *
+     * @param \Webkul\Lead\Repositories\PipelineRepository  $pipelineRepository
+     * @param \Webkul\Lead\Repositories\StageRepository  $stageRepository
+     * @param \Webkul\User\Repositories\UserRepository  $userRepository
+     * @return void
+     */
+    public function __construct(
+        PipelineRepository $pipelineRepository,
+        StageRepository $stageRepository,
+        UserRepository $userRepository
+    )
+    {
+        $this->pipelineRepository = $pipelineRepository;
+
+        if (request('pipeline_id')) {
+            $this->pipeline = $this->pipelineRepository->find(request('pipeline_id'));
+        } else {
+            $this->pipeline = $this->pipelineRepository->findOneByField('is_default', 1);
+        }
+
+        $this->stageRepository = $stageRepository;
+
+        $this->userRepository = $userRepository;
+
+        parent::__construct();
+    }
+
     /**
      * Prepare query builder.
      *
@@ -32,13 +92,14 @@ class LeadDataGrid extends DataGrid
             ->leftJoin('lead_types', 'leads.lead_type_id', '=', 'lead_types.id')
             ->leftJoin('lead_pipeline_stages', 'leads.lead_pipeline_stage_id', '=', 'lead_pipeline_stages.id')
             ->leftJoin('lead_sources', 'leads.lead_source_id', '=', 'lead_sources.id')
-            ->leftJoin('lead_pipelines', 'leads.lead_pipeline_id', '=', 'lead_pipelines.id');
+            ->leftJoin('lead_pipelines', 'leads.lead_pipeline_id', '=', 'lead_pipelines.id')
+            ->where('leads.lead_pipeline_id', $this->pipeline->id);
 
         $currentUser = auth()->guard('user')->user();
 
         if ($currentUser->view_permission != 'global') {
             if ($currentUser->view_permission == 'group') {
-                $queryBuilder->whereIn('leads.user_id', app('\Webkul\User\Repositories\UserRepository')->getCurrentUserGroupsUserIds());
+                $queryBuilder->whereIn('leads.user_id', $this->userRepository->getCurrentUserGroupsUserIds());
             } else {
                 $queryBuilder->where('leads.user_id', $currentUser->id);
             }
@@ -47,7 +108,9 @@ class LeadDataGrid extends DataGrid
         $this->addFilter('id', 'leads.id');
         $this->addFilter('user', 'leads.user_id');
 
-        /* linked should be `leads.user_id` but displaying should be `user_name` */
+        /**
+         * Linked should be `leads.user_id` but displaying should be `user_name`.
+         */
         $this->addFilter('user_name', 'leads.user_id');
 
         $this->addFilter('type', 'lead_pipeline_stages.code');
@@ -75,7 +138,7 @@ class LeadDataGrid extends DataGrid
             'index'            => 'user_name',
             'label'            => trans('admin::app.datagrid.user'),
             'type'             => 'dropdown',
-            'dropdown_options' => app('\Webkul\User\Repositories\UserRepository')->get(['id as value', 'name as label'])->toArray(),
+            'dropdown_options' => $this->userRepository->get(['id as value', 'name as label'])->toArray(),
             'searchable'       => false,
             'sortable'         => true,
         ]);
@@ -117,15 +180,15 @@ class LeadDataGrid extends DataGrid
             'searchable' => false,
             'sortable'   => false,
             'closure'    => function ($row) {
-                if ($row->stage == "Won") {
+                if ($row->stage == 'Won') {
                     $badge = 'success';
-                } else if ($row->stage == "Lost") {
+                } else if ($row->stage == 'Lost') {
                     $badge = 'danger';
                 } else {
                     $badge = 'primary';
                 }
 
-                return "<span class='badge badge-round badge-$badge'></span>" . $row->stage;
+                return "<span class='badge badge-round badge-{$badge}'></span>" . $row->stage;
             },
         ]);
 
@@ -148,12 +211,21 @@ class LeadDataGrid extends DataGrid
      */
     public function prepareTabFilters()
     {
+        $values = $this->pipeline->stages()
+            ->get(['name', 'code as key', DB::raw('false as isActive')])
+            ->prepend([
+                'isActive'  => true,
+                'key'       => 'all',
+                'name'      => trans('admin::app.datagrid.all'),
+            ])
+            ->toArray();
+
         $this->addTabFilter([
-            'type'            => 'pill',
-            'key'             => 'type',
-            'condition'       => 'eq',
-            "value_type"      => "lookup",
-            "repositoryClass" => "\Webkul\Lead\Repositories\StageRepository",
+            'type'              => 'pill',
+            'key'               => 'type',
+            'condition'         => 'eq',
+            'value_type'        => 'lookup',
+            'values'            => $values,
         ]);
     }
 
@@ -189,7 +261,7 @@ class LeadDataGrid extends DataGrid
     {
         $stages = [];
 
-        foreach (app("\Webkul\Lead\Repositories\StageRepository")->get(['id', 'name'])->toArray() as $stage) {
+        foreach ($this->stageRepository->get(['id', 'name'])->toArray() as $stage) {
             $stages[$stage['name']] = $stage['id'];
         }
 
