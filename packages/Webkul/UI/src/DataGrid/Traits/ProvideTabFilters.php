@@ -3,7 +3,6 @@
 namespace Webkul\UI\DataGrid\Traits;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 trait ProvideTabFilters
 {
@@ -38,18 +37,7 @@ trait ProvideTabFilters
      */
     public function addTabFilter($filterConfig)
     {
-        if (($filterConfig['value_type'] ?? false) == "lookup") {
-            $values = app($filterConfig['repositoryClass'])
-                ->get(['name', 'code as key', DB::raw("false as isActive")])
-                ->prepend([
-                    'isActive'  => true,
-                    'key'       => 'all',
-                    'name'      => trans('admin::app.datagrid.all'),
-                ])
-                ->toArray();
-
-            $filterConfig['values'] = $values;
-        } else {
+        if (! (($filterConfig['value_type'] ?? false) == 'lookup')) {
             foreach ($filterConfig['values'] as $valueIndex => $value) {
                 $filterConfig['values'][$valueIndex]['name'] = trans($filterConfig['values'][$valueIndex]['name']);
             }
@@ -137,10 +125,17 @@ trait ProvideTabFilters
             default:
                 if ($value != 'all') {
                     if ($key == 'duration') {
-                        $collection->whereBetween(
-                            $column,
-                            explode(',', $value)
-                        );
+                        $dates = explode(',', $value);
+
+                        if (! empty($dates) && count($dates) == 2) {
+                            if ($dates[1] == '') {
+                                $dates[1] = Carbon::today()->format('Y-m-d');
+                            }
+
+                            $collection->whereDate($column, '>=', $dates[0]);
+
+                            $collection->whereDate($column, '<=', $dates[1]);
+                        }
                     } else {
                         $collection->where($column, $value);
                     }
