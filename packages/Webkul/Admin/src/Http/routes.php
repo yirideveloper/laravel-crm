@@ -64,8 +64,6 @@ Route::group(['middleware' => ['web']], function () {
                 'prefix'    => 'leads',
                 'namespace' => 'Webkul\Admin\Http\Controllers\Lead',
             ], function () {
-                Route::get('{pipeline_id?}', 'LeadController@index')->name('admin.leads.index');
-
                 Route::get('create', 'LeadController@create')->name('admin.leads.create');
 
                 Route::post('create', 'LeadController@store')->name('admin.leads.store');
@@ -85,6 +83,8 @@ Route::group(['middleware' => ['web']], function () {
                 Route::post('tags/{id}', 'TagController@store')->name('admin.leads.tags.store');
 
                 Route::delete('{lead_id}/{tag_id?}', 'TagController@delete')->name('admin.leads.tags.delete');
+
+                Route::get('{pipeline_id?}', 'LeadController@index')->name('admin.leads.index');
 
                 Route::group([
                     'prefix'    => 'quotes',
@@ -384,15 +384,9 @@ Route::group(['middleware' => ['web']], function () {
 
                     Route::post('create', 'TagController@store')->name('admin.settings.tags.store');
 
-                    Route::get('edit/{id?}', 'TagController@edit')->name('admin.settings.tags.edit');
-
-                    Route::put('edit/{id}', 'TagController@update')->name('admin.settings.tags.update');
-
                     Route::get('search', 'TagController@search')->name('admin.settings.tags.search');
 
                     Route::delete('{id}', 'TagController@destroy')->name('admin.settings.tags.delete');
-
-                    Route::put('mass-destroy', 'TagController@massDestroy')->name('admin.settings.tags.mass_delete');
                 });
             });
 
