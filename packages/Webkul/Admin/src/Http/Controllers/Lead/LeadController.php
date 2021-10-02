@@ -82,7 +82,7 @@ class LeadController extends Controller
                 if (request('pipeline_id')) {
                     $pipeline = $this->pipelineRepository->find(request('pipeline_id'));
                 } else {
-                    $pipeline = $this->pipelineRepository->getDefaultPipeline();
+                    $pipeline = $this->pipelineRepository->findOneByField('is_default', 1);
                 }
         
                 $leads = $this->leadRepository->getLeads($pipeline->id, request('search') ?? '', $createdAt)->toArray();
@@ -140,7 +140,7 @@ class LeadController extends Controller
 
             $data['lead_pipeline_id'] = $stage->lead_pipeline_id;
         } else {
-            $pipeline = $this->pipelineRepository->getDefaultPipeline();
+            $pipeline = $this->pipelineRepository->findOneByField('is_default', 1);
 
             $data['lead_pipeline_stage_id'] = $pipeline->stages()->first()->id;
         }

@@ -48,8 +48,6 @@ class PipelineRepository extends Repository
      */
     public function create(array $data)
     {
-        $this->model->query()->update(['is_default' => 0]);
-
         $pipeline = $this->model->create($data);
 
         foreach ($data['stages'] as $stageData) {
@@ -71,7 +69,7 @@ class PipelineRepository extends Repository
     {
         $pipeline = $this->find($id);
 
-        $this->model->query()->where('id', '<>', $id)->update(['is_default' => 0]);
+        $this->model->query()->update(['is_default' => 0]);
 
         $pipeline->update($data);
 
@@ -93,22 +91,6 @@ class PipelineRepository extends Repository
 
         foreach ($previousStageIds as $stageId) {
             $this->stageRepository->delete($stageId);
-        }
-
-        return $pipeline;
-    }
-
-    /**
-     * Return the default pipeline
-     * 
-     * @return \Webkul\Lead\Contracts\Pipeline
-     */
-    public function getDefaultPipeline()
-    {
-        $pipeline = $this->findOneByField('is_default', 1);
-
-        if (! $pipeline) {
-            $pipeline = $this->first();
         }
 
         return $pipeline;

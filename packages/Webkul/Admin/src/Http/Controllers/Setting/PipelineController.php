@@ -133,7 +133,7 @@ class PipelineController extends Controller
                 'message' => trans('admin::app.settings.pipelines.default-delete-error'),
             ], 400);
         } else {
-            $defaultPipeline = $this->pipelineRepository->getDefaultPipeline();
+            $defaultPipeline = $this->pipelineRepository->findOneByField('is_default', 1);
 
             $pipeline->leads()->update([
                 'lead_pipeline_id'       => $defaultPipeline->id,

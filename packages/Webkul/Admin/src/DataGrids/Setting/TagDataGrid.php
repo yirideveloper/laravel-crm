@@ -121,11 +121,33 @@ class TagDataGrid extends DataGrid
     public function prepareActions()
     {
         $this->addAction([
+            'title'  => trans('ui::app.datagrid.edit'),
+            'method' => 'GET',
+            'route'  => 'admin.settings.tags.edit',
+            'icon'   => 'pencil-icon',
+        ]);
+
+        $this->addAction([
             'title'        => trans('ui::app.datagrid.delete'),
             'method'       => 'DELETE',
             'route'        => 'admin.settings.tags.delete',
             'confirm_text' => trans('ui::app.datagrid.massaction.delete', ['resource' => 'source']),
             'icon'         => 'trash-icon',
+        ]);
+    }
+
+    /**
+     * Prepare mass actions.
+     *
+     * @return void
+     */
+    public function prepareMassActions()
+    {
+        $this->addMassAction([
+            'type'   => 'delete',
+            'label'  => trans('ui::app.datagrid.delete'),
+            'action' => route('admin.settings.tags.mass_delete'),
+            'method' => 'PUT',
         ]);
     }
 }
