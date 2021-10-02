@@ -128,14 +128,14 @@ class PersonController extends Controller
      */
     public function destroy($id)
     {
-        $person = $this->personRepository->findOrFail($id);
+        $this->personRepository->findOrFail($id);
 
         try {
-            Event::dispatch('contacts.person.delete.before', $person);
+            Event::dispatch('contact.person.delete.before', $id);
 
             $this->personRepository->delete($id);
 
-            Event::dispatch('contacts.person.delete.after', $id);
+            Event::dispatch('contact.person.delete.after', $id);
 
             return response()->json([
                 'status'    => true,
