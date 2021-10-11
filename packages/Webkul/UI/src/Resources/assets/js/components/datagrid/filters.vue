@@ -710,14 +710,14 @@ export default {
 
         onSubmit: function(event) {
             if (! this.massActionValue.action) {
-                alert(this.__("ui.datagrid.mandatory_mass_action"));
+                alert("Please select an action to perform.");
 
                 return;
             }
 
             this.toggleButtonDisable(true);
 
-            if (! confirm(this.__("ui.datagrid.massaction.delete"))) {
+            if (! confirm("Do you really want to perform this action?")) {
                 this.toggleButtonDisable(false);
 
                 return;
@@ -797,15 +797,12 @@ export default {
         },
 
         updateFilterValue: function() {
-            let allFilter = this.filters.filter(filter => filter.val === "all");
+            let allFilter = this.filters.filter(filter => filter.val == 'table' || filter.val === "all");
 
-            if (allFilter.length > 0) {
-                let viewType = this.filters.find(filter => filter.column === 'view_type') ?? false;
-
-                if (viewType) {
-                    allFilter.push(viewType);
-                }
-
+            /**
+             * Only two elements are possible here first is `table` and second is `all`.
+             */
+            if (allFilter.length === 2) {
                 this.filters = this.generateNewFilters(allFilter);
             } else {
                 let otherFilters = this.filters.filter(
