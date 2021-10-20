@@ -709,29 +709,13 @@ export default {
         },
 
         onSubmit: function(event) {
-            this.toggleButtonDisable(true);
-
             if (! this.massActionValue.action) {
-                this.toggleButtonDisable(false);
-                
-                this.addFlashMessages({
-                    type: "error",
-                    message: this.__("ui.datagrid.mandatory_mass_action")
-                });
+                alert(this.__("ui.datagrid.mandatory_mass_action"));
 
                 return;
             }
 
-            if (this.massActionOptionValue === 'NA') {
-                this.toggleButtonDisable(false);
-
-                this.addFlashMessages({
-                    type: "error",
-                    message: this.__("ui.datagrid.mandatory_mass_action")
-                });
-
-                return;
-            }
+            this.toggleButtonDisable(true);
 
             if (! confirm(this.__("ui.datagrid.massaction.delete"))) {
                 this.toggleButtonDisable(false);
