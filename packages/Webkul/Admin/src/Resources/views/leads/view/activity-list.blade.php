@@ -1,6 +1,6 @@
 {!! view_render_event('admin.leads.view.informations.activity_list.before', ['lead' => $lead]) !!}
 
-<activity-list-component :current-time="{{ json_encode(Carbon\Carbon::now())}}"></activity-list-component>
+<activity-list-component></activity-list-component>
 
 {!! view_render_event('admin.leads.view.informations.activity_list.after', ['lead' => $lead]) !!}
 
@@ -218,14 +218,14 @@
             inject: ['$validator'],
 
             props: {
-            currentTime: {
-                type: [Array, String, Object],
-                required: false,
-                default: (function() {
-                    return [];
-                })
+                currentTime: {
+                    type: [Array, String, Object],
+                    required: false,
+                    default: (function() {
+                        return [];
+                    })
+                },
             },
-        },
 
             data: function () {
                 return {
@@ -296,23 +296,21 @@
                     var self = this;
 
                     if (activity.schedule_to >= this.currentTime) {
-                        if (window.confirm('{{ __('admin::app.leads.before-schedule-warning') }}')) {
+                        if(window.confirm("Trying to mark activity as done before scheduled time.")){
                             this.$http.put("{{ route('admin.activities.update') }}/" + activity['id'], {'is_done': 1})
                             .then (function(response) {
                                 activity.is_done = 1;
 
-                                window.flashMessages = [{'type': 'success', 'message': response.data.message}];
+                            window.flashMessages = [{'type': 'success', 'message': response.data.message}];
 
-                                self.$root.addFlashMessages();
-                            })
-                            .catch (function (error) {
-                            })
-                        }
-                    }
+                            self.$root.addFlashMessages();
+                        })
+                        .catch (function (error) {
+                        })
                 },
 
                 remove: function(activity) {
-                    if (! confirm('{{ __('admin::app.common.confirmation') }}')) {
+                    if (! confirm('Do you really want to perform this action?')) {
                         return;
                     }
 
@@ -333,7 +331,7 @@
                 },
 
                 removeQuote: function(quote) {
-                    if (! confirm('{{ __('admin::app.common.confirmation') }}')) {
+                    if (! confirm('Do you really want to perform this action?')) {
                         return;
                     }
 
