@@ -786,11 +786,7 @@
             'save'                => 'Save',
             'add-as'              => 'Add as new',
             'no-records-found'    => 'No Records Found',
-            'start-typing'        => 'Start typing to search records',
-            'select-type'         => 'Select Type',
-            'select-call'         => 'Call',
-            'select-meeting'      => 'Meeting',
-            'select-lunch'        => 'Lunch',
+            'start-typing'        => 'Start typing to search records'
         ],
 
         'user' => [
