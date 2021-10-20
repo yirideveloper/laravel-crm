@@ -221,7 +221,6 @@
             'quote-destroy-success'    => 'Quote removed successfully.',
             'tag-create-success'       => 'Tag added successfully.',
             'tag-destroy-success'      => 'Tag removed successfully.',
-            'before-schedule-warning'  => 'Trying to mark activity as done before scheduled time.'
         ],
 
         'quotes' => [
@@ -787,8 +786,7 @@
             'save'                => 'Save',
             'add-as'              => 'Add as new',
             'no-records-found'    => 'No Records Found',
-            'start-typing'        => 'Start typing to search records',
-            'confirmation'        => 'Do you really want to perform this action?'
+            'start-typing'        => 'Start typing to search records'
         ],
 
         'user' => [
