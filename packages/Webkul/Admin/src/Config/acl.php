@@ -24,8 +24,13 @@ return [
     ], [
         'key'   => 'leads.delete',
         'name'  => 'admin::app.acl.delete',
-        'route' => ['admin.leads.delete', 'admin.leads.mass_delete'],
+        'route' => 'admin.leads.delete',
         'sort'  => 3,
+    ], [
+        'key'   => 'leads.mass-delete',
+        'name'  => 'admin::app.acl.mass-delete',
+        'route' => 'admin.leads.mass_delete',
+        'sort'  => 4,
     ],  [
         'key'   => 'quotes',
         'name'  => 'admin::app.acl.quotes',
@@ -44,8 +49,13 @@ return [
     ], [
         'key'   => 'quotes.delete',
         'name'  => 'admin::app.acl.delete',
-        'route' => ['admin.quotes.delete', 'admin.quotes.mass_delete'],
+        'route' => 'admin.quotes.delete',
         'sort'  => 3,
+    ], [
+        'key'   => 'quotes.mass-delete',
+        'name'  => 'admin::app.acl.mass-delete',
+        'route' => 'admin.quotes.mass_delete',
+        'sort'  => 4,
     ],  [
         'key'   => 'mail',
         'name'  => 'admin::app.acl.mail',

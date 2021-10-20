@@ -299,13 +299,9 @@ class LeadController extends Controller
      */
     public function massDestroy()
     {
-        foreach (request('rows') as $leadId) {
-            Event::dispatch('lead.delete.before', $leadId);
+        $data = request()->all();
 
-            $this->leadRepository->delete($leadId);
-
-            Event::dispatch('lead.delete.after', $leadId);
-        }
+        $this->leadRepository->destroy($data['rows']);
 
         return response()->json([
             'status'  => true,
