@@ -9,68 +9,28 @@ namespace Webkul\Admin\Traits;
 trait ProvideDropdownOptions
 {
     /**
-     * Dropdown choices.
-     *
-     * @var array
-     */
-    public $booleanDropdownChoices = [
-        'active_inactive',
-        'yes_no'
-    ];
-
-    /**
-     * Is bolean dropdown choice exists.
-     *
-     * @param  string  $choice
-     * @return bool
-     */
-    public function isBooleanDropdownChoiceExists($choice): bool
-    {
-        return in_array($choice, $this->booleanDropdownChoices);
-    }
-
-    /**
      * Get boolean dropdown options.
      *
-     * @param  string  $choice
      * @return array
      */
     public function getBooleanDropdownOptions($choice = 'active_inactive'): array
     {
-        return $this->isBooleanDropdownChoiceExists($choice) && $choice == 'active_inactive'
-            ? $this->getActiveInactiveDropdownOptions()
-            : $this->getYesNoDropdownOptions();
-    }
+        if ($choice == 'active_inactive') {
+            return [
+                [
+                    'label'    => trans('admin::app.datagrid.active'),
+                    'value'    => 1,
+                    'disabled' => false,
+                    'selected' => false,
+                ], [
+                    'label'    => trans('admin::app.datagrid.inactive'),
+                    'value'    => 0,
+                    'disabled' => false,
+                    'selected' => false,
+                ],
+            ];
+        }
 
-    /**
-     * Get active/inactive dropdown options.
-     *
-     * @return array
-     */
-    public function getActiveInactiveDropdownOptions(): array
-    {
-        return [
-            [
-                'label'    => trans('admin::app.datagrid.active'),
-                'value'    => 1,
-                'disabled' => false,
-                'selected' => false,
-            ], [
-                'label'    => trans('admin::app.datagrid.inactive'),
-                'value'    => 0,
-                'disabled' => false,
-                'selected' => false,
-            ],
-        ];
-    }
-
-    /**
-     * Get yes/no dropdown options.
-     *
-     * @return array
-     */
-    public function getYesNoDropdownOptions(): array
-    {
         return [
             [
                 'value'    => 0,
@@ -171,7 +131,7 @@ trait ProvideDropdownOptions
      *
      * @return array
      */
-    public function getActivityTypeDropdownOptions(): array
+    public function getActivityTypeOptions(): array
     {
         return [
             [
