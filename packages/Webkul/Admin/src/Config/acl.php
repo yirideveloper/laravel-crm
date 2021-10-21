@@ -369,17 +369,12 @@ return [
     ], [
         'key'   => 'settings.other_settings.tags.create',
         'name'  => 'admin::app.acl.create',
-        'route' => ['admin.settings.tags.create', 'admin.settings.tags.store', 'admin.leads.tags.store'],
-        'sort'  => 1,
-    ], [
-        'key'   => 'settings.other_settings.tags.edit',
-        'name'  => 'admin::app.acl.edit',
-        'route' => ['admin.settings.tags.edit', 'admin.settings.tags.update'],
+        'route' => ['admin.settings.tags.create', 'admin.settings.tags.store'],
         'sort'  => 1,
     ], [
         'key'   => 'settings.other_settings.tags.delete',
         'name'  => 'admin::app.acl.delete',
-        'route' => ['admin.settings.tags.delete', 'admin.settings.tags.mass_delete', 'admin.leads.tags.delete'],
+        'route' => ['admin.settings.tags.delete', 'admin.settings.tags.mass_delete'],
         'sort'  => 2,
     ], [
         'key'   => 'configuration',

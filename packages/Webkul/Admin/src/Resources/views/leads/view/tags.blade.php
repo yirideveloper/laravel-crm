@@ -8,17 +8,11 @@
 @push('scripts')
     <script type="text/x-template" id="tags-component-template">
         <div class="tags-container">
-            @if (bouncer()->hasPermission('settings.other_settings.tags.create'))
-                <i class="icon tags-icon" @click="is_dropdown_open = ! is_dropdown_open"></i>
-            @endif
+            <i class="icon tags-icon" @click="is_dropdown_open = ! is_dropdown_open"></i>
 
             <ul class="tag-list">
                 <li v-for='(tag, index) in tags' :style="'background-color: ' + (tag.color ? tag.color : '#546E7A')">
-                    @{{ tag.name }}
-                    
-                    @if (bouncer()->hasPermission('settings.other_settings.tags.delete'))
-                        <i class="icon close-white-icon" @click="removeTag(tag)"></i>
-                    @endif
+                    @{{ tag.name }} <i class="icon close-white-icon" @click="removeTag(tag)"></i>
                 </li>
             </ul>
 
@@ -214,11 +208,7 @@
 
                             self.$root.addFlashMessages();
                         })
-                        .catch(error => {
-                            window.flashMessages = [{'type': 'error', 'message': error.response.data.message}];
-
-                            self.$root.addFlashMessages()
-                        });
+                        .catch(error => {});
                 },
 
                 removeTag: function(tag) {
@@ -235,9 +225,6 @@
                             self.$root.addFlashMessages();
                         })
                         .catch (function (error) {
-                            window.flashMessages = [{'type': 'error', 'message': error.response.data.message}];
-
-                            self.$root.addFlashMessages()
                         })
                 }
             }
