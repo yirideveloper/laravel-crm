@@ -347,7 +347,6 @@
             'update-success'      => ':type updated successfully.',
             'destroy-success'     => ':type deleted successfully.',
             'delete-failed'       => ':type can not be deleted.',
-            'typing-placeholder'  => 'Start typing name',
         ],
 
         'products' => [
@@ -737,6 +736,11 @@
             'lead'            => 'Lead',
             'quotes'          => 'Quotes',
             'mail'            => 'Mail',
+            'inbox'           => 'Inbox',
+            'draft'           => 'Draft',
+            'outbox'          => 'Outbox',
+            'sent'            => 'Sent',
+            'trash'           => 'Trash',
             'activities'      => 'Activities',
             'contacts'        => 'Contacts',
             'persons'         => 'Persons',

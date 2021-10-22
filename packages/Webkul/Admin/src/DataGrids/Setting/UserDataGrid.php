@@ -63,7 +63,7 @@ class UserDataGrid extends DataGrid
             'index'            => 'status',
             'label'            => trans('admin::app.datagrid.status'),
             'type'             => 'dropdown',
-            'dropdown_options' => $this->getBooleanDropdownOptions(),
+            'dropdown_options' => $this->getBooleanDropdownOptions('active_inactive'),
             'searchable'       => false,
             'closure'          => function ($row) {
                 if ($row->status == 1) {

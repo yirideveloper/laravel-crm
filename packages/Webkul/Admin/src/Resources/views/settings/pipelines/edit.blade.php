@@ -147,9 +147,10 @@
                                     :name="'stages[' + stage.id + '][name]'"
                                     class="control"
                                     v-model="stage['name']"
-                                    v-validate="'required|unique_name'"
+                                    v-validate="'required'"
                                     data-vv-as="&quot;{{ __('admin::app.settings.pipelines.name') }}&quot;"
                                     :readonly="! isDragable(stage)"
+                                    @keyup="checkDuplicateNames($event)"
                                 />
 
                                 <input
@@ -209,8 +210,8 @@
                 }
             },
 
-            created: function () {
-                this.extendValidator();
+            watch: {
+                ...stagesComponentWatchers
             },
 
             methods: {
