@@ -5,18 +5,7 @@
 @stop
 
 @section('content-wrapper')
-@push('css')
 
-<style>
-
-    .mandatory:after {
-        content:" *";
-        color: red;
-    }
-    
-</style>
-
-@endpush
     @php
         $quote = app('\Webkul\Quote\Repositories\QuoteRepository')->getModel();
 
@@ -173,7 +162,7 @@
 
                     <thead>
                         <tr>
-                            <th class="name mandatory">{{ __('admin::app.quotes.name') }}</th>
+                            <th class="name">{{ __('admin::app.quotes.name') }}</th>
 
                             <th class="quantity">{{ __('admin::app.quotes.quantity') }}</th>
 
