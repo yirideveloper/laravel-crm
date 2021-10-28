@@ -49,7 +49,7 @@
 
                     validate: (value) => {
                         let filteredStages = this.stages.filter((stage) => {
-                            return stage.name.toLowerCase() == value.toLowerCase();
+                            return stage.name == value;
                         });
 
                         if (filteredStages.length > 1) {
