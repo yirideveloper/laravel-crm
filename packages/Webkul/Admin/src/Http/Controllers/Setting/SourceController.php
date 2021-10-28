@@ -48,7 +48,7 @@ class SourceController extends Controller
     public function store()
     {
         $this->validate(request(), [
-            'name' => 'required|unique:lead_sources,name',
+            'name' => 'required',
         ]);
 
         Event::dispatch('settings.source.create.before');
@@ -84,7 +84,7 @@ class SourceController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'name' => 'required|unique:lead_sources,name,' . $id,
+            'name' => 'required',
         ]);
 
         Event::dispatch('settings.source.update.before', $id);

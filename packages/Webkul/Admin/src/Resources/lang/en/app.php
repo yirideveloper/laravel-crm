@@ -509,8 +509,7 @@
                 'update-error'          => 'Unable to update attribute.',
                 'delete-success'        => 'Attribute deleted successfully.',
                 'delete-failed'         => 'Attribute can not be deleted.',
-                'user-define-error'     => 'Can not delete system attribute.',
-                'mass-delete-failed'    => 'Attributes can not be deleted.',
+                'user-define-error'     => 'Can not delete system attribute.'
             ],
 
             'pipelines' => [
