@@ -5,7 +5,6 @@
 @stop
 
 @section('content-wrapper')
-
     @php
         $quote = app('\Webkul\Quote\Repositories\QuoteRepository')->getModel();
 
@@ -162,8 +161,14 @@
 
                     <thead>
                         <tr>
-                            <th class="name">{{ __('admin::app.quotes.name') }}</th>
-
+                            <th class="name">
+                                <div class="form-group">
+                                    <label class="required">
+                                        {{ __('admin::app.quotes.name') }}
+                                    </label>
+                                </div>
+                            </th>
+                            
                             <th class="quantity">{{ __('admin::app.quotes.quantity') }}</th>
 
                             <th class="price">
