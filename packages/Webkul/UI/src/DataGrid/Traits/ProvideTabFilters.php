@@ -78,6 +78,8 @@ trait ProvideTabFilters
     {
         $value = array_values($info)[0];
 
+        $startDate = Carbon::now()->format('Y-m-d');
+
         $column = $this->resolveCustomTabFiltersColumn($key);
 
         switch ($value) {
@@ -103,16 +105,21 @@ trait ProvideTabFilters
                 break;
 
             case 'this_week':
+                $endDate = Carbon::now()->addDays(7)->format('Y-m-d');
+
                 $collection->whereBetween(
                     $column,
-                    [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]
+                    [$startDate, $endDate]
                 );
                 break;
 
             case 'this_month':
-                $collection
-                    ->whereMonth($column, Carbon::now()->format('m'))
-                    ->whereYear($column, Carbon::now()->format('Y'));
+                $endDate = Carbon::now()->addDays(30)->format('Y-m-d');
+
+                $collection->whereBetween(
+                    $column,
+                    [$startDate, $endDate]
+                );
                 break;
 
             default:
