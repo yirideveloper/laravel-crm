@@ -190,7 +190,7 @@ export default {
 
             this.addField[indexKey] = false;
 
-            let values = (this.columns || this.tableData.columns)[key].values || [];
+            const values = (this.columns || this.tableData.columns)[key].values || [];
 
             if (values.indexOf(targetValue) == -1) {
                 values.push(targetValue);
@@ -199,8 +199,6 @@ export default {
                     key: indexKey,
                     values
                 });
-
-                target.value = '';
             }
 
             this.$forceUpdate();
