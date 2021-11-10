@@ -709,13 +709,9 @@ export default {
         },
 
         onSubmit: function(event) {
-            this.$root.pageLoaded = false;
-
             this.toggleButtonDisable(true);
 
             if (! this.massActionValue.action) {
-                this.$root.pageLoaded = true;
-
                 this.toggleButtonDisable(false);
 
                 this.addFlashMessages({
@@ -727,8 +723,6 @@ export default {
             }
 
             if (this.massActionValue.type !== 'delete' && this.massActionOptionValue === 'NA') {
-                this.$root.pageLoaded = true;
-
                 this.toggleButtonDisable(false);
 
                 this.addFlashMessages({
@@ -740,8 +734,6 @@ export default {
             }
 
             if (! confirm(this.__("ui.datagrid.massaction.delete"))) {
-                this.$root.pageLoaded = true;
-
                 this.toggleButtonDisable(false);
 
                 return;
@@ -757,8 +749,6 @@ export default {
                         }
                     )
                         .then(response => {
-                            this.$root.pageLoaded = true;
-
                             EventBus.$emit("refresh_table_data", {
                                 usePrevious: true
                             });
@@ -776,8 +766,6 @@ export default {
                             });
                         })
                         .catch(error => {
-                            this.$root.pageLoaded = true;
-
                             this.toggleButtonDisable(false);
 
                             this.addFlashMessages({
@@ -786,8 +774,6 @@ export default {
                             });
                         });
                 } else {
-                    this.$root.pageLoaded = true;
-                    
                     this.toggleButtonDisable(false);
 
                     EventBus.$emit("onFormError");

@@ -94,7 +94,7 @@
                 :slot="block.id"
                 :key="`block-${block.id}`"
                 class="lead-block"
-                :class="{ 'rotten': block.rotten_days > 0 ? true : false }"
+                :class="{ 'rotten': block.rotten_days }"
             >
 
                 <div class="lead-title">@{{ block.title }}</div>
