@@ -1,3 +1,4 @@
+// import Vue from 'vue';
 import Vue from 'vue/dist/vue.js';
 import draggable from 'vuedraggable';
 import VueTimeago from 'vue-timeago';
@@ -29,7 +30,7 @@ Vue.component('draggable', draggable);
 Vue.component('vue-cal', VueCal);
 
 $(function() {
-    let app = new Vue({
+    var app = new Vue({
         el: "#app",
 
         data: function () {
@@ -37,7 +38,7 @@ $(function() {
                 pageLoaded: false,
 
                 modalIds: {},
-
+    
                 isMenuOpen: localStorage.getItem('crm-sidebar') == 'true',
             }
         },
@@ -50,7 +51,7 @@ $(function() {
             });
 
             this.addServerErrors();
-
+            
             this.addFlashMessages();
 
             window.addFlashMessages = flash => {
@@ -153,6 +154,4 @@ $(function() {
             }
         }
     });
-
-    window.app = app;
 });

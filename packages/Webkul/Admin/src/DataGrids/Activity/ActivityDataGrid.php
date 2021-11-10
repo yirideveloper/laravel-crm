@@ -146,7 +146,11 @@ class ActivityDataGrid extends DataGrid
             'dropdown_options' => $this->getBooleanDropdownOptions('yes_no'),
             'searchable'       => false,
             'closure'          => function ($row) {
-                return view('admin::activities.datagrid.is-done', compact('row'))->render();
+                if ($row->is_done) {
+                    return '<span class="badge badge-round badge-success"></span>' . __('admin::app.common.yes');
+                } else {
+                    return '<span class="badge badge-round badge-danger"></span>' . __('admin::app.common.no');
+                }
             },
         ]);
 
