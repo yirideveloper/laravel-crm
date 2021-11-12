@@ -94,6 +94,17 @@ class ActivityDataGrid extends DataGrid
     public function addColumns()
     {
         $this->addColumn([
+            'index'            => 'is_done',
+            'label'            => trans('admin::app.datagrid.is_done'),
+            'type'             => 'dropdown',
+            'dropdown_options' => $this->getBooleanDropdownOptions('yes_no'),
+            'searchable'       => false,
+            'closure'          => function ($row) {
+                return view('admin::activities.datagrid.is-done', compact('row'))->render();
+            },
+        ]);
+
+        $this->addColumn([
             'index' => 'title',
             'label' => trans('admin::app.datagrid.title'),
             'type'  => 'string',
@@ -137,21 +148,7 @@ class ActivityDataGrid extends DataGrid
             'type'       => 'dropdown',
             'dropdown_options' => $this->getActivityTypeDropdownOptions(),
             'searchable' => false,
-        ]);
-
-        $this->addColumn([
-            'index'            => 'is_done',
-            'label'            => trans('admin::app.datagrid.is_done'),
-            'type'             => 'dropdown',
-            'dropdown_options' => $this->getBooleanDropdownOptions('yes_no'),
-            'searchable'       => false,
-            'closure'          => function ($row) {
-                if ($row->is_done) {
-                    return '<span class="badge badge-round badge-success"></span>' . __('admin::app.common.yes');
-                } else {
-                    return '<span class="badge badge-round badge-danger"></span>' . __('admin::app.common.no');
-                }
-            },
+            'filterable' => false,
         ]);
 
         $this->addColumn([
@@ -196,8 +193,8 @@ class ActivityDataGrid extends DataGrid
     public function prepareTabFilters()
     {
         $this->addTabFilter([
-            'type'      => 'pill',
             'key'       => 'type',
+            'type'      => 'pill',
             'condition' => 'eq',
             'values'    => [
                 [
@@ -221,8 +218,8 @@ class ActivityDataGrid extends DataGrid
         ]);
 
         $this->addTabFilter([
-            'type'      => 'group',
             'key'       => 'scheduled',
+            'type'      => 'group',
             'condition' => 'eq',
             'values'    => [
                 [
