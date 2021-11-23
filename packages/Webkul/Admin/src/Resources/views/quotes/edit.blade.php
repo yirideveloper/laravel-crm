@@ -159,63 +159,33 @@
 
                     <thead>
                         <tr>
-                            <th class="name">
-                                <div class="form-group">
-                                    <label class="required">
-                                         {{ __('admin::app.quotes.name') }}
-                                    </label>
-                                </div>
-                            </th>
+                            <th class="name">{{ __('admin::app.quotes.name') }}</th>
 
-                            <th class="quantity">
-                                <div class="form-group">
-                                    <label class="required">
-                                        {{ __('admin::app.quotes.quantity') }}
-                                    </label>
-                                </div>                                
-                            </th>
+                            <th class="quantity">{{ __('admin::app.quotes.quantity') }}</th>
 
                             <th class="price">
-                                <div class="form-group">
-                                    <label class="required">
-                                         {{ __('admin::app.quotes.price') }}
-                                        <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
-                                    </label>
-                                </div>
+                                {{ __('admin::app.quotes.price') }}
+                                <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
                             </th>
 
                             <th class="amount">
-                                <div class="form-group">
-                                    <label class="required">
-                                        {{ __('admin::app.quotes.amount') }}
-                                        <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
-                                    </label>
-                                </div>
+                                {{ __('admin::app.quotes.amount') }}
+                                <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
                             </th>
 
-                            <th class="discount">                            
-                                <div class="form-group">
-                                    <label class="required">
-                                        {{ __('admin::app.quotes.discount') }}
-                                         <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
-                                    </label>
-                                <div>
+                            <th class="discount">
+                                {{ __('admin::app.quotes.discount') }}
+                                <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
                             </th>
 
                             <th class="tax">
-                                <div class="form-group">
-                                    <label class="required">
-                                        {{ __('admin::app.quotes.tax') }}
-                                        <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
-                                    </label>
-                                </div>
+                                {{ __('admin::app.quotes.tax') }}
+                                <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
                             </th>
 
                             <th class="total">
-                                <div class="form-group">     
-                                    {{ __('admin::app.quotes.total') }}
-                                    <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
-                                    </div>
+                                {{ __('admin::app.quotes.total') }}
+                                <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
                             </th>
 
                             <th class="actions"></th>
