@@ -11,13 +11,6 @@ class PersonDataGrid extends DataGrid
     use ProvideDropdownOptions;
 
     /**
-     * Export option.
-     *
-     * @var boolean
-     */
-    protected $export = true;
-
-    /**
      * Prepare query builder.
      *
      * @return void

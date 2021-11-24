@@ -2,7 +2,6 @@
 
 namespace Webkul\UI\DataGrid;
 
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Webkul\UI\DataGrid\Traits\ProvideBouncer;
@@ -209,13 +208,6 @@ abstract class DataGrid
     ];
 
     /**
-     * Export option.
-     *
-     * @var boolean
-     */
-    protected $export = false;
-
-    /**
      * Create datagrid instance.
      *
      * @return void
@@ -412,8 +404,6 @@ abstract class DataGrid
     {
         return [
             'index'             => $this->index,
-            'export'            => $this->export,
-            'className'         => Crypt::encryptString(get_called_class()),
             'records'           => $this->collection,
             'columns'           => $this->completeColumnDetails,
             'tabFilters'        => $this->tabFilters,
@@ -454,31 +444,5 @@ abstract class DataGrid
         $this->formatCollection();
 
         return response()->json($this->prepareData());
-    }
-
-    /**
-     * Export data.
-     *
-     * @return object
-     */
-    public function export()
-    {
-        if ($this->export) {
-            $this->init();
-
-            $this->addColumns();
-
-            $this->prepareTabFilters();
-
-            $this->prepareActions();
-
-            $this->prepareMassActions();
-
-            $this->prepareQueryBuilder();
-
-            return $this->getCollection();
-        }
-
-        return [];
     }
 }

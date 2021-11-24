@@ -2,7 +2,6 @@ compiled.php
 config.php
 down
 events.scanned.php
-/laravel-excel
 maintenance.php
 routes.php
 routes.scanned.php
