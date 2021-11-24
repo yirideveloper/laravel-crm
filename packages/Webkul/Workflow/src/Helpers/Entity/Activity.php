@@ -3,7 +3,6 @@
 namespace Webkul\Workflow\Helpers\Entity;
 
 use Illuminate\Support\Facades\Mail;
-use Carbon\Carbon;
 use Webkul\Admin\Notifications\Common;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\EmailTemplate\Repositories\EmailTemplateRepository;
@@ -280,16 +279,9 @@ class Activity extends AbstractEntity
 
                     try {
                         Mail::queue(new Common([
-                            'to'          => $activity->user->email,
-                            'subject'     => $this->replacePlaceholders($activity, $emailTemplate->subject),
-                            'body'        => $this->replacePlaceholders($activity, $emailTemplate->content),
-                            'attachments' => [
-                                [
-                                    'name'    => 'invite.ics',
-                                    'mime'    => 'text/calendar',
-                                    'content' => $this->getICSContent($activity),
-                                ],
-                            ],
+                            'to'      => $activity->user->email,
+                            'subject' => $this->replacePlaceholders($activity, $emailTemplate->subject),
+                            'body'    => $this->replacePlaceholders($activity, $emailTemplate->content),
                         ]));
                     } catch (\Exception $e) {}
 
@@ -305,18 +297,11 @@ class Activity extends AbstractEntity
                     try {
                         foreach ($activity->participants as $participant) {
                             Mail::queue(new Common([
-                                'to'          => $participant->user
-                                                ? $participant->user->email
-                                                : data_get($participant->person->emails, '*.value'),
-                                'subject'     => $this->replacePlaceholders($activity, $emailTemplate->subject),
-                                'body'        => $this->replacePlaceholders($activity, $emailTemplate->content),
-                                'attachments' => [
-                                    [
-                                        'name'    => 'invite.ics',
-                                        'mime'    => 'text/calendar',
-                                        'content' => $this->getICSContent($activity),
-                                    ],
-                                ],
+                                'to'      => $participant->user
+                                            ? $participant->user->email
+                                            : data_get($participant->person->emails, '*.value'),
+                                'subject' => $this->replacePlaceholders($activity, $emailTemplate->subject),
+                                'body'    => $this->replacePlaceholders($activity, $emailTemplate->content),
                             ]));
                         }
                     } catch (\Exception $e) {}
@@ -324,52 +309,5 @@ class Activity extends AbstractEntity
                     break;
             }
         }
-    }
-
-    /**
-     * Returns .ics file for attachments
-     * 
-     * @param  \Webkul\Activity\Contracts\Activity  $activity
-     * @return string
-     */
-    public function getICSContent($activity)
-    {
-        $content = [
-            'BEGIN:VCALENDAR',
-            'VERSION:2.0',
-            'PRODID:-//Krayincrm//Krayincrm//EN',
-            'BEGIN:VEVENT',
-            'UID:' . time() . '-' . $activity->id,
-            'DTSTAMP:' . Carbon::now()->format('YmdTHis'),
-            'CREATED:' . $activity->created_at->format('YmdTHis'),
-            'SEQUENCE:1',
-            'ORGANIZER;CN=' . $activity->user->name . ':MAILTO:' . $activity->user->email,
-        ];
-
-        foreach ($activity->participants as $participant) {
-            $emails = $participant->user
-                ? [$participant->user->email]
-                : data_get($participant->person->emails, '*.value');
-
-            if ($participant->user) {
-                $content[] = 'ATTENDEE;ROLE=REQ-PARTICIPANT;CN=' . $participant->user->name . ';PARTSTAT=NEEDS-ACTION:MAILTO:' . $participant->user->email;
-            } else {
-                foreach (data_get($participant->person->emails, '*.value') as $email) {
-                    $content[] = 'ATTENDEE;ROLE=REQ-PARTICIPANT;CN=' . $participant->person->name . ';PARTSTAT=NEEDS-ACTION:MAILTO:' . $email;
-                }
-            }
-        }
-
-        $content = array_merge($content, [
-            'DTSTART:' . $activity->schedule_from->format('YmdTHis'),
-            'DTEND:' . $activity->schedule_to->format('YmdTHis'),
-            'SUMMARY:' . $activity->title,
-            'LOCATION:' . $activity->location,
-            'DESCRIPTION:' . $activity->comment,
-            'END:VEVENT',
-            'END:VCALENDAR',
-        ]);
-
-        return implode("\r\n", $content);
     }
 }
