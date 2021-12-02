@@ -782,6 +782,7 @@
             'view'            => 'View',
             'print'           => 'Print',
             'delete'          => 'Delete',
+            'export'          => 'Export',
             'mass-delete'     => 'Mass Delete',
         ],
 
@@ -829,7 +830,8 @@
                 'confirm_password'  => 'Confirm password',
                 'password-match'    => 'Current password does not match.',
                 'account-save'      => 'Account changes saved successfully.',
-                'permission-denied' => 'Permission Denied'
+                'permission-denied' => 'Permission Denied',
+                'remove-image'      => 'Remove Image'
             ]
         ],
 
