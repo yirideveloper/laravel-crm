@@ -8,11 +8,10 @@ use Illuminate\Support\Str;
 use Webkul\UI\DataGrid\Traits\ProvideBouncer;
 use Webkul\UI\DataGrid\Traits\ProvideCollection;
 use Webkul\UI\DataGrid\Traits\ProvideExceptionHandler;
-use Webkul\UI\DataGrid\Traits\ProvideExport;
 
 abstract class DataGrid
 {
-    use ProvideBouncer, ProvideCollection, ProvideExceptionHandler, ProvideExport;
+    use ProvideBouncer, ProvideCollection, ProvideExceptionHandler;
 
     /**
      * Set index columns, ex: id. Default index is `id`.
@@ -105,9 +104,9 @@ abstract class DataGrid
     /**
      * Final result of the datagrid program that is collection object.
      *
-     * @var object
+     * @var array
      */
-    protected $collection;
+    protected $collection = [];
 
     /**
      * Parsed value of the url parameters.
@@ -455,5 +454,31 @@ abstract class DataGrid
         $this->formatCollection();
 
         return response()->json($this->prepareData());
+    }
+
+    /**
+     * Export data.
+     *
+     * @return object
+     */
+    public function export()
+    {
+        if ($this->export) {
+            $this->init();
+
+            $this->addColumns();
+
+            $this->prepareTabFilters();
+
+            $this->prepareActions();
+
+            $this->prepareMassActions();
+
+            $this->prepareQueryBuilder();
+
+            return $this->getCollection();
+        }
+
+        return [];
     }
 }

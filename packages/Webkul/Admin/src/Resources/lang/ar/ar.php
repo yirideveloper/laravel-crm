@@ -217,7 +217,6 @@
             'call-scheduled'           => 'تمت جدولة المكالمة في :from - :to',
             'meeting-scheduled'        => 'الاجتماع المقرر في :from - :to',
             'lunch-scheduled'          => 'الغداء المقرر في :from - :to',
-            'email-scheduled'          => 'تمت جدولة البريد الإلكتروني في :from - :to',
             'file-added'               => 'تمت إضافة الملف',
             'quote-destroy-success'    => 'تمت إزالة الاقتباس بنجاح.',
             'tag-create-success'       => 'تمت إضافة العلامة بنجاح.',
@@ -827,8 +826,7 @@
                 'confirm_password'  => 'تأكيد كلمة المرور',
                 'password-match'    => 'كلمة المرور الحالية غير متطابقة.',
                 'account-save'      => 'تم حفظ تغييرات الحساب بنجاح.',
-                'permission-denied' => 'تم رفض الإذن',
-                'remove-image'      => 'إزالة الصورة'
+                'permission-denied' => 'تم رفض الإذن'
             ]
         ],
 
