@@ -209,23 +209,8 @@ class LeadController extends Controller
     public function update(LeadForm $request, $id)
     {
         Event::dispatch('lead.update.before', $id);
-        $data = request()->all();
 
-        if ($data['lead_pipeline_stage_id']) {
-            $stage = $this->stageRepository->findOrFail($data['lead_pipeline_stage_id']);
-
-            $data['lead_pipeline_id'] = $stage->lead_pipeline_id;
-        } else {
-            $pipeline = $this->pipelineRepository->getDefaultPipeline();
-
-            $stage = $pipeline->stages()->first();
-
-            $data['lead_pipeline_id'] = $pipeline->id;
-
-            $data['lead_pipeline_stage_id'] = $stage->id;
-        }
-
-        $lead = $this->leadRepository->update($data, $id);        
+        $lead = $this->leadRepository->update(request()->all(), $id);
 
         Event::dispatch('lead.update.after', $lead);
 
@@ -239,7 +224,7 @@ class LeadController extends Controller
             if (request()->has('closed_at')) {
                 return redirect()->back();
             } else {
-               return redirect()->route('admin.leads.index', $data['lead_pipeline_id']);
+                return redirect()->route('admin.leads.index');
             }
         }
     }

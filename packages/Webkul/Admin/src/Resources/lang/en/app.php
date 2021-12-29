@@ -657,7 +657,7 @@
                 'update-success' => 'Tag updated successfully.',
                 'delete-success' => 'Tag deleted successfully.',
                 'delete-failed'  => 'Tag can not be deleted.',
-            ]
+            ],
         ],
 
         'configuration' => [
@@ -823,19 +823,17 @@
 
         'user' => [
             'account' => [
-                'name'                  => 'Name',
-                'email'                 => 'Email',
-                'password'              => 'Password',
-                'my_account'            => 'My account',
-                'update_details'        => 'Update Details',
-                'current_password'      => 'Current password',
-                'confirm_password'      => 'Confirm password',
-                'password-match'        => 'Current password does not match.',
-                'account-save'          => 'Account changes saved successfully.',
-                'permission-denied'     => 'Permission Denied',
-                'remove-image'          => 'Remove Image',
-                'upload_image_pix'      => 'Upload a Profile Image (100px x 100px)',
-                'upload_image_format'   =>'in PNG or JPG Format'
+                'name'              => 'Name',
+                'email'             => 'Email',
+                'password'          => 'Password',
+                'my_account'        => 'My account',
+                'update_details'    => 'Update Details',
+                'current_password'  => 'Current password',
+                'confirm_password'  => 'Confirm password',
+                'password-match'    => 'Current password does not match.',
+                'account-save'      => 'Account changes saved successfully.',
+                'permission-denied' => 'Permission Denied',
+                'remove-image'      => 'Remove Image'
             ]
         ],
 
