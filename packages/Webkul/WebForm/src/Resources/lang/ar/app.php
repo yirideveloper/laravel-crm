@@ -29,7 +29,7 @@ return [
     'form-submit-button-color'  => 'نموذج إرسال لون الزر',
     'attribute-label-color'     => 'لون تسمية السمة',
     'attributes'                => 'صفات',
-    'add-attribute'             => 'اضف ميزة',
+    'add-attribute'             => 'Add Attribute',
     'attributes-info'           => 'أضف سمات مخصصة إلى النموذج.',
     'persons'                   => 'الأشخاص',
     'leads'                     => 'يؤدي',
