@@ -660,7 +660,7 @@
             ],
 
             'web-forms' => [
-                
+
                 'create-success' => 'Web form created successfully',
                 'update-success' => 'Web form Updated successfully',
                 'delete-success' => 'Web form deleted successfully'
@@ -842,8 +842,7 @@
                 'permission-denied'     => 'Permission Denied',
                 'remove-image'          => 'Remove Image',
                 'upload_image_pix'      => 'Upload a Profile Image (100px x 100px)',
-                'upload_image_format'   =>'in PNG or JPG Format',
-                'image_upload_message'  => 'Only images (.jpeg, .jpg, .png, ..) are allowed.'
+                'upload_image_format'   =>'in PNG or JPG Format'
             ]
         ],
 
@@ -852,6 +851,10 @@
                 'dear'   => 'Dear :name',
                 'cheers' => 'Cheers,</br>Team :app_name'
             ],
+        ],
+
+        'errors' => [
+            '401' => 'You are not authorized to access this page'
         ]
     ];
 ?>

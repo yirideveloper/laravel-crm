@@ -213,7 +213,7 @@
                         } else {
                             imageInput.value = '';
 
-                            alert('{{ __('admin::app.user.account.image_upload_message') }}');
+                            alert('Only images (.jpeg, .jpg, .png, ..) are allowed.');
                         }
                     }
                 }
