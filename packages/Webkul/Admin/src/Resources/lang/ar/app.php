@@ -221,7 +221,6 @@
             'quote-destroy-success'    => 'تمت إزالة الاقتباس بنجاح.',
             'tag-create-success'       => 'تمت إضافة العلامة بنجاح.',
             'tag-destroy-success'      => 'تمت إزالة العلامة بنجاح.',
-            'edit'                     => 'تعديل',
         ],
 
         'quotes' => [
