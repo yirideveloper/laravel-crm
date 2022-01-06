@@ -221,6 +221,7 @@
             'quote-destroy-success'    => 'تمت إزالة الاقتباس بنجاح.',
             'tag-create-success'       => 'تمت إضافة العلامة بنجاح.',
             'tag-destroy-success'      => 'تمت إزالة العلامة بنجاح.',
+            'edit'                     => 'تعديل',
         ],
 
         'quotes' => [
@@ -838,7 +839,8 @@
                 'permission-denied'     => 'تم رفض الإذن',
                 'remove-image'          => 'إزالة الصورة',
                 'upload_image_pix'      => 'تحميل صورة الملف الشخصي (100 بكسل × 100 بكسل)',
-                'upload_image_format'   =>'بتنسيق PNG أو JPG'
+                'upload_image_format'   =>'بتنسيق PNG أو JPG',
+                'image_upload_message'  => 'يسمح فقط بالصور (.jpeg، .jpg، .png، ..).'
             ]
         ],
 

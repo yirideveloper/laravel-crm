@@ -29,7 +29,7 @@ return [
     'form-submit-button-color'  => 'نموذج إرسال لون الزر',
     'attribute-label-color'     => 'لون تسمية السمة',
     'attributes'                => 'صفات',
-    'add-attribute'             => 'Add Attribute',
+    'add-attribute'             => 'اضف ميزة',
     'attributes-info'           => 'أضف سمات مخصصة إلى النموذج.',
     'persons'                   => 'الأشخاص',
     'leads'                     => 'يؤدي',
@@ -44,4 +44,5 @@ return [
     'update-success'            => 'تم تحديث نموذج الويب بنجاح.',
     'delete-success'            => 'تم حذف نموذج الويب بنجاح.',
     'delete-failed'             => 'لا يمكن حذف نموذج الويب .',
+    'submit_button_label'       => 'إرسال تسمية الزر',
 ];
