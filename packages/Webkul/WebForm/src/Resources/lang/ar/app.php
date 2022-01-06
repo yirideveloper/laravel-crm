@@ -44,5 +44,4 @@ return [
     'update-success'            => 'تم تحديث نموذج الويب بنجاح.',
     'delete-success'            => 'تم حذف نموذج الويب بنجاح.',
     'delete-failed'             => 'لا يمكن حذف نموذج الويب .',
-    'submit_button_label'       => 'إرسال تسمية الزر',
 ];
