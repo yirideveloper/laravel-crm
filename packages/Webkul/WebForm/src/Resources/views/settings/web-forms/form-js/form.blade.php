@@ -8,7 +8,7 @@
                 <h1>{{ $webForm->title }}</h1>
                 <p>{{ $webForm->description }}</p>
             </div>
-
+            
             <div class="panel">
                 <div class="panel-body">
                     <div class="alert-wrapper" style="display: none">
@@ -34,16 +34,6 @@
 
                                 @switch($parentAttribute->type)
                                     @case('text')
-                                        <input
-                                            type="text"
-                                            name="{{ $fieldName }}[0][value]"
-                                            class="control"
-                                            placeholder="{{ $attribute->placeholder }}"
-                                            id="{{ $fieldName }}"
-                                            {{ $parentAttribute->is_required ? 'required' : '' }}
-                                        />
-
-                                        @break;
                                     @case('date')
                                     @case('datetime')
                                         <input
@@ -71,7 +61,6 @@
                                             type="email"
                                             name="{{ $fieldName }}[0][value]"
                                             class="control"
-                                            placeholder="{{ $attribute->placeholder }}"
                                             id="{{ $fieldName }}"
                                             {{ $parentAttribute->is_required ? 'required' : '' }}
                                         />
@@ -90,7 +79,6 @@
                                             type="text"
                                             name="{{ $fieldName }}[0][value]"
                                             class="control"
-                                            placeholder="{{ $attribute->placeholder }}"
                                             id="{{ $fieldName }}"
                                             {{ $parentAttribute->is_required ? 'required' : '' }}
                                         />
@@ -103,7 +91,7 @@
                                         />
 
                                         @break;
-
+                                    
                                     @case('select')
                                     @case('lookup')
                                         <select
@@ -129,7 +117,7 @@
                                         </select>
 
                                         @break;
-
+                                    
                                     @case('multiselect')
                                         <select class="control" id="{{ $fieldName }}" name="{{ $fieldName }}[]" multiple>
 
@@ -179,7 +167,7 @@
                         <div class="button-group">
                             <button type="submit" class="btn btn-xl btn-primary">Submit</button>
                         </div>
-
+                        
                     </form>
                 </div>
             </div>
