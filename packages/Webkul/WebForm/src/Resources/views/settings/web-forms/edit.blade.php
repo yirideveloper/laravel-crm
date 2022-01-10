@@ -366,8 +366,8 @@
                                             type="text"
                                             :name="'attributes[' + attribute.id + '][placeholder]'"
                                             class="control"
-                                            value=""
-                                            :placeholder="getPlaceholderValue(attribute)"
+                                            :value="getPlaceholderValue(attribute)"
+                                            placeholder="{{ __('web_form::app.placeholder-value') }}"
                                         />
                                     </div>
                                 </td>
