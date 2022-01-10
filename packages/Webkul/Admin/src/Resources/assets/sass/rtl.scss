@@ -9,25 +9,6 @@
         }
     }
 
-    .lead-quote-list {
-        table {
-            tr {
-                td {
-                    &.actions {
-                        .icon {
-                            cursor: pointer;
-                        }
-
-                        .dropdown-list {
-                            left: 60px !important;
-                            right: unset;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     .navbar-top {
         .navbar-top-right {
             text-align: left;
@@ -58,18 +39,6 @@
                     right: unset;
                     left: 0px;
                 }
-            }
-        }
-    }
-
-    table {
-        tr {
-            .avatar {
-                margin-left: 10px;
-            }
-
-            .badge {
-                margin-left: 5px;
             }
         }
     }
@@ -250,6 +219,7 @@
                 .stage {
                     &:not(:last-child) {
                         &::after {
+
                         }
                     }
 
@@ -293,11 +263,11 @@
                     &.meeting {
                         right: -42px;
                     }
-
+                    
                     &.lunch {
                         left: -40px;
                     }
-
+    
                     &.email {
                         left: unset;
                         right: -41px;
