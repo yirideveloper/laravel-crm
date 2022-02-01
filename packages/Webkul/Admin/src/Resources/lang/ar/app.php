@@ -226,6 +226,7 @@
         ],
 
         'quotes' => [
+            'title'               => 'يقتبس',
             'quote'               => 'يقتبس',
             'create-title'        => 'إنشاء اقتباس',
             'edit-title'          => 'تحرير الاقتباس',
@@ -310,7 +311,7 @@
             'saved-to-draft'          => 'تم حفظ البريد الإلكتروني في المسودة.',
             'delete-success'          => 'تم حذف البريد الإلكتروني بنجاح.',
             'delete-failed'           => 'لا يمكن حذف البريد الإلكتروني.',
-            'mass-update-success'     => 'Emails updated successfully.',
+            'mass-update-success'     => 'تم تحديث رسائل البريد الإلكتروني بنجاح.',
 
             'forget-password' => [
                 'subject'           => 'إعادة تعيين كلمة مرور العميل',
@@ -536,6 +537,9 @@
                 'is-default'           => 'علامة كما الافتراضي',
                 'probability'          => 'احتمالا (%)',
                 'add-stage-btn-title'  => 'أضف المرحلة',
+                'new-stage'            => 'الجديد',
+                'won-stage'            => 'ÙˆÙˆÙ†',
+                'lost-stage'           => 'ضائع',
                 'duplicate-name'       => 'لا يمكن أن يكون حقل "الاسم" مكررًا',
                 'create-success'       => 'تم إنشاء خط الأنابيب بنجاح.',
                 'update-success'       => 'تم تحديث خط الأنابيب بنجاح.',
@@ -734,7 +738,7 @@
             'rotten-days'         => 'أيام فاسدة',
             'yes'                 => 'نعم',
             'no'                  => 'لا',
-            'move-to-inbox'       => 'Move to Inbox',
+            'move-to-inbox'       => 'الانتقال إلى البريد الوارد',
             'update-success'      => ':تم تحديث المورد بنجاح.',
             'destroy-success'     => ':تم حذف المورد بنجاح.',
             'destroy-failed'      => ':لا يمكن حذف المورد.',
