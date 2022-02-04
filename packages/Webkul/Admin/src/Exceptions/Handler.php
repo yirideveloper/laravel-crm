@@ -12,27 +12,12 @@ use App\Exceptions\Handler as AppExceptionHandler;
 
 class Handler extends AppExceptionHandler
 {
-    /**
-     * Json error messages.
-     *
-     * @var array
-     */
-    protected $jsonErrorMessages = [];
-
-    /**
-     * Create handler instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->jsonErrorMessages = [
-            '404' => trans('admin::app.common.resource-not-found'),
-            '403' => trans('admin::app.common.forbidden-error'),
-            '401' => trans('admin::app.common.unauthenticated'),
-            '500' => trans('admin::app.common.internal-server-error')
-        ];
-    }
+    protected $jsonErrorMessages = [
+        404 => 'Resource not found',
+        403 => '403 forbidden Error',
+        401 => 'Unauthenticated',
+        500 => '500 Internal Server Error',
+    ];
 
     /**
      * Render an exception into an HTTP response.
@@ -102,8 +87,8 @@ class Handler extends AppExceptionHandler
         if (request()->expectsJson()) {
             return response()->json([
                 'message' => isset($this->jsonErrorMessages[$statusCode])
-                    ? $this->jsonErrorMessages[$statusCode]
-                    : trans('admin::app.common.something-went-wrong')
+                           ? $this->jsonErrorMessages[$statusCode]
+                           : 'Something went wrong, please try again later.'
             ], $statusCode);
         }
 

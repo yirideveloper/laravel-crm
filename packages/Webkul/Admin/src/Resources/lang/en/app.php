@@ -539,9 +539,6 @@
                 'is-default'           => 'Mark as Default',
                 'probability'          => 'Probability (%)',
                 'add-stage-btn-title'  => 'Add Stage',
-                'new-stage'            => 'New',
-                'won-stage'            => 'Won',
-                'lost-stage'           => 'Lost',
                 'duplicate-name'       => 'The "Name" field cannot be duplicate',
                 'create-success'       => 'Pipeline created successfully.',
                 'update-success'       => 'Pipeline updated successfully.',
@@ -831,12 +828,7 @@
             'select-call'         => 'Call',
             'select-meeting'      => 'Meeting',
             'select-lunch'        => 'Lunch',
-            'duplicate-value'     => 'The value cannot be duplicate',
-            'unauthenticated'     => 'Unauthenticated',
-            'resource-not-found'  => 'Resource not found',
-            'forbidden-error'     => '403 forbidden Error',
-            'internal-server-error' => '500 Internal Server Error',
-            'something-went-wrong'  => 'Something went wrong, please try again later.'
+            'duplicate-value'     => 'The value cannot be duplicate'
         ],
 
         'user' => [
