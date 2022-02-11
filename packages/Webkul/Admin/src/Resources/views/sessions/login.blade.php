@@ -81,8 +81,6 @@
             $('button').click(() => {
                 $('.hide-error').removeClass('hide-error');
             });
-
-            $(":input[name=email]").focus();
         });
     </script>
 @endpush
