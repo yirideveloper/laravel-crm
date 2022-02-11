@@ -153,9 +153,6 @@ class ActivityDataGrid extends DataGrid
             'dropdown_options' => $this->getActivityTypeDropdownOptions(),
             'searchable' => false,
             'filterable' => false,
-            'closure'  => function ($row) {
-                return trans('admin::app.activities.'.$row->type);
-            },
         ]);
 
         $this->addColumn([
