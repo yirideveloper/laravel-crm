@@ -366,7 +366,7 @@
                                             type="text"
                                             :name="'attributes[' + attribute.id + '][placeholder]'"
                                             class="control"
-                                            v-model="attribute['placeholder']"
+                                            value=""
                                             :placeholder="getPlaceholderValue(attribute)"
                                         />
                                     </div>
