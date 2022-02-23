@@ -54,13 +54,6 @@ class WebFormDataGrid extends DataGrid
      */
     public function prepareActions()
     {
-         $this->addAction([
-            'title'  => trans('ui::app.datagrid.view'),
-            'method' => 'GET',
-            'route'  => 'admin.settings.web_forms.view',
-            'icon'   => 'icon eye-icon',
-        ]);
-
         $this->addAction([
             'title'  => trans('ui::app.datagrid.edit'),
             'method' => 'GET',

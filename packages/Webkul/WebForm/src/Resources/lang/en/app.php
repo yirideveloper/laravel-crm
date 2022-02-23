@@ -44,5 +44,4 @@ return [
     'update-success'            => 'Web Form updated successfully.',
     'delete-success'            => 'Web Form deleted successfully.',
     'delete-failed'             => 'Web Form can not be deleted.',
-    'submit_button_label'       => 'Submit Button Label',
 ];

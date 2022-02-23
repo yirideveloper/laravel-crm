@@ -129,7 +129,6 @@
             'back'                     => 'Back',
             'cancel'                   => 'Cancel',
             'no-lead'                  => 'No Lead',
-            'lead-source-name'         => 'Lead source',
             'details'                  => 'Details',
             'rotten-info'              => 'Lead has been rotten for :days day(s)',
             'stage'                    => 'Stage',
@@ -224,7 +223,6 @@
             'quote-destroy-success'    => 'Quote removed successfully.',
             'tag-create-success'       => 'Tag added successfully.',
             'tag-destroy-success'      => 'Tag removed successfully.',
-            'edit'                     => 'Edit',
         ],
 
         'quotes' => [
@@ -255,7 +253,6 @@
             'update-success'      => 'Quote updated successfully.',
             'delete-success'      => 'Quote deleted successfully.',
             'delete-failed'       => 'Quote can not be deleted.',
-            'delete-confirm'       => 'Do you really want to perform this action?',
             'quote-id'            => 'Quote Id',
             'quote-date'          => 'Quote Date',
             'valid-until'         => 'Valid Until',
@@ -539,9 +536,6 @@
                 'is-default'           => 'Mark as Default',
                 'probability'          => 'Probability (%)',
                 'add-stage-btn-title'  => 'Add Stage',
-                'new-stage'            => 'New',
-                'won-stage'            => 'Won',
-                'lost-stage'           => 'Lost',
                 'duplicate-name'       => 'The "Name" field cannot be duplicate',
                 'create-success'       => 'Pipeline created successfully.',
                 'update-success'       => 'Pipeline updated successfully.',
@@ -663,13 +657,6 @@
                 'update-success' => 'Tag updated successfully.',
                 'delete-success' => 'Tag deleted successfully.',
                 'delete-failed'  => 'Tag can not be deleted.',
-            ],
-
-            'web-forms' => [
-
-                'create-success' => 'Web form created successfully',
-                'update-success' => 'Web form Updated successfully',
-                'delete-success' => 'Web form deleted successfully'
             ],
         ],
 
@@ -831,12 +818,7 @@
             'select-call'         => 'Call',
             'select-meeting'      => 'Meeting',
             'select-lunch'        => 'Lunch',
-            'duplicate-value'     => 'The value cannot be duplicate',
-            'unauthenticated'     => 'Unauthenticated',
-            'resource-not-found'  => 'Resource not found',
-            'forbidden-error'     => '403 forbidden Error',
-            'internal-server-error' => '500 Internal Server Error',
-            'something-went-wrong'  => 'Something went wrong, please try again later.'
+            'duplicate-value'     => 'The value cannot be duplicate'
         ],
 
         'user' => [
@@ -853,8 +835,7 @@
                 'permission-denied'     => 'Permission Denied',
                 'remove-image'          => 'Remove Image',
                 'upload_image_pix'      => 'Upload a Profile Image (100px x 100px)',
-                'upload_image_format'   =>'in PNG or JPG Format',
-                'image_upload_message'  => 'Only images (.jpeg, .jpg, .png, ..) are allowed.'
+                'upload_image_format'   =>'in PNG or JPG Format'
             ]
         ],
 
@@ -863,10 +844,6 @@
                 'dear'   => 'Dear :name',
                 'cheers' => 'Cheers,</br>Team :app_name'
             ],
-        ],
-
-        'errors' => [
-            '401' => 'You are not authorized to access this page'
         ]
     ];
 ?>

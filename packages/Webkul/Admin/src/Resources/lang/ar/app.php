@@ -129,7 +129,6 @@
             'back'                     => 'خلف',
             'cancel'                   => 'يلغي',
             'no-lead'                  => 'لا يؤدي',
-            'lead-source-name'         => 'مصدر الدليل',
             'details'                  => 'تفاصيل',
             'rotten-info'              => 'الرصاص قد تعفن ل :days day(s)',
             'stage'                    => 'المسرح',
@@ -222,7 +221,6 @@
             'quote-destroy-success'    => 'تمت إزالة الاقتباس بنجاح.',
             'tag-create-success'       => 'تمت إضافة العلامة بنجاح.',
             'tag-destroy-success'      => 'تمت إزالة العلامة بنجاح.',
-            'edit'                     => 'تعديل',
         ],
 
         'quotes' => [
@@ -309,7 +307,7 @@
             'saved-to-draft'          => 'تم حفظ البريد الإلكتروني في المسودة.',
             'delete-success'          => 'تم حذف البريد الإلكتروني بنجاح.',
             'delete-failed'           => 'لا يمكن حذف البريد الإلكتروني.',
-            'mass-update-success'     => 'تم تحديث رسائل البريد الإلكتروني بنجاح.',
+            'mass-update-success'     => 'Emails updated successfully.',
 
             'forget-password' => [
                 'subject'           => 'إعادة تعيين كلمة مرور العميل',
@@ -535,9 +533,6 @@
                 'is-default'           => 'علامة كما الافتراضي',
                 'probability'          => 'احتمالا (%)',
                 'add-stage-btn-title'  => 'أضف المرحلة',
-                'new-stage'            => 'الجديد',
-                'won-stage'            => 'ÙˆÙˆÙ†',
-                'lost-stage'           => 'ضائع',
                 'duplicate-name'       => 'لا يمكن أن يكون حقل "الاسم" مكررًا',
                 'create-success'       => 'تم إنشاء خط الأنابيب بنجاح.',
                 'update-success'       => 'تم تحديث خط الأنابيب بنجاح.',
@@ -659,17 +654,11 @@
                 'update-success' => 'تم تحديث العلامة بنجاح.',
                 'delete-success' => 'تم حذف العلامة بنجاح.',
                 'delete-failed'  => 'لا يمكن حذف العلامة.',
-            ],
-
-            'web-forms' => [
-                'create-success' => 'تم تحديث نموذج الويب بنجاح',
-                'update-success' => 'تم تحديث نموذج الويب بنجاح',
-                'delete-success' => 'تم حذف نموذج الويب بنجاح'
-            ],
+            ]
         ],
 
         'configuration' => [
-            'title'             => 'لقب',
+            'title'             => 'إعدادات',
             'save-btn-title'    => 'يحفظ',
             'general'           => 'عام',
             'locale-settings'   => 'إعدادات اللغة',
@@ -736,7 +725,7 @@
             'rotten-days'         => 'أيام فاسدة',
             'yes'                 => 'نعم',
             'no'                  => 'لا',
-            'move-to-inbox'       => 'الانتقال إلى البريد الوارد',
+            'move-to-inbox'       => 'Move to Inbox',
             'update-success'      => ':تم تحديث المورد بنجاح.',
             'destroy-success'     => ':تم حذف المورد بنجاح.',
             'destroy-failed'      => ':لا يمكن حذف المورد.',
@@ -792,7 +781,7 @@
             'view'            => 'رأي',
             'print'           => 'مطبعة',
             'delete'          => 'حذف',
-            'export'          => 'يصدر',
+            'export'          => 'Export',
             'mass-delete'     => 'حذف جماعي',
         ],
 
@@ -826,13 +815,7 @@
             'select-call'         => 'مكالمة',
             'select-meeting'      => 'لقاء',
             'select-lunch'        => 'غداء',
-            'duplicate-value'     => 'لا يمكن أن تكون القيمة مكررة',
-            'unauthenticated'     => 'غير مصدق',
-            'resource-not-found'  => 'الموارد غير موجود',
-            'forbidden-error'     => 'ممنوع الخطأ',
-            'internal-server-error' => 'خطأ في الخادم الداخلي',
-            'something-went-wrong'  => 'هناك شئ خاطئ، يرجى المحاولة فى وقت لاحق.',
-            'delete-confirm'       => 'هل تريد حقًا تنفيذ هذا الإجراء؟',
+            'duplicate-value'     => 'لا يمكن أن تكون القيمة مكررة'
         ],
 
         'user' => [
@@ -849,8 +832,7 @@
                 'permission-denied'     => 'تم رفض الإذن',
                 'remove-image'          => 'إزالة الصورة',
                 'upload_image_pix'      => 'تحميل صورة الملف الشخصي (100 بكسل × 100 بكسل)',
-                'upload_image_format'   =>'بتنسيق PNG أو JPG',
-                'image_upload_message'  => 'يسمح فقط بالصور (.jpeg، .jpg، .png، ..).'
+                'upload_image_format'   =>'بتنسيق PNG أو JPG'
             ]
         ],
 
@@ -861,8 +843,8 @@
             ],
         ]
     ];
-
-
-
-
+    
+    
+    
+    
 ?>

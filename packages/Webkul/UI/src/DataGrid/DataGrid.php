@@ -26,7 +26,7 @@ abstract class DataGrid
      *
      * @var string
      */
-    protected $sortOrder = 'desc';
+    protected $sortOrder = 'asc';
 
     /**
      * Hold query builder instance of the query prepared by executing datagrid

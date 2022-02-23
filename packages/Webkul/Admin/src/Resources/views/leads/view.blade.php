@@ -39,7 +39,7 @@
             </div>
 
             <div class="page-action">
-                <button class="btn btn-primary btn-md" @click="openModal('updateLeadModal')">{{ __('admin::app.leads.edit') }}</button>
+                <button class="btn btn-primary btn-md" @click="openModal('updateLeadModal')">Edit</button>
             </div>
         </div>
 
