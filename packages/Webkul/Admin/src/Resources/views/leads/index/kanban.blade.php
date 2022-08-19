@@ -1,11 +1,7 @@
 @push('css')
     <style>
         .content-container {
-                overflow: hidden;
-        }
-
-        .drag-container {
-            overflow: inherit;
+            overflow: hidden;
         }
 
         .table {
