@@ -81,11 +81,11 @@ class ActivityRepository extends Repository
                 }
 
                 if (isset($participants['users'])) {
-                    $query->orWhereIn('activity_participants.user_id', collect($participants['persons'])->pluck('users'));
+                    $query->orWhereIn('activity_participants.user_id', $participants['users']);
                 }
 
                 if (isset($participants['persons'])) {
-                    $query->orWhereIn('activity_participants.person_id', collect($participants['persons'])->pluck('id'));
+                    $query->orWhereIn('activity_participants.person_id', $participants['persons']);
                 }
             })
             ->groupBy('activities.id');
