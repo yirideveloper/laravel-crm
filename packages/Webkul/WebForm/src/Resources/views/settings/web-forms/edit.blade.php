@@ -15,16 +15,6 @@
             display: block;
             word-break: break-all;
         }
-
-        .copy-input{
-            display:flex;
-            align-items:center;
-        }
-
-        .copy-button{
-            width: 23%;
-            margin-top: 4px;
-        }
     </style>
 @endpush
 
@@ -101,26 +91,8 @@
                     {{ __('web_form::app.public-url') }}
                 </label>
 
-                <div class="pre copy-input">
-                    <input
-                        type="text"
-                        class="control"
-                        v-on:focus="$event.target.select()" 
-                        id="publicUrl"
-                        value="{{ route('admin.settings.web_forms.preview', $webForm->form_id) }}"
-                    />
-
-                    <div class="input-group-append copy-button" >
-                        <button
-                            class="btn btn-primary btn-md"
-                            type="button"
-                            id="publicUrlBtn"
-                            title="{{ __('shop::app.customer.account.wishlist.copy-link') }}"
-                            onclick="copyToClipboard('#publicUrl','#publicUrlBtn')"
-                        >
-                        {{ __('web_form::app.copy') }}
-                        </button>
-                    </div>
+                <div class="pre">
+                    {{ route('admin.settings.web_forms.preview', $webForm->form_id) }}
                 </div>
             </div>
 
@@ -129,28 +101,9 @@
                     {{ __('web_form::app.code-snippet') }}
                 </label>
 
-                <div class="pre copy-input">
-                   
-                   <input
-                       type="text"
-                       class="control"
-                       v-on:focus="$event.target.select()" 
-                       id="codeSnippet"
-                       value='{{ "<script src=" . route('admin.settings.web_forms.form_js', $webForm->form_id) . " crossorigin=\"anonymous\"></script>" }}'
-                   />
-   
-                   <div class="input-group-append copy-button" >
-                       <button
-                           class="btn btn-primary btn-md"
-                           type="button"
-                           id="coeSnippt"
-                           title="{{ __('shop::app.customer.account.wishlist.copy-link') }}"
-                           onclick="copyToClipboard('#codeSnippet','#coeSnippt')"
-                       >
-                       {{ __('web_form::app.copy') }}
-                       </button>
-                   </div>
-               </div>
+                <div class="pre">
+                    {{ "<script src=" . route('admin.settings.web_forms.form_js', $webForm->form_id) . " crossorigin=\"anonymous\"></script>" }}
+                </div>
             </div>
 
         </div>
@@ -545,11 +498,5 @@
                 }
             }
         });
-
-        function copyToClipboard(ref,btn){
-            $(ref).focus();
-            document.execCommand('copy');
-            $(btn).text("copied!");          
-        }
     </script>
 @endpush
