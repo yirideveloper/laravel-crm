@@ -69,7 +69,6 @@
         method="post"
         data-vv-scope="person-form"
         @submit.prevent="onSubmit($event, 'person-form')"
-        enctype="multipart/form-data"
     >
 
         <modal id="addPersonModal" :is-open="modalIds.addPersonModal">
