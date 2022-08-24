@@ -11,7 +11,7 @@
         @foreach ($records as $record)
             <tr>
                 @foreach($record as $column => $value)
-                    <td> {{ strip_tags($value) }} </td>
+                    <td> {{ $value }} </td>
                 @endforeach
             </tr>
         @endforeach
