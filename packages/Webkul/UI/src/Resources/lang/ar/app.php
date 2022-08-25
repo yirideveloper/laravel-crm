@@ -65,6 +65,16 @@ return [
             'date_range'    => 'نطاق الموعد',
             'start_date'    => 'تاريخ البدء',
             'end_date'      => 'تاريخ الانتهاء',
+            'today'         => 'اليوم',
+            'yesterday'     => 'في الامس',
+            'tomorrow'      => 'غدا',
+            'this_month'    => 'هذا الشهر',
+            'this_year'     => 'هذه السنة',
+            'last_month'    => 'الشهر الماضي',
+            'apply'         => 'يتقدم',
+            'cancel'        => 'إلغاء',
         ],
-    ]
+    ],
+
+    'add-attachment' => 'إضافة مرفق',
 ];
