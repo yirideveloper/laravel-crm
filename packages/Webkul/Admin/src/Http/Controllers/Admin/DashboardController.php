@@ -24,6 +24,8 @@ class DashboardController extends Controller
     public function __construct(DashboardHelper $dashboardHelper)
     {
         $this->dashboardHelper = $dashboardHelper;
+
+        $this->dashboardHelper->setCards();
     }
 
     /**

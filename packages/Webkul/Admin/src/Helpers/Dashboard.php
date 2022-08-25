@@ -153,10 +153,6 @@ class Dashboard
      */
     public function getCards(): array
     {
-        if(! $this->cards) {
-            $this->setCards();
-        }
-
         return $this->cards;
     }
 
@@ -777,7 +773,7 @@ class Dashboard
             'startDateFilter' => $startDateFilter,
         ) = $this->getDateRangeDetails($requestData);
 
-        foreach ($this->getCards() as $card) {
+        foreach ($this->cards as $card) {
             if (isset($card['card_id']) && $card['card_id'] == $cardId) {
                 if (isset($card['class_name'])) {
                     $class = app($card['class_name']);
