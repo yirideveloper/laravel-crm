@@ -284,26 +284,10 @@ class LeadController extends Controller
      */
     public function search()
     {
-        $currentUser = auth()->guard('user')->user();
+        $results = $this->leadRepository->findWhere([
+            ['title', 'like', '%' . urldecode(request()->input('query')) . '%']
+        ]);
 
-        if ($currentUser->view_permission == 'global') {            
-            $results = $this->leadRepository->findWhere([
-                ['title', 'like', '%' . urldecode(request()->input('query')) . '%'],
-            ]);
-        } elseif ($currentUser->view_permission == 'individual') {            
-            $results = $this->leadRepository->findWhere([
-                ['title', 'like', '%' . urldecode(request()->input('query')) . '%'],
-                ['user_id', '=', $currentUser->id],
-            ]);
-        } elseif ($currentUser->view_permission == 'group') {
-            $userIds = app('\Webkul\User\Repositories\UserRepository')->getCurrentUserGroupsUserIds();
-            
-            $results = $this->leadRepository->findWhere([
-                ['title', 'like', '%' . urldecode(request()->input('query')) . '%'],
-                ['user_id', 'IN', $userIds],
-            ]);
-        }
-        
         return response()->json($results);
     }
 
