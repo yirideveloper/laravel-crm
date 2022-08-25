@@ -66,7 +66,5 @@ return [
             'start_date'    => 'Başlangıç Tarihi',
             'end_date'      => 'Bitiş Tarihi',
         ],
-    ],
-
-    'add-attachment' => 'Ek ekle',
+    ]
 ];
