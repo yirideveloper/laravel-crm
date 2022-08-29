@@ -87,12 +87,8 @@ class LeadRepository extends Repository
      */
     public function getLeadsQuery($pipelineId, $pipelineStageId, $term, $createdAtRange)
     {
-        return $this->with([
-            'attribute_values',
-            'pipeline',
-            'stage',
-        ])->scopeQuery(function ($query) use($pipelineId, $pipelineStageId, $term, $createdAtRange) {
-            return $query->select(
+        return $this
+                ->select(
                     'leads.id as id',
                     'leads.created_at as created_at',
                     'title',
@@ -124,7 +120,6 @@ class LeadRepository extends Repository
                         }
                     }
                 });
-            });
     }
 
     /**
