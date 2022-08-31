@@ -10,7 +10,7 @@
 
         <label class="add-attachment-link" @click="addAttachment">
             <i class="icon attachment-icon"></i>
-            {{ __('ui.add-attachment') }}
+            Add Attachment
         </label>
     </div>
 </template>
