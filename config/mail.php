@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default Mailer Domain
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the domain for email message_id that is used to send email
+    | messages sent by your application.
+    |
+    */
+
+    'domain' => env('MAIL_DOMAIN', 'example.com'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Mailer Configurations
     |--------------------------------------------------------------------------
     |
@@ -29,7 +41,7 @@ return [
     | mailers below. You are free to add additional mailers as required.
     |
     | Supported: "smtp", "sendmail", "mailgun", "ses",
-    |            "postmark", "log", "array", "failover"
+    |            "postmark", "log", "array"
     |
     */
 
@@ -42,7 +54,7 @@ return [
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
-            'verify_peer' => false,
+            'auth_mode' => null,
         ],
 
         'ses' => [
@@ -59,7 +71,7 @@ return [
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
+            'path' => '/usr/sbin/sendmail -bs',
         ],
 
         'log' => [
@@ -69,14 +81,6 @@ return [
 
         'array' => [
             'transport' => 'array',
-        ],
-
-        'failover' => [
-            'transport' => 'failover',
-            'mailers' => [
-                'smtp',
-                'log',
-            ],
         ],
     ],
 
@@ -92,22 +96,8 @@ return [
     */
 
     'from' => [
-        'address' => env('SHOP_MAIL_FROM'),
-        'name' => env('MAIL_FROM_NAME')
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Global "Admin" Address
-    |--------------------------------------------------------------------------
-    |
-    | General admin related admins, such as order notifications.
-    |
-    */
-
-    'admin' => [
-        'address' => env('ADMIN_MAIL_TO'),
-        'name' => env('ADMIN_MAIL_NAME', 'Admin')
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
     /*

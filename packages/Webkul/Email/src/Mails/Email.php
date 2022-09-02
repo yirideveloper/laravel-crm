@@ -5,7 +5,6 @@ namespace Webkul\Email\Mails;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Symfony\Component\Mime\Email as Emails;
 
 class Email extends Mailable
 {
@@ -42,12 +41,8 @@ class Email extends Mailable
             ->bcc($this->email->bcc ?? [])
             ->subject($this->email->parent_id ? $this->email->parent->subject : $this->email->subject)
             ->html($this->email->reply);
-
-        $this->withSymfonyMessage(function (Emails $message) {
-            $message->getHeaders()->addTextHeader(
-                'Custom-Header', 'Header Value'
-            );
-
+        
+        $this->withSwiftMessage(function ($message) {
             $message->getHeaders()->addTextHeader('Message-ID', $this->email->message_id);
 
             $message->getHeaders()->addTextHeader('References', $this->email->parent_id
