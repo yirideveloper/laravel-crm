@@ -55,11 +55,11 @@
                     </template>
 
                     <template
-                        v-else-if="data.filterable && (data.type == 'dropdown' || data.type == 'single_dropdown')"
+                        v-else-if="data.filterable && data.type == 'dropdown'"
                     >
                         <select
                             class="control"
-                            @change="pushFieldValue(key, $event, data.index, data.type, data.condition)"
+                            @change="pushFieldValue(key, $event, data.index)"
                         >
                             <option
                                 :value="option.value"
@@ -185,7 +185,7 @@ export default {
             });
         },
 
-        pushFieldValue: function(key, { target }, indexKey, indexType = '', condition = 'in') {
+        pushFieldValue: function(key, { target }, indexKey) {
             let targetValue = target.value.trim();
 
             this.addField[indexKey] = false;
@@ -193,16 +193,11 @@ export default {
             let values = (this.columns || this.tableData.columns)[key].values || [];
 
             if (values.indexOf(targetValue) == -1) {
-                if (indexType == "single_dropdown" && values.length) {
-                    values = [];
-                }
-
                 values.push(targetValue);
 
                 this.updateFilterValues({
                     key: indexKey,
-                    values,
-                    condition
+                    values
                 });
 
                 target.value = '';
@@ -267,7 +262,7 @@ export default {
         },
 
         getFilteredValue: function(value, data) {
-            if ((data.type == "dropdown" || data.type == "single_dropdown") && data.dropdown_options) {
+            if (data.type == "dropdown" && data.dropdown_options) {
                 let dropdown_option = data.dropdown_options.filter(
                     option => option.value == value
                 );
