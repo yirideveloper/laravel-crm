@@ -111,12 +111,7 @@
             </template>
 
             <div class="lead" v-else-if="cardType == 'top_card'" v-for="(data, index) in dataCollection.data">
-
-                @if (bouncer()->hasPermission('leads.view')) 
-                    <a :href="'{{ route('admin.leads.view') }}/' + data.id">@{{ data.title }}</a>
-                @else
-                    @{{ data.title }}</a>
-                @endif
+                <a :href="'{{ route('admin.leads.view') }}/' + data.id">@{{ data.title }}</a>
 
                 <div class="details">
                     <span>@{{ data.amount | toFixed }}</span>
