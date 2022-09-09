@@ -482,7 +482,6 @@
                                             @csrf()
 
                                             <input type="hidden" name="_method" value="DELETE"/>
-                                            <input type="hidden" name="type" value="trash"/>
 
                                             <i class="icon trash-icon" :class="{'trash-white-icon': hovering == 'trash-white-icon'}"></i>
 
