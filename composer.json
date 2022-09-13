@@ -21,7 +21,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "maatwebsite/excel": "^3.1",
-        "prettus/l5-repository": "^2.7.9"
+        "prettus/l5-repository": "^2.7.9",
+        "webklex/php-imap": "^2.2.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
@@ -38,10 +39,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
