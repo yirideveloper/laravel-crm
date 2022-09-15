@@ -92,21 +92,23 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS'),
+        'address' => env('SHOP_MAIL_FROM'),
         'name' => env('MAIL_FROM_NAME')
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Default Mailer Domain
+    | Global "Admin" Address
     |--------------------------------------------------------------------------
     |
-    | This option controls the domain for email message_id that is used to send email
-    | messages sent by your application.
+    | General admin related admins, such as order notifications.
     |
     */
 
-    'domain' => env('MAIL_DOMAIN', 'webkul.com'),
+    'admin' => [
+        'address' => env('ADMIN_MAIL_TO'),
+        'name' => env('ADMIN_MAIL_NAME', 'Admin')
+    ],
 
     /*
     |--------------------------------------------------------------------------

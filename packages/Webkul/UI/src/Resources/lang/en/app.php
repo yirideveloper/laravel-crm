@@ -12,7 +12,6 @@ return [
         'edit'          => 'Edit',
         'view'          => 'View',
         'delete'        => 'Delete',
-        'print'         => 'Print',
         'id'            => 'Index columns have value greater than zero only',
         'cancel'        => 'Cancel',
         'download'      => 'Download',
