@@ -92,8 +92,22 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS'),
+        'address' => env('SHOP_MAIL_FROM'),
         'name' => env('MAIL_FROM_NAME')
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Global "Admin" Address
+    |--------------------------------------------------------------------------
+    |
+    | General admin related admins, such as order notifications.
+    |
+    */
+
+    'admin' => [
+        'address' => env('ADMIN_MAIL_TO'),
+        'name' => env('ADMIN_MAIL_NAME', 'Admin')
     ],
 
     /*

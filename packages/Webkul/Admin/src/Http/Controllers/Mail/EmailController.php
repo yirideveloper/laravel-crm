@@ -152,7 +152,7 @@ class EmailController extends Controller
 
         $email = $this->emailRepository->create(array_merge(request()->all(), [
             'source'        => 'web',
-            'from'          => config('mail.from.address'),
+            'from'          => 'admin@example.com',
             'user_type'     => 'admin',
             'folders'       => request('is_draft') ? ['draft'] : ['outbox'],
             'name'          => auth()->guard('user')->user()->name,
@@ -257,9 +257,7 @@ class EmailController extends Controller
      */
     public function inboundParse()
     {
-        $emailContent = file_get_contents(base_path('email.txt'));
-
-        $this->emailRepository->processInboundParseMail($emailContent);
+        $this->emailRepository->processInboundParseMail(request('email'));
 
         return response()->json([], 200);
     }
